@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Caveat } from "next/font/google";
+import { Patua_One } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
-const font = Caveat({
+const font = Patua_One({
   subsets: ["latin"],
   weight: "400",
 });
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${font.className} antialiased`}>{children}</body>
+      <body className={` ${font.className} antialiased`}>
+        <ClerkProvider>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
