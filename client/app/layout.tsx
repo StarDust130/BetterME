@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Patua_One } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Header from "@/components/elements/Header";
 import { ThemeProvider } from "@/components/elements/theme-provider";
 
 const font = Patua_One({
@@ -29,12 +28,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-full h-screen flex flex-col">
-            <ClerkProvider>
-              <Header />
-              {children}
-            </ClerkProvider>
-          </main>
+          <ClerkProvider>{children}</ClerkProvider>
         </ThemeProvider>
       </body>
     </html>
