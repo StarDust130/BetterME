@@ -1,4 +1,5 @@
 import Header from "@/components/elements/Header";
+import Navbar from "@/components/elements/Navbar";
 
 export default function RootLayout({
   children,
@@ -10,6 +11,7 @@ export default function RootLayout({
       <Header />
       <main className="flex md:px-6 py-3 flex-col  h-full w-full">
         {children}
+        <Navbar />
       </main>
     </>
   );
