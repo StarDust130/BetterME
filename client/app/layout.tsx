@@ -3,6 +3,7 @@ import { Patua_One } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/elements/Header";
+import { ThemeProvider } from "@/components/elements/theme-provider";
 
 const font = Patua_One({
   subsets: ["latin"],
@@ -21,13 +22,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${font.className} antialiased`}>
-        <ClerkProvider>
-          <div className="w-full h-screen flex flex-col">
-            <Header />
-            {children}
-          </div>
-        </ClerkProvider>
+      <body
+        className={` ${font.className} antialiased`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider>
+            <main className="w-full h-screen flex flex-col">
+              <Header />
+              {children}
+            </main>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
