@@ -32,12 +32,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClerkProvider>
-            <main className="w-full h-screen flex flex-col">
-              <Header />
-              {children}
-            </main>
-          </ClerkProvider>
+          <div suppressHydrationWarning>
+            <ClerkProvider>
+              <main className="w-full h-screen flex flex-col">
+                <Header />
+                {children}
+              </main>
+            </ClerkProvider>
+          </div>
         </ThemeProvider>
       </body>
     </html>
