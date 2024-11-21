@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import List from "@/components/elements/List";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -14,7 +15,6 @@ const Page = async () => {
       <h1 className="text-2xl font-bold text-center mb-6 md:text-4xl">
         Hello 😊, {user?.firstName || "Guest"}
       </h1>
-
       <div className="bg-gray-100 dark:bg-neutral-800  max-w-3xl w-full p-6 rounded-lg shadow-lg">
         <blockquote className="text-xl md:text-2xl italic font-light text-center">
           &quot;{quote.q}&quot;
@@ -23,6 +23,11 @@ const Page = async () => {
           - {quote.a}
         </p>
       </div>
+      <img
+        src={`https://github-readme-activity-graph.vercel.app/graph?username=StarDust130&theme=react`}
+        alt="Activity Graph"
+        className="mt-6 w-full  md:max-w-2xl"
+      />
 
       <List />
     </main>

@@ -14,14 +14,17 @@ const Header = async () => {
         <h1 className="text-2xl  hidden md:block font-semibold">BetterME</h1>
       </Link>
 
-      <div className="flex justify-end items-center gap-3">
+      <div
+        className="flex justify-end items-center gap-3"
+        suppressHydrationWarning
+      >
         <ModeToggle />
         {user ? (
           <UserButton />
         ) : (
-          <Button asChild>
-            <Link href={"/sign-in"}>Sign In</Link>
-          </Button>
+          <Link href={"/sign-in"}>
+            <Button>Sign In</Button>
+          </Link>
         )}
       </div>
     </header>
