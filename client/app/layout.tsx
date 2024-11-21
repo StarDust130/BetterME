@@ -21,25 +21,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={` ${font.className} antialiased`}
-        suppressHydrationWarning
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={` ${font.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div suppressHydrationWarning>
+          <main className="w-full h-screen flex flex-col">
             <ClerkProvider>
-              <main className="w-full h-screen flex flex-col">
-                <Header />
-                {children}
-              </main>
+              <Header />
+              {children}
             </ClerkProvider>
-          </div>
+          </main>
         </ThemeProvider>
       </body>
     </html>
