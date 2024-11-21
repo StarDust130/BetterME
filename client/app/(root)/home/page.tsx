@@ -1,15 +1,16 @@
+import List from "@/components/elements/List";
 import { currentUser } from "@clerk/nextjs/server";
 
 const Page = async () => {
   const user = await currentUser();
 
   // Fetch quotes directly
-  const response = await fetch("https://zenquotes.io/api/today");
+  const response = await fetch("https://zenquotes.io/api/random");
   const data = await response.json();
   const quote = data[0]; // Access the first item in the array
 
   return (
-    <main className="flex flex-col  items-center w-full  p-4">
+    <main className="flex flex-col  items-center w-full  p-4 min-h-screen">
       <h1 className="text-2xl font-bold text-center mb-6 md:text-4xl">
         Hello 😊, {user?.firstName || "Guest"}
       </h1>
@@ -22,6 +23,8 @@ const Page = async () => {
           - {quote.a}
         </p>
       </div>
+
+      <List />
     </main>
   );
 };
