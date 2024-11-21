@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <Header />
-      <main className="flex md:px-6 py-3 flex-col  h-full w-full">
+      <main className="flex md:px-6 py-3 flex-col w-full">
         {children}
         <Navbar />
       </main>
