@@ -9,7 +9,7 @@ export default function Home() {
         <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
           <div className="mx-auto text-center">
             <div>
-              <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto mt-6 py-6 bg-clip-text text-transparent bg-gradient-to-b from-blue-600 via-red-400 to-yellow-100">
+              <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto mt-6 py-6 bg-clip-text text-transparent bg-gradient-to-b from-blue-600  via-red-500 to-yellow-300">
                 Transform yourself effortlessly, <br />{" "}
                 <Cover>one habit at a time! </Cover>
               </h1>
