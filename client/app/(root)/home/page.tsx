@@ -1,10 +1,11 @@
-import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
-const page = () => {
+const page = async () => {
+  const user = await currentUser();
   return (
-    <div>
-      Home page <UserButton />
-    </div>
+    <>
+      <h1 className=" text-2xl  mx-auto w-full text-center md:text-4xl">Hello 😊, {user?.firstName}</h1>
+    </>
   );
-}
-export default page
+};
+export default page;
