@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import  expensesRoutes from "./routers/expenss.routers.js"; // 💰 Expenses Routes
 import { AppError } from "./lib/AppError.js";
+import { globalErrorHandler } from "./controllers/error.controller.js";
 
 
 const app = express();
@@ -29,6 +30,9 @@ app.use("/api/v1/expenses", expensesRoutes); // 💰 Expenses Routes
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404)); // ❌ Handle undefined routes
 });
+
+//! Global Error Handler
+app.use(globalErrorHandler); // 🛑 Use global error handler
 
 
 export { app }; // 📤 Export the app
