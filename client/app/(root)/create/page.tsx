@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Card from "@/components/elements/Card";
 import { cardData } from "@/lib/constants";
 
 const Page = () => {
@@ -15,28 +15,8 @@ const Page = () => {
 
       {/* Cards Container */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-3xl">
-        {cardData.map((card, index) => (
-          <div
-            key={index}
-            className={`relative p-6 rounded-2xl shadow-xl  transform md:hover:scale-105 transition-all bg-gradient-to-tr ${card.color}`}
-          >
-            {/* Icon */}
-            <card.icon className="absolute top-4 right-4 w-10 h-10 opacity-70 text-white" />
-            <div className="flex flex-col items-start">
-              {/* Title */}
-              <h2 className="text-2xl font-semibold text-white mb-3">
-                {card.title}
-              </h2>
-              {/* Description */}
-              <p className="text-base text-gray-200">
-                Stay on top of your {card.title.toLowerCase()} in style.
-              </p>
-              {/* Button */}
-              <Button className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
-                Add {card.title}
-              </Button>
-            </div>
-          </div>
+        {cardData.map((card) => (
+          <Card data={card} key={card.id} />
         ))}
       </div>
 
