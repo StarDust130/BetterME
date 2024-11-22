@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 // Define expense categories as an enum
 const expenseCategories = [
   "food",
-  "transport",
+  "self-improvement",
   "entertainment",
-  "utilities",
+  "girlfriend",
+  "essential",
   "other",
 ];
 

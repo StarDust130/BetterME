@@ -2,6 +2,7 @@ import Card from "@/components/elements/Card";
 import { cardData } from "@/lib/constants";
 
 const Page = () => {
+    
   return (
     <div className="flex flex-col items-center w-full min-h-screen  p-6">
       {/* Page Header */}
