@@ -21,9 +21,10 @@ function Navbar() {
       >
         <Home
           className={`h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 ${
-            activeNav === "/home" ? "brightness-200" : ""
+            activeNav === "/home" ? "text-black " : "text-gray-500"
           }`}
         />
+
         <span className="text-[10px] sm:text-sm md:text-base mt-1 sm:mt-2 md:mt-0 md:ml-2">
           Home
         </span>
@@ -40,8 +41,6 @@ function Navbar() {
         }`}
       >
         <Create activeNav={activeNav} />
-
-        
       </Link>
 
       {/* Stats Link */}
