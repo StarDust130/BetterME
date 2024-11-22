@@ -13,10 +13,12 @@ interface CardProps<T> {
   data: T; // The data can be any type that conforms to the CardData structure
 }
 
+
 const Card = <T extends CardData>({ data }: CardProps<T>) => {
+    console.log(data);
   return (
     <div
-      className={`relative p-6 rounded-2xl shadow-xl transform md:hover:scale-105 transition-all bg-gradient-to-tr ${data.color}`}
+      className={`relative p-6 rounded-2xl shadow-xl transform md:hover:scale-105 transition-all bg-gradient-to-tr ${data.color} `}
     >
       {/* Icon */}
       <data.icon className="absolute top-4 right-4 w-10 h-10 opacity-70 text-white" />

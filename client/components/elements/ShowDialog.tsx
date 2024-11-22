@@ -5,8 +5,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
-
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const ShowDialog = ({ data }: { data: string }) => {
   return (
@@ -20,12 +22,16 @@ const ShowDialog = ({ data }: { data: string }) => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-xl md:text-2xl">Add Today {data}</DialogTitle>
+            <DialogTitle className="text-xl md:text-2xl">
+              Add Today {data}
+            </DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              <Input />
             </DialogDescription>
           </DialogHeader>
+          <DialogFooter className="w-full text-right">
+            <Button variant={"secondary"}>Add</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

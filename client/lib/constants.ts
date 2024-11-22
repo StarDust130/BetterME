@@ -1,7 +1,7 @@
 import { BadgeIndianRupee, Pizza, BookOpen, CheckCircle } from "lucide-react";
 export const cardData = [
   {
-    id: "unique-id-1", 
+    id: "unique-id-1",
     title: "Expenses",
     icon: BadgeIndianRupee,
     color: "from-red-500 to-pink-500",
