@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import  expensesRoutes from "./routers/expenss.routers.js"; // 💰 Expenses Routes
 
 
 const app = express();
@@ -20,11 +21,8 @@ app.use(
 app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 
 
-
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+//! Routes
+app.use("/api/v1/expenses", expensesRoutes); // 💰 Expenses Routes
 
 //! 404 Handler
 app.all("*", (req, res, next) => {
