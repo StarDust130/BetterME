@@ -1,15 +1,15 @@
 import Expenses from "../models/expenses.models.js";
 
-// Controller to create a new expense
+//! Controller to create a new expense
 export const createExpense = async (req, res) => {
   try {
-    const { title, amount, category, date } = req.body;
+    const { title, amount, category, date, clerkID } = req.body;
     const newExpense = new Expenses({
       title,
       amount,
       category,
       date,
-      userId: req.user.id,
+      clerkID,
     });
 
     await newExpense.save();
@@ -19,14 +19,14 @@ export const createExpense = async (req, res) => {
   } catch (error) {
     res
       .status(400)
-      .json({ message: "Error creating expense", error: error.message });
+      .json({ message: "Error creating expense 😢", error: error.message });
   }
 };
 
 // Controller to get all expenses for a user
 export const getExpenses = async (req, res) => {
   try {
-    const expenses = await Expenses.find({ userId: req.user.id }).sort({
+    const expenses = await Expenses.find({ clerkID: req.user.id }).sort({
       date: -1,
     });
     res.status(200).json(expenses);

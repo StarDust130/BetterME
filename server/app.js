@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import  expensesRoutes from "./routers/expenss.routers.js"; // 💰 Expenses Routes
+import { AppError } from "./lib/AppError.js";
 
 
 const app = express();

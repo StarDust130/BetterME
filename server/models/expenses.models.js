@@ -12,35 +12,34 @@ const expenseCategories = [
 // Create a schema for expenses
 const expensesSchema = new mongoose.Schema(
   {
-    userId: {
-      // Use 'userId' instead of 'ClerkID'
+    clerkID: {
       type: String,
       required: true,
-      index: true, // Add an index for userId for faster querying
+      index: true,
     },
     title: {
       type: String,
       required: true,
-      trim: true, // Remove extra spaces
+      trim: true,
     },
     amount: {
       type: Number,
       required: true,
-      min: [0, "Amount must be a positive number"], // Ensure the amount is positive
+      min: [0, "Amount must be a positive number"],
     },
     category: {
       type: String,
       required: true,
-      enum: expenseCategories, // Restrict category to predefined values
+      enum: expenseCategories,
     },
     date: {
       type: Date,
       required: true,
-      index: true, // Add index for date for better date range queries
+      index: true,
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 

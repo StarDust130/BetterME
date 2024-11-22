@@ -3,7 +3,7 @@ const DB_NAME = "BetterME";
 
 export const connectDB = async () => {
   try {
-    const conn = await mongoose.mongoose.connect(
+    const conn = await mongoose.connect(
       `${process.env.MONGODB_URL}/${DB_NAME}`
     );
 
