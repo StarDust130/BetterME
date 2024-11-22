@@ -3,7 +3,7 @@ import { catchAsync } from "../lib/catchAsync.js";
 import Expenses from "../models/expenses.models.js";
 
 //! Create
-export const createExpense = catchAsync(async (req, res , next) => {
+export const createExpense = catchAsync(async (req, res, next) => {
   // 1) Get the data from the request body
   const { title, amount, category, date, clerkID } = req.body;
 
@@ -34,11 +34,15 @@ export const getExpenses = catchAsync(async (req, res) => {
     date: -1,
   });
 
+  if (expenses.length === 0) {
+    return res.status(404).json({ message: "No expenses found" });
+  }
+
   // 2) Send the response
   res.status(200).json(expenses);
 });
 
-// Controller to update an expense
+//! Update
 export const updateExpense = async (req, res) => {
   try {
     const { id } = req.params;
