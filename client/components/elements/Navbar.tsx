@@ -13,15 +13,15 @@ function Navbar() {
       <Link
         href="/home"
         onClick={() => setActiveNav("/home")}
-        className={`flex flex-col md:flex-row items-center justify-center w-full sm:w-auto p-2 sm:p-3 md:p-4 transition-colors ${
+        className={`flex flex-col md:flex-row rounded-2xl items-center justify-center w-full sm:w-auto p-2 sm:p-3 md:p-4 transition-colors ${
           activeNav === "/home"
-            ? " rounded-2xl text-black dark:text-white"
+            ? "  text-black dark:text-white"
             : "text-gray-600 dark:text-gray-400 "
         }`}
       >
         <Home
           className={`h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 ${
-            activeNav === "/home" ? "text-black " : "text-gray-500"
+            activeNav === "/home" ? "fill-transparent " : ""
           }`}
         />
 
