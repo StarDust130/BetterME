@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Home, ChartNoAxesCombined } from "lucide-react";
-import Create from "./Create";
+import { Home, ChartNoAxesCombined, CirclePlus } from "lucide-react";
 
 function Navbar() {
   const [activeNav, setActiveNav] = useState("/home");
@@ -32,15 +31,22 @@ function Navbar() {
 
       {/* Create Link */}
       <Link
-        href="#create"
-        onClick={() => setActiveNav("#craete")}
-        className={` ${
-          activeNav === "#create"
+        href="/create"
+        onClick={() => setActiveNav("/create")}
+        className={`flex flex-col md:flex-row rounded-2xl items-center justify-center w-full sm:w-auto p-2 sm:p-3 md:p-4 transition-colors ${
+          activeNav === "/create"
             ? "  text-black dark:text-white"
             : "text-gray-600 dark:text-gray-400 "
         }`}
       >
-        <Create activeNav={activeNav} />
+        <CirclePlus
+          className={`h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 ${
+            activeNav === "/create" ? "fill-transparent" : ""
+          }`}
+        />
+        <span className="text-[10px] sm:text-sm md:text-base mt-1 sm:mt-2 md:mt-0 md:ml-2">
+          Create
+        </span>
       </Link>
 
       {/* Stats Link */}
