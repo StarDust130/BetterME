@@ -19,7 +19,6 @@ const expensesSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      required: true,
       trim: true,
     },
     amount: {
@@ -33,6 +32,7 @@ const expensesSchema = new mongoose.Schema(
     },
     date: {
       type: Date,
+      default: Date.now,
       required: true,
       index: true,
     },

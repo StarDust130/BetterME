@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import  expensesRoutes from "./routers/expenss.routers.js"; // 💰 Expenses Routes
+import  expensesRoutes from "./routes/expenss.routes.js"; // 💰 Expenses Routes
+import junkFoodRoutes from "./routes/junkFood.routes.js"; // 🍔 junkFood Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
 
@@ -23,8 +24,10 @@ app.use(
 app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 
 
-//! Routes
+//! Routes 🎠
 app.use("/api/v1/expenses", expensesRoutes); // 💰 Expenses Routes
+app.use("/api/v1/junkFood", junkFoodRoutes); // 🍔 junkFood Routes
+
 
 //! 404 Handler
 app.all("*", (req, res, next) => {

@@ -4,6 +4,7 @@ import {
   getExpenses,
   updateExpense,
   deleteExpense,
+  getToday,
 } from "../controllers/expenses.controller.js";
 
 const router = express.Router();
@@ -15,7 +16,7 @@ router.post("/", createExpense);
 router.get("/", getExpenses);
 
 // Read Today's Expenses
-router.get("/today", getExpenses);
+router.get("/today", getToday);
 
 // Update
 router.put("/:id", updateExpense);
