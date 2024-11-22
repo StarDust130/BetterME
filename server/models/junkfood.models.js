@@ -7,6 +7,10 @@ const junkFoodSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    isEatenToday: {
+      type: Boolean,
+      default: false,
+    },
     foodName: {
       type: String,
       trim: true,
