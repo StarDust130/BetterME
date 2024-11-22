@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import ShowDialog from "./ShowDialog";
 
 // Define the types for card data
 interface CardData {
@@ -30,9 +30,7 @@ const Card = <T extends CardData>({ data }: CardProps<T>) => {
           Stay on top of your {data.title.toLowerCase()} in style.
         </p>
         {/* Button */}
-        <Button className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
-          Add {data.title}
-        </Button>
+        <ShowDialog data={data.title} />
       </div>
     </div>
   );
