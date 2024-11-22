@@ -105,10 +105,10 @@ export const getToday = catchAsync(async (req, res) => {
 
   // 3) Query the database
   const todayExpenses = await Expenses.find({
-    clerkID: clerkID, // Filter by clerkID
+    clerkID: clerkID, 
     date: {
-      $gte: startOfDay, // Greater than or equal to start of the day
-      $lte: endOfDay, // Less than or equal to end of the day
+      $gte: startOfDay, 
+      $lte: endOfDay, 
     },
   }).sort({ date: -1 }); // Sort by date in descending order
 
