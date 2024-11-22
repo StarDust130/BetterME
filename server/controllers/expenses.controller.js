@@ -43,35 +43,36 @@ export const getExpenses = catchAsync(async (req, res) => {
 });
 
 //! Update
-export const updateExpense = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { title, amount, category, date } = req.body;
+export const updateExpense = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
 
-    const updatedExpense = await Expenses.findByIdAndUpdate(
-      id,
-      { title, amount, category, date },
-      { new: true }
-    );
-
-    if (!updatedExpense) {
-      return res.status(404).json({ message: "Expense not found" });
-    }
-
-    res
-      .status(200)
-      .json({ message: "Expense updated successfully", updatedExpense });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Error updating expense", error: error.message });
+  if (!id) {
+    return new next(AppError("Please provide an id", 404));
   }
-};
+  const { title, amount, category, date } = req.body;
 
-// Controller to delete an expense
-export const deleteExpense = async (req, res) => {
+  const updatedExpense = await Expenses.findByIdAndUpdate(
+    id,
+    { title, amount, category, date },
+    { new: true }
+  );
+
+  if (!updatedExpense) {
+    return res.status(404).json({ message: "Expense not found" });
+  }
+
+  res
+    .status(200)
+    .json({ message: "Expense updated successfully", updatedExpense });
+});
+
+//! Delete
+export const deleteExpense = async (req, res, next) => {
   try {
     const { id } = req.params;
+    if (!id) {
+      return new next(AppError("Please provide an id", 404));
+    }
 
     const deletedExpense = await Expenses.findByIdAndDelete(id);
 
