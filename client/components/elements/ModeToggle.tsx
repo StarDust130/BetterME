@@ -7,6 +7,16 @@ import { Button } from "@/components/ui/button";
 
 export function ModeToggle() {
   const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  // Ensure the component is only rendered after the theme has been initialized
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent rendering until the theme is initialized
+  }
 
   return (
     <Button
