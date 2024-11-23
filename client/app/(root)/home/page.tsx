@@ -28,10 +28,9 @@ const Page = async () => {
         alt="Activity Graph"
         className="mt-6 w-full  md:max-w-2xl"
       />
-
       <List />
     </main>
   );
 };
 
-export default Page;
+export default Page
