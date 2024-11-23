@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 
 export default function GlobalError({
   error,
+  reset,
 }: {
   error: Error & { digest?: string };
+  reset: () => void;
 }) {
   return (
     <div className="flex justify-center items-center w-full h-screen flex-col">
-      <h1 className="text-sm md:text-4xl"> Oops! Something went wrong. 🛠️</h1>
+      <h1 className="text-2xl mb-2 md:text-4xl"> Oops! Something went wrong. 🛠️</h1>
       <p className="text-gray-500">{error?.message}😿</p>
       <div className="main_wrapper">
         <div className="main">
@@ -75,14 +77,21 @@ export default function GlobalError({
           </div>
         </div>
       </div>
-      <Button
-        onClick={() => {
-          window.location.href = "/home";
-        }}
-        variant={"outline"}
-      >
-        Go Home
-      </Button>
+
+      <div className="flex justify-center items-center gap-3 w-full">
+        <Button onClick={reset} size={"lg"}>
+          Try Again
+        </Button>
+        <Button
+        size={"lg"}
+          onClick={() => {
+            window.location.href = "/home";
+          }}
+          variant={"outline"}
+        >
+          Go Home
+        </Button>
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ const Loading = () => {
         <div></div>
         <div></div>
       </div>
-      <div className="text-sm md:text-2xl animate-pulse">Loading...</div>
+      <div className="text-sm md:text-2xl mt-3 animate-pulse">Loading...</div>
     </div>
   );
 };
