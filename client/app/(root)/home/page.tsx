@@ -1,9 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import List from "@/components/elements/List";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const Page = async () => {
   const user = await currentUser();
+
+  if(!user){
+    redirect("/sign-in")
+  }
 
   // Fetch quotes directly
   const response = await fetch("https://zenquotes.io/api/random");
