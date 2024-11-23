@@ -1,11 +1,13 @@
 import ShowDialog from "./ShowDialog";
 
 // Define the types for card data
-interface CardData {
+export interface CardData {
   title: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
   id: string;
+  example: string;
+  desc: string;
 }
 
 // Define the props for the Card component with a generic type
@@ -16,6 +18,7 @@ interface CardProps<T> {
 const Card = <T extends CardData>({ data }: CardProps<T>) => {
   return (
     <div
+      suppressHydrationWarning
       className={`relative p-6 rounded-2xl shadow-xl transform md:hover:scale-105 transition-all bg-gradient-to-tr ${data.color} `}
     >
       {/* Icon */}
@@ -26,11 +29,11 @@ const Card = <T extends CardData>({ data }: CardProps<T>) => {
           {data.title}
         </h2>
         {/* Description */}
-        <p className="text-base text-gray-200">
-          Stay on top of your {data.title.toLowerCase()} in style.
-        </p>
+        <p className="text-base text-gray-200">{data.desc}</p>
         {/* Button */}
-        <ShowDialog data={data.title} />
+        <div suppressHydrationWarning>
+          <ShowDialog data={data}  />
+        </div>
       </div>
     </div>
   );

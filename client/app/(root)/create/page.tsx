@@ -4,7 +4,7 @@ import { cardData } from "@/lib/constants";
 const Page = () => {
     
   return (
-    <div className="flex flex-col items-center w-full min-h-screen  p-6">
+    <div suppressHydrationWarning className="flex flex-col items-center w-full min-h-screen  p-6">
       {/* Page Header */}
       <h1 className="text-3xl md:text-5xl font-bold  bg-clip-text mb-6">
         Your Daily Hub 📝
