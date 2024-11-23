@@ -3,8 +3,14 @@ import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   return (
-    <div className="flex justify-center items-center w-full h-screen flex-col">
-      <h1 className="text-2xl mb-2 md:text-4xl"> This Page is Not Available 😖</h1>{" "}
+    <div
+      suppressHydrationWarning
+      className="flex justify-center items-center w-full h-screen flex-col"
+    >
+      <h1 className="text-2xl mb-2 md:text-4xl">
+        {" "}
+        This Page is Not Available 😖
+      </h1>{" "}
       <div className="main_wrapper">
         <div className="main">
           <div className="antenna">

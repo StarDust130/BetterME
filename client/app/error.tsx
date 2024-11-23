@@ -11,8 +11,14 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <div className="flex justify-center items-center w-full h-screen flex-col">
-      <h1 className="text-2xl mb-2 md:text-4xl"> Oops! Something went wrong. 🛠️</h1>
+    <div
+      suppressHydrationWarning
+      className="flex justify-center items-center w-full h-screen flex-col"
+    >
+      <h1 className="text-2xl mb-2 md:text-4xl">
+        {" "}
+        Oops! Something went wrong. 🛠️
+      </h1>
       <p className="text-gray-500">{error?.message}😿</p>
       <div className="main_wrapper">
         <div className="main">
@@ -83,7 +89,7 @@ export default function GlobalError({
           Try Again
         </Button>
         <Button
-        size={"lg"}
+          size={"lg"}
           onClick={() => {
             window.location.href = "/home";
           }}
