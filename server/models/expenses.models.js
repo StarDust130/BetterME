@@ -9,7 +9,6 @@ const expenseCategories = [
   "essential",
   "other",
 ];
-
 // Create a schema for expenses
 const expensesSchema = new mongoose.Schema(
   {

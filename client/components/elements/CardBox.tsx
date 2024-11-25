@@ -6,18 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { DailyStats } from "./List";
 
-const CardBox = ({ data }: { data: DailyStats }) => {
+const CardBox = ({ data }) => {
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>{data.topic}</CardTitle>
+          <CardTitle>{data.title}</CardTitle>
           <CardDescription>Card Description</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{data?.items || data?.amount }</p>
+          <p>{data?.amount}</p>
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>

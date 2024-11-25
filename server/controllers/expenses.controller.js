@@ -29,16 +29,21 @@ export const createExpense = catchAsync(async (req, res, next) => {
 
 //! Read All 📚
 export const getExpenses = catchAsync(async (req, res) => {
-  // 1) Get all expenses from the database
-  const expenses = await Expenses.find({ clerkID: req.body.clerkID }).sort({
-    date: -1,
-  });
+  // Access clerkID from query parameters
+  const { clerkID } = req.query;
+
+  if (!clerkID) {
+    return res.status(400).json({ message: "Clerk ID is required" });
+  }
+
+  // Fetch expenses for the provided clerkID
+  const expenses = await Expenses.find({ clerkID }).sort({ date: -1 });
 
   if (expenses.length === 0) {
     return res.status(404).json({ message: "No expenses found" });
   }
 
-  // 2) Send the response
+  // Send the response
   res.status(200).json(expenses);
 });
 
@@ -90,33 +95,42 @@ export const deleteExpense = async (req, res, next) => {
 
 //! Get Today's Expenses 📅
 export const getToday = catchAsync(async (req, res) => {
-  // 1) Get the clerkID from the request body
-  const { clerkID } = req.body;
+  const { clerkID } = req.query;
+
+  // Validate clerkID
   if (!clerkID) {
     return res.status(400).json({ message: "clerkID is required" });
   }
 
-  // 2) Get the start and end of the current day
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0); // Set time to 00:00:00
+  // Calculate start and end of the current day in UTC
+  const now = new Date();
+  const startOfDay = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+  );
+  const endOfDay = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      23,
+      59,
+      59,
+      999
+    )
+  );
 
-  const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 999); // Set time to 23:59:59.999
-
-  // 3) Query the database
+  // Query today's expenses
   const todayExpenses = await Expenses.find({
-    clerkID: clerkID, 
-    date: {
-      $gte: startOfDay, 
-      $lte: endOfDay, 
-    },
-  }).sort({ date: -1 }); // Sort by date in descending order
+    clerkID,
+    date: { $gte: startOfDay, $lte: endOfDay },
+  }).sort({ date: -1 });
 
-  // 4) Check if there are no expenses
-  if (!todayExpenses || todayExpenses.length === 0) {
-    return res.status(404).json({ message: "No expenses found for today" });
-  }
-
-  // 5) Return the expenses
-  res.status(200).json(todayExpenses);
+  // Return the results or a 404 if no expenses are found
+ if (todayExpenses.length === 0) {
+   return res
+     .status(200)
+     .json({ message: "No expenses found for today", data: [] });
+ }
+ res.status(200).json({ data: todayExpenses });
 });
+

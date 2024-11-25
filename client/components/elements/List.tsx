@@ -1,52 +1,61 @@
+"use client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
 
-export interface DailyStats {
-  topic: string;
-  items?: string[];
-  calories?: number;
-  amount?: string;
-  categories?: string[];
-  hours?: number;
-  focusLevel?: string;
-  task?: string;
-  dueInDays?: number;
-}
-
-const dailyStats = [
-  {
-    topic: "What junk I eat today",
-    items: ["Pizza", "Ice Cream", "Burger", "Chips"],
-    calories: Math.floor(Math.random() * 1500) + 500, // Random calories (500-2000)
-  },
-  {
-    topic: "How much money I spend",
-    amount: `$${(Math.random() * 100).toFixed(2)}`, // Random amount (0-100 USD)
-    categories: ["Food", "Travel", "Subscriptions", "Shopping"],
-  },
-  {
-    topic: "How many hours I code",
-    hours: Math.floor(Math.random() * 10) + 1, // Random hours (1-10)
-    focusLevel: ["High", "Moderate", "Low"][Math.floor(Math.random() * 3)], // Random focus level
-  },
-  {
-    topic: "Upcoming deadline",
-    task: [
-      "Finish project",
-      "Submit assignment",
-      "Prepare for meeting",
-      "Debug app",
-    ][Math.floor(Math.random() * 4)], // Random task
-    dueInDays: Math.floor(Math.random() * 7) + 1, // Random days (1-7)
-  },
-];
-
 const List = () => {
+  const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTodayExpenses = async () => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/expenses/today`,
+          { params: { clerkID: await getClerkUserID() } }
+        );
+        setExpenses(data.data || []); // Handle cases where data might be missing
+      } catch (error) {
+        console.error("Error fetching today's expenses:", error);
+        setExpenses([]); // Assume no expenses in case of an error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTodayExpenses();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-col-4 gap-4 px-3 py-3 mb-6 w-full">
-      {dailyStats.map((data: DailyStats) => {
-        return <CardBox data={data} key={data.topic} />;
-      })}
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6 w-full">
+      {expenses.length === 0 ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>No Expenses 🎉</CardTitle>
+            <CardDescription>Enjoy your savings!</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>Great job, keep it up! 😊</p>
+          </CardContent>
+          <CardFooter>
+            <p>Come back tomorrow!</p>
+          </CardFooter>
+        </Card>
+      ) : (
+        expenses.map((data) => <CardBox data={data} key={data._id} />)
+      )}
     </div>
   );
 };
+
 export default List;
