@@ -11,6 +11,17 @@ export const expensesSchema = z.object({
     .int()
     .positive()
     .nullable(),
+
+  category: z
+    .enum([
+      "food",
+      "self-improvement",
+      "entertainment",
+      "girlfriend",
+      "essential",
+      "other",
+    ])
+    .optional(),
 });
 
 export const junkFoodSchema = z
