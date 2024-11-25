@@ -17,7 +17,6 @@ import { useToast } from "@/hooks/use-toast";
 const Expenses = () => {
   const { toast } = useToast();
 
-
   //! 1. Define your form.
   const form = useForm<z.infer<typeof expensesSchema>>({
     resolver: zodResolver(expensesSchema),
@@ -32,55 +31,83 @@ const Expenses = () => {
     // Do something with the form values.
     toast({
       title: "Expense Added Succesfully 🎉",
-      description: "Have a great day! 🌞",
+      description: `${values.amount} spent on ${values.title || "Unknown"} 🤑`,
     });
     console.log(values);
   }
 
   return (
     <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="eg: Momos" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="amount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-left w-full">Amount</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="eg: 100"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        e.target.value === "" ? undefined : +e.target.value // Convert empty string to undefined for zod validation
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button className="text-right w-full" type="submit">
-            Submit
-          </Button>
-        </form>
-      </Form>
+      <div className=" flex items-center justify-center px-4">
+        <div className="w-full max-w-md space-y-6">
+          <p className="text-center text-xs md:text-sm text-gray-600">
+            Manage your finances efficiently. Log your daily expenses and stay
+            on top of your budget! 💸
+          </p>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              {/* Title Field */}
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="space-y-5 text-start">
+                      <FormLabel className="text-sm font-medium">
+                        Title <span className="text-red-500">*</span>
+                      </FormLabel>
+                    </div>
+
+                    <FormControl>
+                      <Input
+                        placeholder="e.g. Snacks 🐍"
+                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Amount Field */}
+              <FormField
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="space-y-5 text-start">
+                      <FormLabel className="text-sm font-medium">
+                        Amount <span className="text-red-500">*</span>
+                      </FormLabel>
+                    </div>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="e.g. 100"
+                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === "" ? undefined : +e.target.value
+                          )
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium  transition"
+              >
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
     </>
   );
 };

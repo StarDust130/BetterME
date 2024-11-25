@@ -23,7 +23,7 @@ const ShowDialog = ({ title }: { title: string }) => {
           Add {title}
         </div>
       </DialogTrigger>
-      <DialogContent className="border-2 border-dashed p-4 rounded-lg shadow-lg w-full">
+      <DialogContent className="border-2 border-black dark:border-gray-300 border-dashed p-4 rounded-lg shadow-lg w-full">
         <DialogHeader>
           <DialogTitle className="text-xl text-center md:text-2xl">
             Add Today {title}
