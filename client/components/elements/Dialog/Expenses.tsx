@@ -30,9 +30,12 @@ const Expenses = () => {
   function onSubmit(values: z.infer<typeof expensesSchema>) {
     // Do something with the form values.
     toast({
-      title: "Expense Added Succesfully 🎉",
-      description: `${values.amount} spent on ${values.title || "Unknown"} 🤑`,
+      title: "Expense Recorded! 💸",
+      description: `₹${values.amount} spent on ${
+        values.title || "an item"
+      } has been logged successfully.`,
     });
+
     console.log(values);
   }
 
