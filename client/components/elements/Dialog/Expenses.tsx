@@ -112,10 +112,12 @@ const Expenses = () => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                <DialogClose ref={closeDialogRef}>Submit</DialogClose>
+                Submit
               </Button>
             </form>
           </Form>
+          {/* Add DialogClose button here, outside of the form */}
+          <DialogClose ref={closeDialogRef} />
         </div>
       </div>
     </>
