@@ -22,7 +22,7 @@ const Expenses = () => {
     resolver: zodResolver(expensesSchema),
     defaultValues: {
       title: "",
-      amount: undefined,
+      amount: 0,
     },
   });
 
@@ -89,9 +89,10 @@ const Expenses = () => {
                         placeholder="e.g. 100"
                         className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
                         {...field}
+                        value={field.value || ""} // Ensure value is never null
                         onChange={(e) =>
                           field.onChange(
-                            e.target.value === "" ? undefined : +e.target.value
+                            e.target.value === "" ? "" : +e.target.value
                           )
                         }
                       />

@@ -6,7 +6,11 @@ export const expensesSchema = z.object({
     .min(2, { message: "Title must be at least 2 characters." })
     .max(50),
 
-  amount: z.number({ message: "Amount is Required 😅" }).int().positive(),
+  amount: z
+    .number({ message: "Amount is Required 😅" })
+    .int()
+    .positive()
+    .nullable(),
 });
 
 export const junkFoodSchema = z.object({
@@ -15,5 +19,7 @@ export const junkFoodSchema = z.object({
     .min(2, { message: "Title must be at least 2 characters." })
     .max(50),
 
-  isEatenToday: z.enum(["yes", "no"]),
+  isEatenToday: z.enum(["yes", "no"], {
+    message: "Please select an option. 🙂",
+  }),
 });
