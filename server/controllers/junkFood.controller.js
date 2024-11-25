@@ -4,7 +4,7 @@ import JunkFood from "../models/junkFood.models.js";
 
 //! Create ✏️
 export const createJunkFood = catchAsync(async (req, res, next) => {
-  const { clerkID, foodName, amount, category } = req.body;
+  const { clerkID,isEatenToday, foodName, amount, category } = req.body;
 
   if (!clerkID) {
     return next(new AppError("User is Not Login", 404));
