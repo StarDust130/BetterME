@@ -51,34 +51,11 @@ const JunkFood = () => {
       <div className=" flex items-center justify-center px-4">
         <div className="w-full max-w-md space-y-6">
           <p className="text-center text-xs md:text-sm text-gray-600">
-            Manage your finances efficiently. Log your daily JunkFood and stay
-            on top of your budget! 💸
+            Treat yourself! Log your favorite junk food items and keep track of
+            your cravings. 🍔
           </p>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              {/* Title Field */}
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="space-y-5 text-start">
-                      <FormLabel className="text-sm font-medium">
-                        Title <span className="text-red-500">*</span>
-                      </FormLabel>
-                    </div>
-
-                    <FormControl>
-                      <Input
-                        placeholder="e.g. Momos 🥟"
-                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               {/* isEatenToday Field */}
               <FormField
                 control={form.control}
@@ -108,6 +85,32 @@ const JunkFood = () => {
                   </FormItem>
                 )}
               />
+              {/* Title Field */}
+             {form.watch("isEatenToday") === "yes"  && (
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="space-y-5 text-start">
+                        <FormLabel className="text-sm font-medium">
+                          Title <span className="text-red-500">*</span>
+                        </FormLabel>
+                      </div>
+
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Momos 🥟"
+                          className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
               {/* Submit Button */}
               <Button
                 type="submit"
