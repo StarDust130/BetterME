@@ -35,12 +35,16 @@ const JunkFood = () => {
 
   //! 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof junkFoodSchema>) {
-    // Do something with the form values.
+    const isEatenMessage =
+      values.isEatenToday === "yes"
+        ? `${
+            values.title || "Your treat"
+          } is now on the list. Indulge wisely! 🍔`
+        : "Good choice! Keep it healthy! 🍏";
+
     toast({
       title: "Junk Food Added! 🍔",
-      description: `${
-        values.title || "Your treat"
-      } is now on the list. Indulge wisely!`,
+      description: isEatenMessage,
     });
 
     console.log(values);
@@ -86,7 +90,7 @@ const JunkFood = () => {
                 )}
               />
               {/* Title Field */}
-             {form.watch("isEatenToday") === "yes"  && (
+              {form.watch("isEatenToday") === "yes" && (
                 <FormField
                   control={form.control}
                   name="title"
