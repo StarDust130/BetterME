@@ -51,22 +51,21 @@ const JunkFood = () => {
     try {
       const { foodName, isEatenToday } = values;
       const clerkID = await getClerkUserID();
-       const isEatenTodayBoolean = isEatenToday.toLowerCase() === "yes";
-       console.log("isEatenToday:", isEatenToday);
-       
-       console.log("isEatenTodayBoolean:", isEatenTodayBoolean);
-       
+      const isEatenTodayBoolean = isEatenToday.toLowerCase() === "yes";
 
-      // Log environment variable for debugging
-      console.log("Server URL:", process.env.NEXT_PUBLIC_SERVER_URL);
+      console.log("Payload before sending:", {
+        clerkID,
+        foodName,
+        isEatenToday: isEatenTodayBoolean, // Make sure this is boolean here
+        date: new Date().toISOString(),
+      });
 
-      // Make the API request
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/junkFood`,
         {
           clerkID,
           foodName,
-          isEatenToday: isEatenTodayBoolean,
+          isEatenToday: isEatenTodayBoolean, // Pass boolean here
           date: new Date().toISOString(),
         },
         {
@@ -82,7 +81,6 @@ const JunkFood = () => {
       });
     } catch (error: any) {
       console.error("Error:", error);
-
       toast({
         title: "Error",
         description:

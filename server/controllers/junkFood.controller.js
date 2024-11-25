@@ -12,6 +12,7 @@ export const createJunkFood = catchAsync(async (req, res, next) => {
 
   const newJunkFood = new JunkFood({
     clerkID,
+    isEatenToday,
     foodName,
     amount,
     category,
