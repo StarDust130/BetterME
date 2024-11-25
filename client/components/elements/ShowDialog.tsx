@@ -11,9 +11,19 @@ import {
 import { Button } from "../ui/button";
 import Expenses from "./Dialog/Expenses";
 import JunkFood from "./Dialog/JunkFood";
+import { useState } from "react";
 
-const ShowDialog = ({ title }: { title: string;  }) => {
-  
+export interface ExpnessProps {
+  title: string;
+  amount: number | null;
+}
+
+const ShowDialog = ({ title }: { title: string }) => {
+  const [expenses, setExpenses] = useState<ExpnessProps>({
+    title: "",
+    amount: 0,
+  });
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -28,7 +38,9 @@ const ShowDialog = ({ title }: { title: string;  }) => {
           </DialogTitle>
 
           <div className="text-sm text-muted-foreground mx-2 my-2">
-            {title === "Expenses" && <Expenses />}
+            {title === "Expenses" && (
+              <Expenses expenses={expenses} setExpenses={setExpenses} />
+            )}
             {title === "Junk Food" && <JunkFood />}
             {title !== "Expenses" && title !== "Junk Food" && (
               <span className="text-2xl md:text-4xl animate-pulse flex justify-center items-center">
@@ -39,7 +51,7 @@ const ShowDialog = ({ title }: { title: string;  }) => {
           </div>
         </DialogHeader>
         <DialogFooter className="w-full text-right">
-          <Button>Add</Button>
+          <Button onClick={() => console.log(expenses)}>Add</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
