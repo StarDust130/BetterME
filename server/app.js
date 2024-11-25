@@ -4,6 +4,8 @@ import  expensesRoutes from "./routes/expenss.routes.js"; // 💰 Expenses Route
 import junkFoodRoutes from "./routes/junkFood.routes.js"; // 🍔 junkFood Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
+import "dotenv/config";
+
 
 
 const app = express();
@@ -20,6 +22,7 @@ app.use(
     credentials: true, // 🎫 Allow credentials (cookies, headers, etc.)
   })
 );
+console.log(process.env.CLIENT_URL);
 
 app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 

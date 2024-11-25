@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-   typescript: {
+  typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
@@ -15,6 +15,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*", // Redirects all /api requests
+        destination: "http://localhost:5000/api/:path*", // The backend URL
+      },
+    ];
+  },
+  
 };
 
 export default nextConfig;

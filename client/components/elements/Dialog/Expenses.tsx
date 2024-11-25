@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { expensesSchema } from "@/lib/zodSchema";
@@ -22,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
+// import { currentUser } from "@clerk/nextjs/server";
 
 const Expenses = () => {
   const { toast } = useToast();
@@ -38,19 +41,51 @@ const Expenses = () => {
   });
 
   //! 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof expensesSchema>) {
-    // Do something with the form values.
-    toast({
-      title: "Expense Recorded! 💸",
-      description: `₹${values.amount} spent on ${
-        values.title || "an item"
-      } has been added successfully.`,
-    });
+  async function onSubmit(values: z.infer<typeof expensesSchema>) {
+    try {
+      const { title, amount, category } = values;
 
-    // Close the dialog after submission
-    closeDialogRef.current?.click();
+      // Log environment variable for debugging
+      console.log("Server URL:", process.env.NEXT_PUBLIC_SERVER_URL);
 
-    console.log(values);
+      // Make the API request
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/expenses`,
+        {
+          clerkID: "12345678",
+          title,
+          amount,
+          category,
+          date: new Date().toISOString(),
+        },
+        {
+          withCredentials: true, // Include cookies for authentication
+        }
+      );
+
+      console.log("Response:", response.data);
+
+      toast({
+        title: "Expense Recorded! 💸",
+        description: `₹${values.amount} spent on ${
+          values.title || "an item"
+        } has been added successfully.`,
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          "An error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      closeDialogRef.current?.click();
+      form.reset();
+    }
   }
 
   return (
