@@ -20,9 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DialogClose } from "@/components/ui/dialog";
+import { useRef } from "react";
 
 const JunkFood = () => {
   const { toast } = useToast();
+  const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
   //! 1. Define your form.
   const form = useForm<z.infer<typeof junkFoodSchema>>({
@@ -46,6 +49,9 @@ const JunkFood = () => {
       title: "Junk Food Added! 🍔",
       description: isEatenMessage,
     });
+
+    // Close the dialog after submission
+    closeDialogRef.current?.click();
 
     console.log(values);
   }
@@ -118,9 +124,9 @@ const JunkFood = () => {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium  transition"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                Submit
+                <DialogClose ref={closeDialogRef}>Submit</DialogClose>
               </Button>
             </form>
           </Form>

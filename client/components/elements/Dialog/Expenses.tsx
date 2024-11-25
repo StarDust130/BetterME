@@ -13,9 +13,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useRef } from "react";
+import { DialogClose } from "@/components/ui/dialog";
 
 const Expenses = () => {
   const { toast } = useToast();
+  const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
   //! 1. Define your form.
   const form = useForm<z.infer<typeof expensesSchema>>({
@@ -33,8 +36,11 @@ const Expenses = () => {
       title: "Expense Recorded! 💸",
       description: `₹${values.amount} spent on ${
         values.title || "an item"
-      } has been logged successfully.`,
+      } has been added successfully.`,
     });
+
+    // Close the dialog after submission
+    closeDialogRef.current?.click();
 
     console.log(values);
   }
@@ -104,9 +110,9 @@ const Expenses = () => {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium  transition"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                Submit
+                <DialogClose ref={closeDialogRef}>Submit</DialogClose>
               </Button>
             </form>
           </Form>
