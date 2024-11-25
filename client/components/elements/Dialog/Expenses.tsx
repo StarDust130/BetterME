@@ -12,8 +12,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const Expenses = () => {
+  const { toast } = useToast();
+
+
   //! 1. Define your form.
   const form = useForm<z.infer<typeof expensesSchema>>({
     resolver: zodResolver(expensesSchema),
@@ -26,6 +30,10 @@ const Expenses = () => {
   //! 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof expensesSchema>) {
     // Do something with the form values.
+    toast({
+      title: "Expense Added Succesfully 🎉",
+      description: "Have a great day! 🌞",
+    });
     console.log(values);
   }
 

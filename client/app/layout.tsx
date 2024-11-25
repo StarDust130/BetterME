@@ -3,6 +3,7 @@ import { Patua_One } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/elements/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const font = Patua_One({
   subsets: ["latin"],
@@ -28,7 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClerkProvider>{children}</ClerkProvider>
+          <ClerkProvider>
+            {children}
+            <Toaster />
+          </ClerkProvider>
         </ThemeProvider>
       </body>
     </html>
