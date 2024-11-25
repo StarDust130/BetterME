@@ -1,20 +1,21 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
+import NoDataCard from "../cards/NoDataCard";
+
+export interface ExpensesType {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+}
 
 const List = () => {
-  const [expenses, setExpenses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [expenses, setExpenses] = useState<ExpensesType[]>([]); // Note the array type
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchTodayExpenses = async () => {
@@ -39,18 +40,11 @@ const List = () => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6 w-full">
       {expenses.length === 0 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>No Expenses 🎉</CardTitle>
-            <CardDescription>Enjoy your savings!</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Great job, keep it up! 😊</p>
-          </CardContent>
-          <CardFooter>
-            <p>Come back tomorrow!</p>
-          </CardFooter>
-        </Card>
+        <NoDataCard
+          title="No Expenses 🎉"
+          desc="Enjoy your savings!"
+          content="Great job, keep it up! 😊"
+        />
       ) : (
         expenses.map((data) => <CardBox data={data} key={data._id} />)
       )}
