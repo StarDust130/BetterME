@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -7,32 +9,22 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { CardData } from "./Card";
-const ShowDialog = ({ data }: { data: CardData }) => {
+import Expenses from "./Dialog/Expenses";
+import JunkFood from "./Dialog/JunkFood";
+
+const ShowDialog = ({ data }: { data: Omit<CardData, "icon"> }) => {
+   if (typeof window === "undefined") return null;
   return (
-    <>
+    <div suppressHydrationWarning>
       <Dialog>
         <DialogTrigger>
-          {" "}
           <div className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
             Add {data.title}
           </div>
         </DialogTrigger>
-        <DialogContent
-          className={"border-2 border-dashed  p-4 rounded-lg shadow-lg w-full"}
-        >
+        <DialogContent className="border-2 border-dashed p-4 rounded-lg shadow-lg w-full">
           <DialogHeader>
             <DialogTitle className="text-xl text-center md:text-2xl">
               Add Today {data.title}
@@ -41,55 +33,12 @@ const ShowDialog = ({ data }: { data: CardData }) => {
               className="p-6 space-y-5"
               suppressHydrationWarning
             >
-              {data.title === "Expenses" && (
-                <>
-                  <div>
-                    <Label className="block text-sm font-medium mb-2">
-                      Title
-                    </Label>
-                    <Input
-                      placeholder={data.example}
-                      className="w-full px-3 py-2 border rounded-lg focus:ring-2 "
-                    />
-                  </div>
-                  <div>
-                    <Label className="block text-sm font-medium mb-2">
-                      Enter Amount <span className="text-red-600">*</span>
-                    </Label>
-                    <Input
-                      placeholder="e.g., 100"
-                      className="w-full px-3 py-2 border rounded-lg focus:ring-2 "
-                    />
-                  </div>
-                </>
-              )}
-
-              {data.title === "Junk Food" && (
-                <>
-                  <div>
-                    <Label className="block text-sm font-medium mb-2">
-                      Food Name
-                    </Label>
-                    <Input
-                      placeholder="Enter food name"
-                      className="w-full px-3 py-2 border rounded-lg focus:ring-2 "
-                    />
-                  </div>
-                  <div>
-                    <Label className="block text-sm font-medium mb-2">
-                      Is Eaten Today
-                    </Label>
-                    <Select>
-                      <SelectTrigger className="w-full px-3 py-2 border rounded-lg flex items-center justify-between focus:ring-2 ">
-                        <SelectValue placeholder="Yes or No" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="yes">Yes</SelectItem>
-                        <SelectItem value="no">No</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </>
+              {data.title === "Expenses" && <Expenses data={data} />}
+              {data.title === "Junk Food" && <JunkFood data={data} />}
+              {data.title !== "Expenses" && data.title !== "Junk Food" && (
+                <span className="text-2xl md:text-4xl animate-pulse flex justify-center items-center">
+                  Coming Soon 😉
+                </span>
               )}
               {/* Add other conditions for different card types as needed */}
             </DialogDescription>
@@ -99,7 +48,8 @@ const ShowDialog = ({ data }: { data: CardData }) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
+
 export default ShowDialog;
