@@ -74,7 +74,8 @@ const JunkFood = () => {
                   <FormItem>
                     <div className="space-y-5 text-start">
                       <FormLabel className="text-sm font-medium">
-                        Amount <span className="text-red-500">*</span>
+                        Have you eaten junk food today?{" "}
+                        <span className="text-red-500">*</span>
                       </FormLabel>
                     </div>
                     <FormControl>
@@ -104,7 +105,8 @@ const JunkFood = () => {
                     <FormItem>
                       <div className="space-y-5 text-start">
                         <FormLabel className="text-sm font-medium">
-                          Title <span className="text-red-500">*</span>
+                          What did you eat?{" "}
+                          <span className="text-red-500">*</span>
                         </FormLabel>
                       </div>
 

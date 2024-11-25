@@ -63,7 +63,8 @@ const Expenses = () => {
                   <FormItem>
                     <div className="space-y-5 text-start">
                       <FormLabel className="text-sm font-medium">
-                        Title <span className="text-red-500">*</span>
+                        Where did you spend it?{" "}
+                        <span className="text-red-500">*</span>
                       </FormLabel>
                     </div>
 
@@ -86,7 +87,8 @@ const Expenses = () => {
                   <FormItem>
                     <div className="space-y-5 text-start">
                       <FormLabel className="text-sm font-medium">
-                        Amount <span className="text-red-500">*</span>
+                        How much did you spend today?{" "}
+                        <span className="text-red-500">*</span>
                       </FormLabel>
                     </div>
                     <FormControl>
