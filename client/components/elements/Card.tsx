@@ -7,10 +7,9 @@ export interface CardData {
   icon?: any;
   color: string;
   id: string;
-  example: string;
+  example?: string;
   desc: string;
 }
-
 
 // Define the Card component
 const Card = <T extends CardData>({ data }: { data: T }) => {
@@ -28,7 +27,7 @@ const Card = <T extends CardData>({ data }: { data: T }) => {
         <div className="text-base text-gray-200">{data.desc}</div>
 
         {/* Pass only serializable data to ShowDialog */}
-        <ShowDialog data={{ ...data, icon: undefined }} />
+        <ShowDialog title={data.title}  />
       </div>
     </div>
   );

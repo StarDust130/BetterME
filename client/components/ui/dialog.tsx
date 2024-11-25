@@ -101,6 +101,7 @@ const DialogDescription = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
+  suppressHydrationWarning
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
     {...props}

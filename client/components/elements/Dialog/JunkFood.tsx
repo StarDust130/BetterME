@@ -7,14 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { CardData } from "../Card";
-const JunkFood = ({ data }: { data: CardData }) => {
+const JunkFood = () => {
   return (
     <>
       <div>
         <Label className="block text-sm font-medium mb-2">Food Name</Label>
         <Input
-          placeholder="Enter food name"
+          placeholder="e.g. Pizza... again"
           className="w-full px-3 py-2 border rounded-lg focus:ring-2 "
         />
       </div>
