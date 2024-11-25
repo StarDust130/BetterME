@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
-// import { currentUser } from "@clerk/nextjs/server";
+import { getClerkUserID } from "@/lib/action";
 
 const Expenses = () => {
   const { toast } = useToast();
@@ -44,6 +44,7 @@ const Expenses = () => {
   async function onSubmit(values: z.infer<typeof expensesSchema>) {
     try {
       const { title, amount, category } = values;
+      const clerkID = await getClerkUserID();
 
       // Log environment variable for debugging
       console.log("Server URL:", process.env.NEXT_PUBLIC_SERVER_URL);
@@ -52,7 +53,7 @@ const Expenses = () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/expenses`,
         {
-          clerkID: "12345678",
+          clerkID,
           title,
           amount,
           category,
@@ -165,7 +166,7 @@ const Expenses = () => {
                   <FormItem>
                     <div className="space-y-5 text-start">
                       <FormLabel className="text-sm font-medium">
-                        Select Category <span className="text-red-500">*</span>
+                        Select Category
                       </FormLabel>
                     </div>
                     <FormControl>
