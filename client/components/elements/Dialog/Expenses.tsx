@@ -1,41 +1,80 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { expensesSchema } from "@/lib/zodSchema";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ExpnessProps } from "../ShowDialog";
 
-const Expenses = ({
-  expenses,
-  setExpenses,
-}: {
-  expenses: ExpnessProps;
-  setExpenses: (expenses: ExpnessProps) => void;
-}) => {
+const Expenses = () => {
+  //! 1. Define your form.
+  const form = useForm<z.infer<typeof expensesSchema>>({
+    resolver: zodResolver(expensesSchema),
+    defaultValues: {
+      title: "",
+      amount: undefined,
+    },
+  });
+
+  //! 2. Define a submit handler.
+  function onSubmit(values: z.infer<typeof expensesSchema>) {
+    // Do something with the form values.
+    console.log(values);
+  }
+
   return (
     <>
-      <div>
-        <Label className="block text-start text-sm font-medium mb-2">
-          Title
-        </Label>
-        <Input
-          placeholder={"e.g. Spent 200 on snacks"}
-          className="w-full  px-3 py-2 border rounded-lg focus:ring-2 "
-          value={expenses.title}
-          onChange={(e) => setExpenses({ ...expenses, title: e.target.value })}
-        />
-      </div>
-      <div>
-        <Label className="block text-start text-sm font-medium mt-4 mb-2">
-          Enter Amount <span className="text-red-600">*</span>
-        </Label>
-        <Input
-          placeholder="e.g. 100"
-          className="w-full px-3 py-2 border rounded-lg focus:ring-2 "
-          value={expenses?.amount ?? ''}
-          onChange={(e) =>
-            setExpenses({ ...expenses, amount: parseInt(e.target.value) })
-          }
-        />
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="eg: Momos" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="amount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-left w-full">Amount</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="eg: 100"
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value === "" ? undefined : +e.target.value // Convert empty string to undefined for zod validation
+                      )
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="text-right w-full" type="submit">
+            Submit
+          </Button>
+        </form>
+      </Form>
     </>
   );
 };
+
 export default Expenses;

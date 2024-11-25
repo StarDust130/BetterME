@@ -6,12 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import Expenses from "./Dialog/Expenses";
 import JunkFood from "./Dialog/JunkFood";
-import { useState } from "react";
 
 export interface ExpnessProps {
   title: string;
@@ -19,11 +16,6 @@ export interface ExpnessProps {
 }
 
 const ShowDialog = ({ title }: { title: string }) => {
-  const [expenses, setExpenses] = useState<ExpnessProps>({
-    title: "",
-    amount: 0,
-  });
-
   return (
     <Dialog>
       <DialogTrigger>
@@ -38,9 +30,7 @@ const ShowDialog = ({ title }: { title: string }) => {
           </DialogTitle>
 
           <div className="text-sm text-muted-foreground mx-2 my-2">
-            {title === "Expenses" && (
-              <Expenses expenses={expenses} setExpenses={setExpenses} />
-            )}
+            {title === "Expenses" && <Expenses />}
             {title === "Junk Food" && <JunkFood />}
             {title !== "Expenses" && title !== "Junk Food" && (
               <span className="text-2xl md:text-4xl animate-pulse flex justify-center items-center">
@@ -50,9 +40,6 @@ const ShowDialog = ({ title }: { title: string }) => {
             {/* Add other conditions for different card types as needed */}
           </div>
         </DialogHeader>
-        <DialogFooter className="w-full text-right">
-          <Button onClick={() => console.log(expenses)}>Add</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
