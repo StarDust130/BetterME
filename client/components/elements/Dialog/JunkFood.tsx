@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { junkFoodSchema } from "@/lib/zodSchema";
@@ -22,6 +23,8 @@ import {
 } from "@/components/ui/select";
 import { DialogClose } from "@/components/ui/dialog";
 import { useRef } from "react";
+import axios from "axios";
+import { getClerkUserID } from "@/lib/action";
 
 const JunkFood = () => {
   const { toast } = useToast();
@@ -31,29 +34,67 @@ const JunkFood = () => {
   const form = useForm<z.infer<typeof junkFoodSchema>>({
     resolver: zodResolver(junkFoodSchema),
     defaultValues: {
-      title: "",
+      foodName: "",
       isEatenToday: undefined,
     },
   });
 
   //! 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof junkFoodSchema>) {
+  async function onSubmit(values: z.infer<typeof junkFoodSchema>) {
     const isEatenMessage =
       values.isEatenToday === "yes"
         ? `${
-            values.title || "Your treat"
+            values.foodName || "Your treat"
           } is now on the list. Indulge wisely! 🍔`
         : "Good choice! Keep it healthy! 🍏";
 
-    toast({
-      title: "Junk Food Added! 🍔",
-      description: isEatenMessage,
-    });
+    try {
+      const { foodName, isEatenToday } = values;
+      const clerkID = await getClerkUserID();
+       const isEatenTodayBoolean = isEatenToday.toLowerCase() === "yes";
+       console.log("isEatenToday:", isEatenToday);
+       
+       console.log("isEatenTodayBoolean:", isEatenTodayBoolean);
+       
 
-    // Close the dialog after submission
-    closeDialogRef.current?.click();
+      // Log environment variable for debugging
+      console.log("Server URL:", process.env.NEXT_PUBLIC_SERVER_URL);
 
-    console.log(values);
+      // Make the API request
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/junkFood`,
+        {
+          clerkID,
+          foodName,
+          isEatenToday: isEatenTodayBoolean,
+          date: new Date().toISOString(),
+        },
+        {
+          withCredentials: true, // Include cookies for authentication
+        }
+      );
+
+      console.log("Response:", response.data);
+
+      toast({
+        title: "JunkFood Recorded 🍔",
+        description: isEatenMessage,
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          "An error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      closeDialogRef.current?.click();
+      form.reset();
+    }
   }
 
   return (
@@ -96,11 +137,11 @@ const JunkFood = () => {
                   </FormItem>
                 )}
               />
-              {/* Title Field */}
+              {/* foodName Field */}
               {form.watch("isEatenToday") === "yes" && (
                 <FormField
                   control={form.control}
-                  name="title"
+                  name="foodName"
                   render={({ field }) => (
                     <FormItem>
                       <div className="space-y-5 text-start">

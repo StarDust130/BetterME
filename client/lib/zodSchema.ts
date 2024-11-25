@@ -27,18 +27,18 @@ export const expensesSchema = z.object({
 export const junkFoodSchema = z
   .object({
     isEatenToday: z.string().nonempty("Please select Yes or No"),
-    title: z.string().optional(),
+    foodName: z.string().optional(),
   })
   .refine(
     (data) => {
-      // If 'isEatenToday' is 'yes', 'title' should not be empty
-      if (data.isEatenToday === "yes" && !data.title) {
+      // If 'isEatenToday' is 'yes', 'foodName' should not be empty
+      if (data.isEatenToday === "yes" && !data.foodName) {
         return false;
       }
       return true;
     },
     {
-      message: "Title is required if you ate junk food today",
-      path: ["title"], // Apply the error to the 'title' field
+      message: "foodName is required if you ate junk food today",
+      path: ["foodName"], // Apply the error to the 'foodName' field
     }
   );

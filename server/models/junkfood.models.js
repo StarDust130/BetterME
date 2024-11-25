@@ -14,7 +14,6 @@ const junkFoodSchema = new mongoose.Schema(
     foodName: {
       type: String,
       trim: true,
-      required: true,
     },
     amount: {
       type: Number,
@@ -38,3 +37,4 @@ const junkFoodSchema = new mongoose.Schema(
 const JunkFood = mongoose.model("JunkFood", junkFoodSchema);
 
 export default JunkFood;
+

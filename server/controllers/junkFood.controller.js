@@ -6,8 +6,8 @@ import JunkFood from "../models/junkFood.models.js";
 export const createJunkFood = catchAsync(async (req, res, next) => {
   const { clerkID, foodName, amount, category } = req.body;
 
-  if (!clerkID || !foodName || !amount || !category) {
-    return next(new AppError("All fields are required", 404));
+  if (!clerkID) {
+    return next(new AppError("User is Not Login", 404));
   }
 
   const newJunkFood = new JunkFood({
