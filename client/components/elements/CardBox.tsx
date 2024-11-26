@@ -1,95 +1,91 @@
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Pizza,
-  Calendar,
+  MoreHorizontal,
   BadgeIndianRupee,
-  Tag,
-  Clock,
+  Pizza,
   Check,
+  Clock,
 } from "lucide-react";
 import { DataType } from "./List";
 
-interface CardBoxProps {
-  data: DataType;
-  type: "expense" | "junkFood";
-}
-
-const CardBox = ({ data, type }: CardBoxProps) => {
+const CardBox = ({ data, type }: { data: DataType; type: string }) => {
   const isExpense = type === "expense";
-  const isJunkFood = type === "junkFood";
 
   return (
-    <Card
-      className={`transition-transform shadow-sm rounded-lg p-4 bg-white hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]`}
-    >
-      {/* Card Header */}
-      <CardHeader className="flex items-center gap-3">
+    <div className="relative w-full max-w-sm bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 p-5">
+      {/* 3-Dot Menu */}
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+        <MoreHorizontal className="w-5 h-5 text-gray-500 hover:text-gray-800" />
+      </div>
+
+      {/* Header Section */}
+      <div className="flex justify-between items-start">
+        {/* Icon */}
         <div
-          className={`flex items-center justify-center w-10 h-10 p-2 rounded-full ${
-            isExpense
-              ? "bg-green-500"
-              : isJunkFood
-              ? "bg-orange-500"
-              : "bg-gray-500"
+          className={`flex items-center justify-center w-12 h-12 rounded-full ${
+            isExpense ? "bg-green-500" : "bg-orange-500"
           }`}
         >
           {isExpense ? (
             <BadgeIndianRupee className="text-white w-6 h-6" />
-          ) : isJunkFood ? (
-            <Pizza className="text-white w-6 h-6" />
           ) : (
-            <Calendar className="text-white w-6 h-6" />
+            <Pizza className="text-white w-6 h-6" />
           )}
         </div>
-        <CardTitle className="text-lg font-semibold text-gray-800">
-          {isExpense
-            ? (data as DataType).title
-            : isJunkFood
-            ? (data as DataType).foodName
-            : "Unknown Type"}
-        </CardTitle>
-      </CardHeader>
 
-      {/* Card Content */}
-      <CardContent className="text-left w-full flex justify-start p-3  rounded-lg">
-        <CardDescription className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          {isExpense ? (
-            <>
-              <span className="inline-block rounded-full bg-blue-100 px-1 py-1 text-sm text-blue-800">
-                ₹{(data as DataType).amount?.toFixed(2) ?? "0.00"}
-              </span>
-              <span className="text-gray-600">|</span>
-              <span className="flex items-center gap-1">
-                <Tag className="w-4 h-4 text-gray-500" />
-                {(data as DataType).category}
-              </span>
-            </>
-          ) : isJunkFood ? (
-            <div className="flex items-center gap-2 text-yellow-600">
-              {data.isEatenToday ? (
-                <>
-                  <Check className="w-5 h-5" />
-                  You&lsquo;ve eaten this today! 🍔
-                </>
-              ) : (
-                <>
-                  <Clock className="w-5 h-5" />
-                  This junk food is waiting for you! 🍟
-                </>
-              )}
+        {/* Date */}
+        {/* Title */}
+        <h3 className="mt-4 text-xl font-semibold text-gray-800">
+          {isExpense ? data.title : data.foodName}
+        </h3>
+      </div>
+
+      {/* Content Section */}
+      <div className="mt-3">
+        {isExpense ? (
+          <>
+            <div className="flex justify-between items-center mb-2">
+              <p className="text-sm text-gray-500">Amount</p>
+              <p className="text-lg font-bold text-gray-800">
+                ₹{data.amount?.toFixed(2) ?? "0.00"}
+              </p>
             </div>
-          ) : (
-            <div className="text-gray-400 italic">No data available</div>
-          )}
-        </CardDescription>
-      </CardContent>
-    </Card>
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-gray-500">Category</p>
+              <p className="text-base text-gray-800">{data.category}</p>
+            </div>
+          </>
+        ) : (
+          <div
+            className={`flex items-center gap-2 p-3 rounded-md ${
+              data.isEatenToday ? "bg-green-100" : "bg-orange-100"
+            }`}
+          >
+            {data.isEatenToday ? (
+              <>
+                <Check className="w-5 h-5 text-green-600" />
+                <p className="text-sm font-medium text-green-800">
+                  You ate this today! 🍔
+                </p>
+              </>
+            ) : (
+              <>
+                <Clock className="w-5 h-5 text-orange-600" />
+                <p className="text-sm font-medium text-orange-800">
+                  Still waiting for you! 🍟
+                </p>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Footer Section */}
+      <div className="mt-5 flex justify-end">
+        <button className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 shadow">
+          View More
+        </button>
+      </div>
+    </div>
   );
 };
 
