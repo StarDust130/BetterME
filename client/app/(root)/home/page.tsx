@@ -31,7 +31,10 @@ const Page = async () => {
         </p>
       </div>
 
-      <Tabs defaultValue="account" className=" text-right w-full md:max-w-3xl mx-auto mt-2">
+      <Tabs
+        defaultValue="account"
+        className=" text-right w-full md:max-w-3xl mx-auto mt-2"
+      >
         <TabsList>
           <TabsTrigger value="account">Overview</TabsTrigger>
           <TabsTrigger value="password">Github</TabsTrigger>
@@ -40,11 +43,13 @@ const Page = async () => {
           <List />
         </TabsContent>
         <TabsContent value="password">
-          <img
-            src={`https://github-readme-activity-graph.vercel.app/graph?username=StarDust130&theme=react`}
-            alt="Activity Graph"
-            className="mt-6 w-full  md:max-w-2xl max-w-2xl"
-          />
+          <div className="w-full  px-2">
+            <img
+              src={`https://github-readme-activity-graph.vercel.app/graph?username=StarDust130&theme=high-contrast`}
+              alt="Activity Graph"
+              className="mt-6 border-2 dark:border-gray-300 rounded-lg "
+            />
+          </div>
         </TabsContent>
       </Tabs>
     </main>
