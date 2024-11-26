@@ -22,7 +22,7 @@ app.use(
     credentials: true, // 🎫 Allow credentials (cookies, headers, etc.)
   })
 );
-console.log(process.env.CLIENT_URL);
+
 
 app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 
