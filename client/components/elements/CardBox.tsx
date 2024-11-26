@@ -14,18 +14,12 @@ interface CardBoxProps {
 }
 
 const CardBox = ({ data, type }: CardBoxProps) => {
-  const isExpense = type === "expense"; // Check if the card is for an expense
-  const isJunkFood = type === "junkFood"; // Check if the card is for junk food
+  const isExpense = type === "expense";
+  const isJunkFood = type === "junkFood";
 
   return (
     <Card
-      className={`transition-all shadow-md rounded-lg p-3 ${
-        isExpense
-          ? "bg-green-200 shadow-lg "
-          : isJunkFood
-          ? "bg-orange-300 shadow-lg "
-          : "bg-gray-300 shadow-lg"
-      } hover:shadow-lg hover:scale-105`}
+      className={`transition-all shadow-sm rounded-lg p-4 bg-white hover:shadow-lg hover:scale-105`}
     >
       <CardHeader className="flex items-center gap-3">
         <div
@@ -45,7 +39,7 @@ const CardBox = ({ data, type }: CardBoxProps) => {
             <Calendar className="text-white" />
           )}
         </div>
-        <CardTitle className="text-lg font-medium text-gray-800">
+        <CardTitle className="text-lg font-semibold text-gray-800">
           {isExpense
             ? (data as DataType).title
             : isJunkFood
@@ -54,10 +48,10 @@ const CardBox = ({ data, type }: CardBoxProps) => {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="mt-2 flex justify-between w-full">
+      <CardContent className="mt-2">
         <CardDescription className="text-sm text-gray-600">
           {isExpense
-            ? `Amount: $${
+            ? `Amount: ₹${
                 (data as DataType).amount?.toFixed(2) ?? "0.00"
               } | Category: ${(data as DataType).category}`
             : isJunkFood
