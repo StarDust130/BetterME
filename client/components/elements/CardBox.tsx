@@ -5,8 +5,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Pizza,
+  Calendar,
+  BadgeIndianRupee,
+  Tag,
+  Clock,
+  Check,
+} from "lucide-react";
 import { DataType } from "./List";
-import { Pizza, Calendar, BadgeIndianRupee } from "lucide-react";
 
 interface CardBoxProps {
   data: DataType;
@@ -19,11 +26,12 @@ const CardBox = ({ data, type }: CardBoxProps) => {
 
   return (
     <Card
-      className={`transition-all shadow-sm rounded-lg p-4 bg-white hover:shadow-lg hover:scale-105`}
+      className={`transition-transform shadow-sm rounded-lg p-4 bg-white hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02]`}
     >
+      {/* Card Header */}
       <CardHeader className="flex items-center gap-3">
         <div
-          className={`flex items-center justify-center p-2 rounded-full ${
+          className={`flex items-center justify-center w-10 h-10 p-2 rounded-full ${
             isExpense
               ? "bg-green-500"
               : isJunkFood
@@ -32,11 +40,11 @@ const CardBox = ({ data, type }: CardBoxProps) => {
           }`}
         >
           {isExpense ? (
-            <BadgeIndianRupee className="text-white" />
+            <BadgeIndianRupee className="text-white w-6 h-6" />
           ) : isJunkFood ? (
-            <Pizza className="text-white" />
+            <Pizza className="text-white w-6 h-6" />
           ) : (
-            <Calendar className="text-white" />
+            <Calendar className="text-white w-6 h-6" />
           )}
         </div>
         <CardTitle className="text-lg font-semibold text-gray-800">
@@ -48,17 +56,37 @@ const CardBox = ({ data, type }: CardBoxProps) => {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="mt-2">
-        <CardDescription className="text-sm text-gray-600">
-          {isExpense
-            ? `Amount: ₹${
-                (data as DataType).amount?.toFixed(2) ?? "0.00"
-              } | Category: ${(data as DataType).category}`
-            : isJunkFood
-            ? (data as DataType).isEatenToday
-              ? "You've eaten this today! 🍔"
-              : "This junk food is waiting for you! 🍟"
-            : "No data available"}
+      {/* Card Content */}
+      <CardContent className="text-left w-full flex justify-start p-3  rounded-lg">
+        <CardDescription className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          {isExpense ? (
+            <>
+              <span className="inline-block rounded-full bg-blue-100 px-1 py-1 text-sm text-blue-800">
+                ₹{(data as DataType).amount?.toFixed(2) ?? "0.00"}
+              </span>
+              <span className="text-gray-600">|</span>
+              <span className="flex items-center gap-1">
+                <Tag className="w-4 h-4 text-gray-500" />
+                {(data as DataType).category}
+              </span>
+            </>
+          ) : isJunkFood ? (
+            <div className="flex items-center gap-2 text-yellow-600">
+              {data.isEatenToday ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  You&lsquo;ve eaten this today! 🍔
+                </>
+              ) : (
+                <>
+                  <Clock className="w-5 h-5" />
+                  This junk food is waiting for you! 🍟
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="text-gray-400 italic">No data available</div>
+          )}
         </CardDescription>
       </CardContent>
     </Card>
