@@ -5,7 +5,7 @@ import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
 import NoDataCard from "../cards/NoDataCard";
-import Loading from "@/app/loading";
+import {  Loader  } from "lucide-react";
 
 export interface ExpensesType {
   _id: string;
@@ -36,7 +36,11 @@ const List = () => {
     fetchTodayExpenses();
   }, []);
 
-  if (loading) return <Loading />;
+  if (loading) return (
+    <div className="flex gap-2 items-center h-full mt-10 justify-center ">
+      Loading... <Loader className="animate-spin" />
+    </div>
+  );
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6  mx-auto">
