@@ -5,6 +5,7 @@ import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
 import NoDataCard from "../cards/NoDataCard";
+import Loading from "@/app/loading";
 
 export interface ExpensesType {
   _id: string;
@@ -35,10 +36,10 @@ const List = () => {
     fetchTodayExpenses();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6 w-full">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6  mx-auto">
       {expenses.length === 0 ? (
         <NoDataCard
           title="No Expenses 🎉"
