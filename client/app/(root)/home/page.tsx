@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 import List from "@/components/elements/List";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MiniList from "@/components/elements/MiniList";
+import GithubGraph from "@/components/elements/GitHub/GithubGraph";
 
 const Page = async () => {
   const user = await currentUser();
@@ -33,25 +33,19 @@ const Page = async () => {
       </div>
 
       <Tabs
-        defaultValue="account"
+        defaultValue="overview"
         className=" text-right w-full md:max-w-3xl mx-auto mt-2"
       >
         <TabsList>
-          <TabsTrigger value="account">Overview</TabsTrigger>
-          <TabsTrigger value="password">Github</TabsTrigger>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="github">Github</TabsTrigger>
         </TabsList>
-        <TabsContent value="account" className="mx-auto w-full">
+        <TabsContent value="overview" className="mx-auto w-full">
           <MiniList />
           <List />
         </TabsContent>
-        <TabsContent value="password">
-          <div className="w-full  px-2">
-            <img
-              src={`https://github-readme-activity-graph.vercel.app/graph?username=StarDust130&theme=high-contrast`}
-              alt="Activity Graph"
-              className="mt-6 border-2 dark:border-gray-300 rounded-lg "
-            />
-          </div>
+        <TabsContent value="github">
+         <GithubGraph />
         </TabsContent>
       </Tabs>
     </main>
