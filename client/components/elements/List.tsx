@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
-import { Loader } from "lucide-react";
 import NoDataFound from "./NoDataFound";
+import CardSkeleton from "./Cards/CardSkeleton";
 
 export interface DataType {
   _id: string;
@@ -46,7 +46,7 @@ const List = () => {
   if (loading)
     return (
       <div className="flex gap-2 items-center h-full mt-10 justify-center">
-        Loading... <Loader className="animate-spin" />
+        <CardSkeleton />
       </div>
     );
 
