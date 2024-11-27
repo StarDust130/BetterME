@@ -2,10 +2,10 @@ import {
   MoreHorizontal,
   BadgeIndianRupee,
   Pizza,
-  Check,
-  Clock,
+  Smile,
+  Frown,
 } from "lucide-react";
-import { DataType } from "./List";
+import { DataType } from "../List";
 
 const CardBox = ({ data }: { data: DataType }) => {
   const isExpense = data.type === "expense";
@@ -49,9 +49,9 @@ const CardBox = ({ data }: { data: DataType }) => {
                 ₹{data.amount?.toFixed(2) ?? "0.00"}
               </p>
             </div>
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-gray-500">Category</p>
-              <p className="text-base text-gray-800">{data.category}</p>
+            <div className="flex justify-between gap-1 items-center">
+              <p className="text-sm text-gray-500">Category:</p>
+              <p className="text-sm text-gray-800">{data.category}</p>
             </div>
           </>
         ) : (
@@ -62,16 +62,16 @@ const CardBox = ({ data }: { data: DataType }) => {
           >
             {data.isEatenToday ? (
               <>
-                <Check className="w-5 h-5 text-green-600" />
-                <p className="text-sm font-medium text-green-800">
+                <Frown className="w-10 h-10 text-orange-600" />
+                <p className="text-sm font-medium text-orange-800">
                   You ate this today! 🍔
                 </p>
               </>
             ) : (
               <>
-                <Clock className="w-5 h-5 text-orange-600" />
-                <p className="text-sm font-medium text-orange-800">
-                  Still waiting for you! 🍟
+                <Smile  className="w-10 h-10 text-green-600" />
+                <p className="text-xs font-medium text-green-800">
+                  Great! No Junk Food Today! 🥗
                 </p>
               </>
             )}

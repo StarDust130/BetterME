@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ShowDialog from "./ShowDialog";
+import ShowDialog from "../ShowDialog";
 
 // Define the types for card data
 export interface CardData {
@@ -27,7 +27,7 @@ const Card = <T extends CardData>({ data }: { data: T }) => {
         <div className="text-base text-gray-200">{data.desc}</div>
 
         {/* Pass only serializable data to ShowDialog */}
-        <ShowDialog title={data.title}  />
+        <ShowDialog title={data.title} />
       </div>
     </div>
   );

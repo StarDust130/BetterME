@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
-import CardBox from "./CardBox";
+import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
 import CardSkeleton from "./Cards/CardSkeleton";
 
