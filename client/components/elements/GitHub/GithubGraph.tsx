@@ -2,11 +2,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import UserCard from "./UserCard"; // Importing the UserCard component
 
-const GithubGraph = () => {
-  const [username, setUsername] = useState(""); // Store the username
-  const [submitted, setSubmitted] = useState(false); // Track if the user has clicked "Go"
-  const [error, setError] = useState(false); // Track if there's an error (user not found)
+const GithubGraph: React.FC = () => {
+  const [username, setUsername] = useState<string>(""); // Store the username
+  const [submitted, setSubmitted] = useState<boolean>(false); // Track if the user has clicked "Go"
+  const [error, setError] = useState<boolean>(false); // Track if there's an error (user not found)
 
   useEffect(() => {
     // Check if username is already saved in localStorage
@@ -20,7 +21,7 @@ const GithubGraph = () => {
   const handleSubmit = async () => {
     if (username) {
       try {
-        // Check if the username exists in GitHub (this is just a sample request; you can implement actual API logic here)
+        // Check if the username exists in GitHub
         const response = await fetch(
           `https://api.github.com/users/${username}`
         );
@@ -55,11 +56,7 @@ const GithubGraph = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)} // Update state on change
           />
-          <Button
-            onClick={handleSubmit}
-            size="lg"
-            className="mt-3"
-          >
+          <Button onClick={handleSubmit} size="lg" className="mt-3">
             Find Activity
           </Button>
           {error && (
@@ -69,19 +66,14 @@ const GithubGraph = () => {
           )}
         </div>
       ) : (
-        // Show GitHub Activity Graph
-        <div className="w-full px-2 mt-6">
-          <img
-            src={`https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=high-contrast`}
-            alt="GitHub Activity Graph"
-            className="mt-6  rounded-lg shadow-md w-full"
-          />
-          <Button
-            onClick={handleTryAgain}
-          className="mt-2"
-          >
-            Change Username
-          </Button>
+        <div className="w-full px-2 mt-6 mb-10">
+          <UserCard username={username} />{" "}
+          {/* Display the UserCard component below the graph */}
+          <div className="mt-4">
+            <Button onClick={handleTryAgain} size="lg" variant="outline">
+              Try Another Username 🔄
+            </Button>
+          </div>
         </div>
       )}
     </div>
