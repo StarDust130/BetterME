@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import UserCard from "./UserCard"; // Importing the UserCard component
+import Image from "next/image";
 
-const GithubGraph: React.FC = () => {
+const GithubInfo: React.FC = () => {
   const [username, setUsername] = useState<string>(""); // Store the username
   const [submitted, setSubmitted] = useState<boolean>(false); // Track if the user has clicked "Go"
   const [error, setError] = useState<boolean>(false); // Track if there's an error (user not found)
@@ -49,9 +50,19 @@ const GithubGraph: React.FC = () => {
       {/* Input Section */}
       {!submitted ? (
         <div className="flex flex-col items-center gap-4">
+          <Image
+            src="/anime-girl.png"
+            alt="Anime Girl"
+            width={300}
+            height={300}
+          />
           <input
             placeholder="Enter Github Username"
-            type="text"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit();
+              }
+            }}
             className="input input-bordered w-64 sm:w-96 p-2 rounded-lg"
             value={username}
             onChange={(e) => setUsername(e.target.value)} // Update state on change
@@ -80,4 +91,4 @@ const GithubGraph: React.FC = () => {
   );
 };
 
-export default GithubGraph;
+export default GithubInfo;

@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MiniList from "@/components/elements/MiniList";
-import GithubGraph from "@/components/elements/GitHub/GithubGraph";
+import GithubInfo from "@/components/elements/GitHub/GithubInfo";
 
 const Page = async () => {
   const user = await currentUser();
@@ -45,7 +45,7 @@ const Page = async () => {
           <List />
         </TabsContent>
         <TabsContent value="github">
-         <GithubGraph />
+         <GithubInfo />
         </TabsContent>
       </Tabs>
     </main>
