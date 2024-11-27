@@ -7,8 +7,8 @@ import {
 } from "lucide-react";
 import { DataType } from "./List";
 
-const CardBox = ({ data, type }: { data: DataType; type: string }) => {
-  const isExpense = type === "expense";
+const CardBox = ({ data }: { data: DataType }) => {
+  const isExpense = data.type === "expense";
 
   return (
     <div className="relative w-full max-w-sm bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 p-5">

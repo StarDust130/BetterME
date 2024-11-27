@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./CardBox";
-import NoDataCard from "../cards/NoDataCard";
 import { Loader } from "lucide-react";
+import NoDataFound from "./NoDataFound";
 
 export interface DataType {
   _id: string;
@@ -51,37 +51,17 @@ const List = () => {
     );
 
   // Separate data into expenses and junk food
-  const expenses = data.filter((item) => item.type === "expense");
-  const junkFood = data.filter((item) => item.type === "junkFood");
 
   return (
     <>
-      {/* Display expenses and junk food in the same grid layout */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3 py-3 mb-6 mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 w-full lg:grid-cols-4 gap-4 px-3 py-3 mb-6 mx-auto">
         {/* Show Expenses */}
-        {expenses.length === 0 ? (
-          <NoDataCard
-            title="No Expenses 🎉"
-            desc="Enjoy your savings!"
-            content="Great job, keep it up! 😊"
-          />
+        {data.length === 0 ? (
+          <div className="col-span-2 md:col-span-3 lg:col-span-4">
+            <NoDataFound />
+          </div>
         ) : (
-          expenses.map((data) => (
-            <CardBox data={data} key={data._id} type="expense" />
-          ))
-        )}
-
-        {/* Show Junk Food */}
-        {junkFood.length === 0 ? (
-          <NoDataCard
-            title="No Junk Food 🎉"
-            desc="Stay healthy!"
-            content="Great job, keep it up! 😊"
-          />
-        ) : (
-          junkFood.map((data) => (
-            <CardBox data={data} key={data._id} type="junkFood" />
-          ))
+          data.map((data) => <CardBox data={data} key={data._id} />)
         )}
       </div>
     </>
