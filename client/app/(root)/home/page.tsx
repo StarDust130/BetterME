@@ -3,6 +3,7 @@ import List from "@/components/elements/List";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MiniList from "@/components/elements/MiniList";
 
 const Page = async () => {
   const user = await currentUser();
@@ -40,6 +41,7 @@ const Page = async () => {
           <TabsTrigger value="password">Github</TabsTrigger>
         </TabsList>
         <TabsContent value="account" className="mx-auto w-full">
+          <MiniList />
           <List />
         </TabsContent>
         <TabsContent value="password">

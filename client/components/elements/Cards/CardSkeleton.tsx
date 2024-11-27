@@ -5,7 +5,7 @@ const CardSkeleton = () => {
     <div className="flex flex-col w-full justify-center items-center">
       {/* H1 Skeleton */}
       <div className="text-center mb-4  rounded-2xl">
-        <Skeleton className="w-32 h-6 mx-auto z-10" /> 
+        <Skeleton className="w-32 h-6 mx-auto z-10" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full lg:grid-cols-2 gap-4 mt-6">
         {Array.from({ length: 4 }).map((_, index) => (
@@ -26,11 +26,6 @@ const CardSkeleton = () => {
             <div className="mt-3 space-y-2">
               <Skeleton className="w-full h-4" />
               <Skeleton className="w-3/4 h-4" />
-            </div>
-
-            {/* Footer Section Skeleton */}
-            <div className="mt-5 flex justify-end">
-              <Skeleton className="w-24 h-8 rounded-md" />
             </div>
           </div>
         ))}
