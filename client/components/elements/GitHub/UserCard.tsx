@@ -14,6 +14,7 @@ import {
 import { formatDate } from "@/lib/utils";
 import { GitHubCard } from "./GitHubCard";
 import Image from "next/image";
+import UserGitHubCardSkeleton from "./UserGitHubCardSkeleton";
 
 interface UserGitHubCardProps {
   username: string;
@@ -77,7 +78,7 @@ const UserGitHubCard: React.FC<UserGitHubCardProps> = ({ username }) => {
 
   if (loading) {
     return (
-      <div className="text-center text-gray-500">Loading user data...</div>
+      <UserGitHubCardSkeleton />
     );
   }
 
