@@ -13,6 +13,7 @@ import {
 
 import { formatDate } from "@/lib/utils";
 import { GitHubCard } from "./GitHubCard";
+import Image from "next/image";
 
 interface UserGitHubCardProps {
   username: string;
@@ -87,17 +88,19 @@ const UserGitHubCard: React.FC<UserGitHubCardProps> = ({ username }) => {
   return (
     <div className="max-w-screen-lg mx-auto  p-6 space-y-6  rounded-lg shadow-lg">
       {/* User Info Header */}
-      <div className="flex flex-col sm:flex-row items-center gap-6 p-6 border-b rounded-lg text-black bg-gray-50">
-        <img
+      <div className="flex flex-col sm:flex-row items-center gap-6 p-6 border-b rounded-lg text-black bg-gray-200">
+        <Image
           src={userData.avatar_url}
           alt="User Avatar"
           className="w-32 h-32 rounded-full border-4 border-blue-500"
+          width={128}
+          height={128}
         />
         <div>
-          <h3 className="text-2xl text-black font-semibold ">
+          <h3 className="md:text-2xl md:text-start text-center text-black font-semibold ">
             {userData.name || userData.login}
           </h3>
-          <p className="text-lg text-gray-600">
+          <p className="text-xs md:text-lg text-gray-600">
             {userData.bio || "No bio available"}
           </p>
         </div>
