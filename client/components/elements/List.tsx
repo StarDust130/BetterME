@@ -46,7 +46,7 @@ const List = () => {
 
   if (loading)
     return (
-      <div className="flex gap-2 items-center h-full mt-10 justify-center">
+      <div className="flex gap-2 items-center h-full mb-20 md:mt-10 justify-center">
         <CardSkeleton />
       </div>
     );

@@ -4,7 +4,7 @@ const CardSkeleton = () => {
   return (
     <div className="flex flex-col w-full justify-center items-center">
       {/* H1 Skeleton */}
-      <div className="text-center mb-4 rounded-lg">
+      <div className="text-center mb-4 mt-8 md:mt-2 rounded-lg">
         <Skeleton className="w-32 h-6 mx-auto z-10" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 w-full lg:grid-cols-2 gap-4 mt-6">
