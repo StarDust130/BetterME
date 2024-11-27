@@ -46,11 +46,11 @@ const Expenses = () => {
       const { title, amount, category } = values;
       const clerkID = await getClerkUserID();
 
-      // Log environment variable for debugging
-      console.log("Server URL:", process.env.NEXT_PUBLIC_SERVER_URL);
+       closeDialogRef.current?.click();
+       form.reset();
 
       // Make the API request
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/expenses`,
         {
           clerkID,
@@ -63,8 +63,7 @@ const Expenses = () => {
           withCredentials: true, // Include cookies for authentication
         }
       );
-
-      console.log("Response:", response.data);
+     
 
       toast({
         title: "Expense Recorded! 💸",

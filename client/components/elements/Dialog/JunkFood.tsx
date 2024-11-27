@@ -53,14 +53,10 @@ const JunkFood = () => {
       const clerkID = await getClerkUserID();
       const isEatenTodayBoolean = isEatenToday.toLowerCase() === "yes";
 
-      console.log("Payload before sending:", {
-        clerkID,
-        foodName,
-        isEatenToday: isEatenTodayBoolean, // Make sure this is boolean here
-        date: new Date().toISOString(),
-      });
+      closeDialogRef.current?.click();
+      form.reset();
 
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/junkFood`,
         {
           clerkID,
@@ -72,8 +68,6 @@ const JunkFood = () => {
           withCredentials: true, // Include cookies for authentication
         }
       );
-
-      console.log("Response:", response.data);
 
       toast({
         title: "JunkFood Recorded 🍔",
