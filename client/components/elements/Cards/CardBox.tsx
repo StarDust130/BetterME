@@ -3,9 +3,9 @@ import {
   Pizza,
   Smile,
   Frown,
-  EllipsisVertical,
 } from "lucide-react";
 import { DataType } from "../List";
+import More from "../More";
 
 const CardBox = ({ data }: { data: DataType }) => {
   const isExpense = data.type === "expense";
@@ -14,7 +14,7 @@ const CardBox = ({ data }: { data: DataType }) => {
     <div className="relative w-full max-w-sm bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 p-5">
       {/* 3-Dot Menu */}
       <div className="absolute top-2 right-2  group-hover:opacity-100 transition-opacity cursor-pointer">
-        <EllipsisVertical className="w-5 h-5 text-gray-500 hover:text-gray-800" />
+        <More />
       </div>
 
       {/* Header Section */}
