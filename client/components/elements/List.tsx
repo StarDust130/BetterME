@@ -7,6 +7,8 @@ import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
 import CardSkeleton from "./Cards/CardSkeleton";
 import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+import { Share } from "lucide-react";
 
 export interface DataType {
   _id: string;
@@ -29,7 +31,6 @@ const List = () => {
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/global/todayActivity`,
           { params: { clerkID: await getClerkUserID() } }
         );
-        console.log("Today's expenses:", data);
 
         // Assuming the fetched data contains both expenses and junk food with a 'type' field.
         setData(data.data || []); // Set data with 'type' field
@@ -51,7 +52,6 @@ const List = () => {
       </div>
     );
 
-
   return (
     <>
       <div className=" w-full  px-3 py-3 mb-6 mx-auto">
@@ -63,9 +63,19 @@ const List = () => {
         ) : (
           <div className="w-full ">
             <Separator />
-            <h1 className="text-center text-xl md:text-2xl mt-4 text-gray-800 dark:text-gray-200 font-semibold">
-              Today Activity
-            </h1>
+            <div className="flex justify-between items-center w-full  py-4  rounded-lg">
+              <h1 className="flex-grow text-center text-xl ml-6 md:text-2xl  font-semibold">
+                Today’s Activity
+              </h1>
+              <Button
+                className="flex items-center gap-2 text-sm md:text-base pl-4 py-2  rounded-lg transition-colors duration-300"
+                variant={"outline"}
+              >
+                <Share className="w-5 h-5" />
+                <span className="hidden md:block">Share</span>
+              </Button>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
               {data.map((item) => (
                 <CardBox data={item} key={item._id} />
