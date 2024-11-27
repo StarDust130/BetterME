@@ -6,6 +6,7 @@ import { getClerkUserID } from "@/lib/action";
 import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
 import CardSkeleton from "./Cards/CardSkeleton";
+import { Separator } from "../ui/separator";
 
 export interface DataType {
   _id: string;
@@ -50,18 +51,27 @@ const List = () => {
       </div>
     );
 
-  // Separate data into expenses and junk food
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 w-full lg:grid-cols-4 gap-4 px-3 py-3 mb-6 mx-auto">
-        {/* Show Expenses */}
+      <div className=" w-full  px-3 py-3 mb-6 mx-auto">
+        {/* Show Today Activity */}
         {data.length === 0 ? (
           <div className="col-span-2 md:col-span-3 lg:col-span-4">
             <NoDataFound />
           </div>
         ) : (
-          data.map((data) => <CardBox data={data} key={data._id} />)
+          <div className="w-full ">
+            <Separator />
+            <h1 className="text-center text-xl md:text-2xl mt-4 text-gray-800 dark:text-gray-200 font-semibold">
+              Today Activity
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
+              {data.map((item) => (
+                <CardBox data={item} key={item._id} />
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </>
