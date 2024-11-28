@@ -68,5 +68,5 @@ cd ../server
 npm run dev
 ```
 
-
-# 🎯 BetterME is not just an app – it's your personal guide to becoming the best version of yourself!
+---
+>  🎯 BetterME is not just an app – it's your personal guide to becoming the best version of yourself!
