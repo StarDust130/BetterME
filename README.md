@@ -39,4 +39,29 @@ Clone the repo to your local machine:
 git clone https://github.com/StarDust130/BetterME.git
 cd BetterME
 
+# For Authentication
+CLERK_API_KEY=<your-clerk-api-key>
+
+# For Database
+MONGODB_URL=<your-mongodb-connection-string>
+
+# Install frontend dependencies
+cd client
+npm install
+
+# Install backend dependencies
+cd ../server
+npm install
+
+
+# Start the frontend
+cd client
+npm run dev
+
+# Start the backend
+cd ../server
+npm run dev
+
+## cool quot here
+
 
