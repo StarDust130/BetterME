@@ -29,10 +29,14 @@ Now I can stay on top of my life and grow every day! 🌱✨
 
 ---
 
-## 📦 **How to Install**  
+# 📦 **How to Install and Run the Project** 🚀
 
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/your-username/betterme.git
-   cd betterme
+Follow these steps to set up and start the project:
+
+## 1️⃣ **Clone the Repository**  
+Clone the repo to your local machine:  
+```bash
+git clone https://github.com/StarDust130/BetterME.git
+cd BetterME
+
 
