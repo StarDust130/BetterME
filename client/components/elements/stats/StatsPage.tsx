@@ -204,7 +204,7 @@ function StatsPage() {
         🔍 View all your data and insights in one place.
       </p>
 
-      <div className="w-full px-5 mx-auto py-5" suppressHydrationWarning>
+      <div className="w-full px-5 md:px-10 mx-auto py-5" suppressHydrationWarning>
         <div className="flex items-center py-4 gap-4">
           <Input
             placeholder="Filter emails..."
