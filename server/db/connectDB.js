@@ -15,27 +15,3 @@ export const connectDB = async () => {
 };
 
 
-//!  this 2 error handlers stop the server from running when there is an error
-
-//! Unhandled Rejection Error
-process.on("unhandledRejection", (err, promise) => {
-  console.log(
-    "Unhandled Rejection Error. Shutting Down... 💣😞: ",
-    err.message
-  );
-  console.log(`Error: ${err.message}`);
-  server.close(() => process.exit(1));
-  
-  
-}
-);
-
-
-//! Uncaught Exception Error
-process.on("uncaughtException", (err, promise) => {
-  console.log("Uncaught Exception Error. Shutting Down... 💣🔮: ", err.message);
-  console.log(`Error: ${err.message}`);
-  server.close(() => process.exit(1));
-  
-}
-);
