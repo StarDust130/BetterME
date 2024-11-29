@@ -209,7 +209,7 @@ function StatsPage() {
         className="w-full px-5 md:px-10 mx-auto py-5"
         suppressHydrationWarning
       >
-        <div className="flex items-center justify-between py-4 gap-4">
+        <div className="md:flex items-center justify-between py-4 gap-4">
           <Input
             placeholder="Filter emails..."
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -219,7 +219,7 @@ function StatsPage() {
             className="max-w-sm"
           />
 
-          <div className="flex justify-end ml-auto  w-full items-center gap-2">
+          <div className="flex justify-between flex-row-reverse md:flex-row    mt-3 md:mt-0  md:justify-end md:ml-auto  w-full items-center gap-2">
             <DatePicker />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
