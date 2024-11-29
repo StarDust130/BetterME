@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Home, ChartNoAxesCombined, CirclePlus } from "lucide-react";
 
 function Navbar() {
-  const [activeNav, setActiveNav] = useState<string>(""); // Initialize with an empty string
+ const [activeNav, setActiveNav] = useState<string>(""); // Initialize with an empty string
   const [isMounted, setIsMounted] = useState(false); // Track if the component is mounted
 
   useEffect(() => {
