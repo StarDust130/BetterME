@@ -206,7 +206,7 @@ function StatsPage() {
       </p>
 
       <div
-        className="w-full px-5 md:px-10 mx-auto py-5"
+        className="w-full px-3 md:px-10 mx-auto py-5 mb-10"
         suppressHydrationWarning
       >
         <div className="md:flex items-center justify-between py-4 gap-4">
