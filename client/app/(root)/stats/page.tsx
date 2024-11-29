@@ -1,4 +1,6 @@
+import StatsPage from "@/components/elements/stats/StatsPage";
+
 const page = () => {
-  return <div>page</div>;
+  return <StatsPage />;
 };
 export default page;
