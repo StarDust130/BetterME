@@ -42,7 +42,7 @@ cd BetterME
 # Create a .env file in both client and server directories with these keys:  
 
 # For Authentication  
-CLERK_API_KEY=<your-clerk-api-key>  
+CLERK_SECRET_KEY=<your-clerk-api-key>  
 
 # For Database  
 MONGODB_URL=<your-mongodb-connection-string>  
