@@ -1,10 +1,23 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, ChartNoAxesCombined, CirclePlus } from "lucide-react";
 
 function Navbar() {
-  const [activeNav, setActiveNav] = useState("/home");
+  const [activeNav, setActiveNav] = useState<string>(""); // Initialize with an empty string
+  const [isMounted, setIsMounted] = useState(false); // Track if the component is mounted
+
+  useEffect(() => {
+    setIsMounted(true); // Indicate that the component is mounted
+    if (typeof window !== "undefined") {
+      const currentPath = window.location.pathname;
+      setActiveNav(currentPath);
+    }
+  }, []);
+
+  if (!isMounted) {
+    return null; // Prevent rendering during SSR
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 w-full h-[60px] sm:h-auto  bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-between px-4 sm:justify-around sm:w-auto sm:rounded-full sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 shadow-md md:shadow-lg border-t-2 sm:border-2 border-solid border-neutral-300 dark:border-neutral-700 transition-all md:gap-8 md:px-6 lg:px-12 md:rounded-full md:max-w-4xl lg:max-w-6xl">
