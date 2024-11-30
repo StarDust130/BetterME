@@ -16,7 +16,7 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ table, columns }) => (
-  <div className="rounded-md border">
+  <div className="rounded-md border text-center">
     <Table>
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (

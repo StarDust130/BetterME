@@ -14,10 +14,19 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 const columns: ColumnDef<Stats>[] = [
   {
     accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("date")}</div>
-    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-center  w-full"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
   },
   {
     accessorKey: "junkFood",
@@ -25,6 +34,7 @@ const columns: ColumnDef<Stats>[] = [
       return (
         <Button
           variant="ghost"
+          className="text-center  w-full"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           JunkFood
@@ -32,7 +42,9 @@ const columns: ColumnDef<Stats>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("junkFood")}</div>,
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("junkFood")}</div>
+    ),
   },
   {
     accessorKey: "amount",
