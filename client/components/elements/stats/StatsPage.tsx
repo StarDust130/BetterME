@@ -20,11 +20,11 @@ import PaginationControls from "./PaginationControls";
 
 // Define the enhanced enum for Mood (Top 5 moods only)
 export enum Mood {
-  Happy = "😊",    // Cheerful and lighthearted
-  Excited = "😄",  // Energetic and enthusiastic
-  Neutral = "😐",  // Calm and indifferent
-  Sad = "😢",      // Feeling down or disappointed
-  Relaxed = "😌",  // Peaceful and stress-free
+  Happy = "😊", // Cheerful and lighthearted
+  Excited = "😄", // Energetic and enthusiastic
+  Neutral = "😐", // Calm and indifferent
+  Sad = "😢", // Feeling down or disappointed
+  Relaxed = "😌", // Peaceful and stress-free
 }
 
 // Update the Stats type to use the Mood enum
@@ -75,9 +75,10 @@ const data: Stats[] = [
   },
 ];
 
-
-
 const StatsPage: React.FC = () => {
+  const [mounted, setMounted] = React.useState(false);
+
+  // Ensure the component is only rendered after the theme has been initialized
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -105,13 +106,19 @@ const StatsPage: React.FC = () => {
     },
   });
 
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Wait for the component to be mounted before rendering
+  if (!mounted) {
+    return null; // Or return a loading spinner/message
+  }
+
   return (
     <>
       <StatsHeader />
-      <div
-        className="w-full px-3 md:px-10 mx-auto py-5 mb-10"
-        suppressHydrationWarning
-      >
+      <div className="w-full px-3 md:px-10 mx-auto py-5 mb-10">
         <FilterControls table={table} />
         <DataTable table={table} columns={columns} />
         <PaginationControls table={table} />
