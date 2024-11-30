@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Payment } from "./StatsPage";
+import { Stats } from "./StatsPage";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,28 +11,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
-const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<Stats>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "date",
+    header: "Date",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.getValue("date")}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "junkFood",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          JunkFood
           <ArrowUpDown />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("junkFood")}</div>,
   },
   {
     accessorKey: "amount",
@@ -41,9 +41,9 @@ const columns: ColumnDef<Payment>[] = [
       const amount = parseFloat(row.getValue("amount"));
 
       // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(amount);
 
       return <div className="text-right font-medium">{formatted}</div>;

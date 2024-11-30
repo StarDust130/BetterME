@@ -12,10 +12,10 @@ interface FilterControlsProps {
 const FilterControls: React.FC<FilterControlsProps> = ({ table }) => (
   <div className="md:flex items-center justify-between py-4 gap-4">
     <Input
-      placeholder="Filter emails..."
-      value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+      placeholder="Filter JunkFoods..."
+      value={(table.getColumn("junkFood")?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
-        table.getColumn("email")?.setFilterValue(event.target.value)
+        table.getColumn("junkFood")?.setFilterValue(event.target.value)
       }
       className="max-w-sm"
     />
