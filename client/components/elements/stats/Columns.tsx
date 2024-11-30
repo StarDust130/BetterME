@@ -9,20 +9,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Calendar, MoreHorizontal } from "lucide-react";
 
 const columns: ColumnDef<Stats>[] = [
   {
     accessorKey: "date",
-    header: ({ column }) => {
+    header: () => {
       return (
-        <Button
-          variant="ghost"
-          className="text-center  w-full"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant="ghost" className="text-center  w-full">
           Date
-          <ArrowUpDown />
+          <Calendar />
         </Button>
       );
     },
