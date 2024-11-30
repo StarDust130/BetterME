@@ -9,7 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Calendar, EllipsisVertical, MoreHorizontal, SmilePlus } from "lucide-react";
+import {
+  ArrowUpDown,
+  Calendar,
+  EllipsisVertical,
+  MoreHorizontal,
+  SmilePlus,
+} from "lucide-react";
 
 const columns: ColumnDef<Stats>[] = [
   {
@@ -18,7 +24,7 @@ const columns: ColumnDef<Stats>[] = [
       return (
         <Button
           variant="ghost"
-          className="text-left md:text-center w-4 md:w-full"
+          className="text-left w-4 ml-3 md:ml-0 md:text-center  md:w-full"
         >
           Mood
           <SmilePlus />
