@@ -31,7 +31,9 @@ const columns: ColumnDef<Stats>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("mood")}</div>,
+    cell: ({ row }) => (
+      <div className="text-3xl md:text-4xl">{row.getValue("mood")}</div>
+    ),
   },
   {
     accessorKey: "date",
