@@ -8,10 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { flexRender, Table as TB } from "@tanstack/react-table";
-import { Payment } from "./StatsPage";
+import { Stats } from "./StatsPage";
 
 interface DataTableProps {
-  table: TB<Payment>;
+  table: TB<Stats>;
   columns: any[];
 }
 

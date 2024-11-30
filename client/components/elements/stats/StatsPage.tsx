@@ -18,46 +18,45 @@ import FilterControls from "./FilterControls";
 import DataTable from "./DataTable";
 import PaginationControls from "./PaginationControls";
 
-const data: Payment[] = [
+const data: Stats[] = [
   {
     id: "m5gr84i9",
     amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
+    date: "today",
+    junkFood: "No",
   },
   {
     id: "3u1reuv4",
     amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
+    date: "yestaday",
+    junkFood: "Pasta",
   },
   {
     id: "derv1ws0",
     amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
+    date: "28-11-2024",
+    junkFood: "Momos,fanta,cake",
   },
   {
     id: "5kma53ae",
     amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
+    date: "27-11-2024",
+    junkFood: "gupchup",
   },
   {
     id: "bhqecj4p",
     amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
+    date: "26-11-2024",
+    junkFood: "Chocolate",
   },
 ];
 
-export type Payment = {
+export type Stats = {
   id: string;
   amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+  date: Date | string;
+  junkFood: string;
 };
-
 
 const StatsPage: React.FC = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);

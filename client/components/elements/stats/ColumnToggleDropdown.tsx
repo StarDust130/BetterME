@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Table } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
-import { Payment } from "./StatsPage";
+import { Stats } from "./StatsPage";
 
 interface ColumnToggleDropdownProps {
-  table: Table<Payment>;
+  table: Table<Stats>;
 }
 
 
@@ -20,7 +20,7 @@ const ColumnToggleDropdown: React.FC<ColumnToggleDropdownProps> = ({
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <Button variant="outline" className="">
-        Columns <ChevronDown />
+        Sort <ChevronDown />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">

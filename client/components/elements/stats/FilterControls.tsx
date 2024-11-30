@@ -1,11 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "../DatePicker";
 import ColumnToggleDropdown from "./ColumnToggleDropdown";
-import { Payment } from "./StatsPage";
+import { Stats } from "./StatsPage";
 import { Table } from "@tanstack/react-table";
 
 interface FilterControlsProps {
-  table: Table<Payment>;
+  table: Table<Stats>;
 }
 
 // Component for filter controls

@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Table } from "@tanstack/react-table";
-import { Payment } from "./StatsPage";
+import { Stats } from "./StatsPage";
 
 interface PaginationControlsProps {
-  table: Table<Payment>;
+  table: Table<Stats>;
 }
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({ table }) => (
