@@ -13,8 +13,11 @@ import {
   ArrowUpDown,
   Calendar,
   EllipsisVertical,
+  Eye,
   MoreHorizontal,
+  Share,
   SmilePlus,
+  Trash2,
 } from "lucide-react";
 
 const columns: ColumnDef<Stats>[] = [
@@ -100,11 +103,17 @@ const columns: ColumnDef<Stats>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Copy payment ID
+              <Eye /> Share Stats
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Share />
+              View Stats
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash2 className="text-red-500" />
+              <span className="text-red-500"> Delete Stats</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
