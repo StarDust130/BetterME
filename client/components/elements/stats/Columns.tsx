@@ -9,9 +9,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Calendar, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Calendar, EllipsisVertical, MoreHorizontal, SmilePlus } from "lucide-react";
 
 const columns: ColumnDef<Stats>[] = [
+  {
+    accessorKey: "mood",
+    header: () => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-left md:text-center w-4 md:w-full"
+        >
+          Mood
+          <SmilePlus />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize">{row.getValue("mood")}</div>,
+  },
   {
     accessorKey: "date",
     header: () => {
@@ -68,7 +83,8 @@ const columns: ColumnDef<Stats>[] = [
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
+              <MoreHorizontal className="hidden md:block" />
+              <EllipsisVertical className="md:hidden" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
