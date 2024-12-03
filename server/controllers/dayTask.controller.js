@@ -11,10 +11,10 @@ const getDayTask = catchAsync(async (req, res, next) => {
     return next(new AppError("Please Provide Clerk ID", 400));
   }
 
-  // 2) Fetch from DB
-  const dayTask = await DayTask.findOne({ clerkID });
+  // 2) Fetch all entries for the clerkID
+  const dayTasks = await DayTask.find({ clerkID });
 
-  if (!dayTask) {
+  if (!dayTasks || dayTasks.length === 0) {
     return next(new AppError("No Data Found", 404));
   }
 
@@ -22,10 +22,11 @@ const getDayTask = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      dayTask,
+      dayTasks,
     },
   });
 });
+
 
 //! Create 🐧
 const createDayTask = catchAsync(async (req, res, next) => {
