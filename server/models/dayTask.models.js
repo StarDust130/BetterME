@@ -7,6 +7,7 @@ const dayTaskSchema = new mongoose.Schema(
       type: String,
       required: [true, "Clerk ID is required"],
       index: true,
+      select: false,
     },
     date: {
       type: Date,
