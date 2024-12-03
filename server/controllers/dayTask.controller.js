@@ -79,8 +79,7 @@ const createDayTask = catchAsync(async (req, res, next) => {
 //! Delete 🚄
 const deleteDayTask = catchAsync(async (req, res, next) => {
   // Extract data from query and params
-  const { clerkID } = req.query;
-  const { _id } = req.params;
+  const { clerkID, _id } = req.query;
 
   // Validate inputs
   if (!clerkID) {
@@ -104,7 +103,5 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
     message: "Day Task deleted successfully 🎉",
   });
 });
-
-
 
 export { createDayTask, getDayTask, deleteDayTask };

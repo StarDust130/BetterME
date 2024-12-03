@@ -9,6 +9,6 @@ const router = Express.Router();
 
 router.route("/").get(getDayTask).post(createDayTask);
 
-router.delete("/:_id", deleteDayTask);
+router.delete("/", deleteDayTask);
 
 export default router;
