@@ -4,12 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  EllipsisVertical,
-  EyeOff,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { EllipsisVertical, EyeOff, Pencil, Trash2 } from "lucide-react";
 
 const More = () => {
   return (
