@@ -12,37 +12,42 @@ const getDayTask = catchAsync(async (req, res, next) => {
   }
 
   // 2) Fetch all entries for the clerkID
-  const dayTasks = await DayTask.find({ clerkID });
+  const AllTasks = await DayTask.find({ clerkID });
 
-  if (!dayTasks || dayTasks.length === 0) {
+  if (!AllTasks || AllTasks.length === 0) {
     return next(new AppError("No Data Found", 404));
   }
 
   // 3) Send Response
   res.status(200).json({
     status: "success",
-    data: {
-      dayTasks,
-    },
+    message: "Data Fetched Successfully 🎉",
+    length: AllTasks.length,
+    AllTasks,
   });
 });
 
-//! Create 🐧
+//! Create 🐧 - it create new dayTask and update today ones also.
 const createDayTask = catchAsync(async (req, res, next) => {
-  const { clerkID, date, expenses, junkFood, journal, todo } = req.body;
+  // 1) Get ClerkID from middleware
+  const clerkID = req.clerkID;
 
-  // Check for Clerk ID and Date in the request
-  if (!clerkID || !date) {
-    return next(new AppError("Please provide Clerk ID and Date", 400));
-  }
+  const { expenses, junkFood, journal, todo } = req.body;
 
-  // Try to find the existing DayTask entry for the given clerkID and date
-  let dayTask = await DayTask.findOne({ clerkID, date });
+  // 2) Get today's start and end timestamps
+  const startOfDay = new Date().setHours(0, 0, 0, 0);
+  const endOfDay = new Date().setHours(23, 59, 59, 999);
+
+  // 3) Check if a DayTask already exists for today
+  let dayTask = await DayTask.findOne({
+    clerkID,
+    createdAt: { $gte: startOfDay, $lte: endOfDay },
+  });
 
   if (dayTask) {
-    // Update the existing day task entry with the new data
-    dayTask = await DayTask.findOneAndUpdate(
-      { clerkID, date },
+    // Update the existing DayTask
+    dayTask = await DayTask.findByIdAndUpdate(
+      dayTask._id,
       {
         $push: {
           expenses: expenses || [],
@@ -50,16 +55,15 @@ const createDayTask = catchAsync(async (req, res, next) => {
           todo: todo || [],
         },
         $set: {
-          journal: journal || dayTask.journal, // Update only if journal is provided
+          journal: journal || dayTask.journal, // Only update journal if provided
         },
       },
-      { new: true }
+      { new: true } // Return the updated document
     );
   } else {
-    // If the DayTask doesn't exist, create a new one
+    // Create a new DayTask
     dayTask = await DayTask.create({
       clerkID,
-      date,
       expenses: expenses || [],
       junkFood: junkFood || [],
       journal: journal || {},
@@ -67,12 +71,11 @@ const createDayTask = catchAsync(async (req, res, next) => {
     });
   }
 
-  // Send the response with the created/updated data
+  // 4) Send response
   res.status(201).json({
     status: "success",
-    data: {
-      dayTask,
-    },
+    message: "Day Task created successfully 🎉",
+    dayTask,
   });
 });
 
@@ -104,4 +107,28 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
-export { createDayTask, getDayTask, deleteDayTask };
+//! Get today's task 🥙
+const getTodayTask = catchAsync(async (req, res) => {
+  const clerkID = req.clerkID;
+
+  // Find today's task using createdAt
+  const todayTask = await DayTask.findOne({
+    clerkID,
+    createdAt: { $gte: new Date().setHours(0, 0, 0, 0) }, // Today at 00:00
+  });
+
+  if (!todayTask) {
+    return res.status(200).json({
+      status: "success",
+      message: "No Task Found for Today",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: "Today's Task Fetched Successfully 🎉",
+    data: todayTask,
+  });
+});
+
+export { createDayTask, getDayTask, deleteDayTask, getTodayTask };
