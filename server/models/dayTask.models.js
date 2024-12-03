@@ -4,51 +4,46 @@ import mongoose from "mongoose";
 const dayTaskSchema = new mongoose.Schema(
   {
     clerkID: {
-      // 1) Clerk ID
       type: String,
-      required: [true , "Clerk ID is Required"],
+      required: [true, "Clerk ID is required"],
       index: true,
     },
     date: {
-      // 2) Today Date
       type: Date,
       default: Date.now,
-      required: [true , "Date is Required"],
+      required: [true, "Date is required"],
       unique: true,
     },
-    tasks: {
-      // 3) Tasks
-      expenses: [
-        // 3.1) Expenses
-        {
-          title: String,
-          amount: { type: Number, min: 0 },
-        },
-      ],
-      junkFood: [
-        // 3.2) junkFood
-        {
-          foodName: String,
-          amount: { type: Number, min: 0 },
-        },
-      ],
-      journal: { text: String }, // 3.3) Journal
-      todo: [
-        // 3.4) Todo
-        {
-          task: String,
-          status: {
-            type: String,
-            enum: ["completed", "pending"],
-          },
-        },
-      ],
+    expenses: [
+      {
+        title: { type: String, required: true },
+        amount: { type: Number, min: 0, required: true },
+      },
+    ],
+    junkFood: [
+      {
+        foodName: { type: String, required: true },
+        amount: { type: Number, min: 0, required: true },
+      },
+    ],
+    journal: {
+      text: { type: String },
     },
-    insights: {  // 4) Insights
+    todo: [
+      {
+        task: { type: String, required: true },
+        status: {
+          type: String,
+          enum: ["completed", "pending"],
+          required: true,
+        },
+      },
+    ],
+    insights: {
       totalExpenses: { type: Number, default: 0 },
       junkFoodCount: { type: Number, default: 0 },
-      topExpenseCategory: String,
-      aiTips: String,
+      topExpenseCategory: { type: String, default: "" },
+      aiTips: { type: String },
     },
   },
   { timestamps: true }
