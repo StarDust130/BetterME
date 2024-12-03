@@ -27,7 +27,6 @@ const getDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
-
 //! Create 🐧
 const createDayTask = catchAsync(async (req, res, next) => {
   const { clerkID, date, expenses, junkFood, journal, todo } = req.body;
@@ -76,6 +75,5 @@ const createDayTask = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 
 export { createDayTask, getDayTask };
