@@ -3,6 +3,7 @@ import cors from "cors";
 import globalRoutes from "./routes/global.routes.js"; // 🌏 Global Routes
 import expensesRoutes from "./routes/expenss.routes.js"; // 💰 Expenses Routes
 import junkFoodRoutes from "./routes/junkFood.routes.js"; // 🍔 junkFood Routes
+import dayTaskRoutes from "./routes/dayTask.routes.js"; // 📅 DayTask Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
 import "dotenv/config";
@@ -24,6 +25,7 @@ app.use(
 app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 
 //! Routes 🎠
+app.use("/api/v1/dayTask", dayTaskRoutes); // 📅 DayTask Routes
 app.use("/api/v1/global", globalRoutes); // 🌏 Global Routes
 app.use("/api/v1/expenses", expensesRoutes); // 💰 Expenses Routes
 app.use("/api/v1/junkFood", junkFoodRoutes); // 🍔 junkFood Routes
