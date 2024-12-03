@@ -6,14 +6,14 @@ const dayTaskSchema = new mongoose.Schema(
     clerkID: {
       // 1) Clerk ID
       type: String,
-      required: true,
+      required: [true , "Clerk ID is Required"],
       index: true,
     },
     date: {
       // 2) Today Date
       type: Date,
       default: Date.now,
-      required: true,
+      required: [true , "Date is Required"],
       unique: true,
     },
     tasks: {
