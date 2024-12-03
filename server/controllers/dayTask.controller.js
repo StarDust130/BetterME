@@ -76,4 +76,35 @@ const createDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
-export { createDayTask, getDayTask };
+//! Delete 🚄
+const deleteDayTask = catchAsync(async (req, res, next) => {
+  // Extract data from query and params
+  const { clerkID } = req.query;
+  const { _id } = req.params;
+
+  // Validate inputs
+  if (!clerkID) {
+    return next(new AppError("Please provide Clerk ID", 400));
+  }
+
+  if (!_id) {
+    return next(new AppError("Please provide Task ID", 400));
+  }
+
+  // Attempt to delete the task
+  const deletedTask = await DayTask.findOneAndDelete({ _id, clerkID });
+
+  if (!deletedTask) {
+    return next(new AppError("No matching task found", 404));
+  }
+
+  // Send success response
+  res.status(200).json({
+    status: "success",
+    message: "Day Task deleted successfully 🎉",
+  });
+});
+
+
+
+export { createDayTask, getDayTask, deleteDayTask };
