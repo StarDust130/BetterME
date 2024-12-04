@@ -9,7 +9,6 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 
 ---
 
-
 ## 🛠️ **Tech Stack**  
 
 ### 🌐 Frontend  
