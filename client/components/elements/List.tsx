@@ -36,8 +36,6 @@ const List = () => {
           `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
         );
 
-        console.log("Today's data:", response?.data);
-
         // Transform data
         const transformedData: DataType[] = [
           ...response.data.expenses.map((expense: any) => ({
