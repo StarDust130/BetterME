@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-
- // GitHubCard component for clean and reusable design
 export const GitHubCard: React.FC<{
   icon: React.ReactNode;
   title: React.ReactNode;
