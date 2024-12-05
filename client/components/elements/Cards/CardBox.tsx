@@ -1,73 +1,70 @@
-import { BadgeIndianRupee, Pizza, Smile, MoreHorizontal } from "lucide-react";
+import {
+  BadgeIndianRupee,
+  Pizza,
+  MoreHorizontal,
+  Plus,
+  CheckCircle,
+} from "lucide-react";
 import { DataType } from "../List";
 
 const CardBox = ({ data }: { data: DataType }) => {
   const isExpense = data.type === "expense";
 
   return (
-    <div className="relative w-full max-w-sm bg-gradient-to-br from-gray-50 to-white border rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300 p-6">
-      {/* 3-Dot Menu */}
-      <div className="absolute top-4 right-4 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
-        <MoreHorizontal className="w-6 h-6 text-gray-500" />
-      </div>
-
-      {/* Icon and Title */}
-      <div className="flex flex-col items-center text-center gap-4">
+    <div className="relative w-full max-w-sm bg-white rounded-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-transform duration-300 overflow-hidden">
+      {/* Header Section */}
+      <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-br from-gray-100 to-gray-50 border-b">
         <div
-          className={`flex items-center justify-center w-16 h-16 rounded-full shadow-md ${
-            isExpense
-              ? "bg-gradient-to-tr from-red-400 to-red-600"
-              : "bg-gradient-to-tr from-blue-400 to-blue-600"
+          className={`flex items-center justify-center w-12 h-12 rounded-full shadow-md ${
+            isExpense ? "bg-red-500" : "bg-blue-500"
           }`}
         >
           {isExpense ? (
-            <BadgeIndianRupee className="text-white w-8 h-8" />
+            <BadgeIndianRupee className="text-white w-6 h-6" />
           ) : (
-            <Pizza className="text-white w-8 h-8" />
+            <Pizza className="text-white w-6 h-6" />
           )}
         </div>
-        <h3 className="text-xl font-semibold text-gray-800">
-          {isExpense ? data.title : data.foodName}
-        </h3>
+        <MoreHorizontal className="w-6 h-6 text-gray-500 cursor-pointer" />
       </div>
 
-      {/* Content Section */}
-      <div className="mt-6 space-y-4">
-        {isExpense ? (
-          <div className="text-center">
+      {/* Main Content */}
+      <div className="px-6 py-4 space-y-4">
+        {/* Title */}
+        <h3 className="text-lg font-semibold text-gray-800">
+          {isExpense ? "Expense" : "Meal"}
+        </h3>
+
+        {/* Primary Info */}
+        <div className="flex justify-between items-center">
+          <div>
             <p className="text-sm text-gray-500">Amount</p>
-            <p className="text-2xl font-bold text-gray-800">
+            <p className="text-2xl font-bold text-gray-900">
               ₹{data.amount?.toFixed(2) ?? "0.00"}
             </p>
           </div>
-        ) : (
-          <div
-            className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
-              data.foodName ? "bg-red-100" : "bg-green-100"
-            }`}
-          >
-            <div
-              className={`flex items-center justify-center w-12 h-12 rounded-full ${
-                data.foodName ? "bg-red-500" : "bg-green-500"
-              }`}
-            >
-              {data.foodName ? (
-                <Pizza className="text-white w-6 h-6" />
-              ) : (
-                <Smile className="text-white w-6 h-6" />
-              )}
-            </div>
+          <div className="flex items-center gap-2">
+            {data.foodName ? (
+              <CheckCircle className="text-green-500 w-6 h-6" />
+            ) : (
+              <Plus className="text-red-500 w-6 h-6" />
+            )}
             <p
               className={`text-sm font-medium ${
-                data.foodName ? "text-red-700" : "text-green-700"
+                data.foodName ? "text-green-600" : "text-red-600"
               }`}
             >
-              {data.foodName
-                ? "Oops! Junk food today! 🍔"
-                : "Awesome! No junk food today! 🥗"}
+              {data.foodName ? "Healthy choice!" : "Try something new"}
             </p>
           </div>
-        )}
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div className="bg-gray-50 border-t px-6 py-4">
+        <button className="w-full py-2 bg-indigo-500 text-white rounded-md font-medium hover:bg-indigo-600 transition">
+          View Details
+        </button>
       </div>
     </div>
   );
