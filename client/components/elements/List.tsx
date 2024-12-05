@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -24,26 +25,53 @@ const List = () => {
   const [data, setData] = useState<DataType[]>([]); // Data will hold both expenses and junk food
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchTodayExpenses = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/global/todayActivity`,
-          { params: { clerkID: await getClerkUserID() } }
-        );
-
-        // Assuming the fetched data contains both expenses and junk food with a 'type' field.
-        setData(data.data || []); // Set data with 'type' field
-      } catch (error) {
-        console.error("Error fetching today's data:", error);
-        setData([]); // Handle error gracefully
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchTodayExpenses = async () => {
+    setLoading(true); // Set loading to true
+    try {
+      const clerkID = await getClerkUserID(); // Get Clerk ID
+      if (!clerkID) {
+        console.error("Clerk ID not found.");
+        setData([]); // Handle case when no Clerk ID
+        return;
       }
-    };
 
-    fetchTodayExpenses();
-  }, []);
+      // Fetch data from the backend
+      const { data: response } = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
+      );
+
+      console.log("Today's data:", response?.data);
+
+      // Transform data
+      const transformedData: DataType[] = [
+        ...response.data.expenses.map((expense: any) => ({
+          _id: expense._id,
+          title: expense.title,
+          amount: expense.amount,
+          type: "expense",
+        })),
+        ...response.data.junkFood.map((food: any) => ({
+          _id: food._id,
+          foodName: food.foodName,
+          amount: food.amount,
+          type: "junkFood",
+        })),
+      ];
+
+      setData(transformedData); // Safely set the data
+    } catch (error) {
+      console.error("Error fetching today's data:", error);
+      setData([]); // Handle error gracefully
+    } finally {
+      setLoading(false); // Set loading to false
+    }
+  };
+
+  fetchTodayExpenses();
+}, []);
+
+
 
   if (loading)
     return (
