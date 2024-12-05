@@ -1,62 +1,57 @@
-import { BadgeIndianRupee, Pizza, Smile } from "lucide-react";
+import { BadgeIndianRupee, Pizza, Smile, MoreHorizontal } from "lucide-react";
 import { DataType } from "../List";
-import More from "../More";
 
 const CardBox = ({ data }: { data: DataType }) => {
   const isExpense = data.type === "expense";
 
   return (
-    <div className="relative w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 p-6">
+    <div className="relative w-full max-w-sm bg-gradient-to-br from-gray-50 to-white border rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300 p-6">
       {/* 3-Dot Menu */}
-      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-        <More />
+      <div className="absolute top-4 right-4 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+        <MoreHorizontal className="w-6 h-6 text-gray-500" />
       </div>
 
       {/* Icon and Title */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col items-center text-center gap-4">
         <div
-          className={`flex items-center justify-center w-14 h-14 rounded-full shadow-md ${
-            isExpense ? "bg-green-500" : "bg-orange-500"
+          className={`flex items-center justify-center w-16 h-16 rounded-full shadow-md ${
+            isExpense
+              ? "bg-gradient-to-tr from-red-400 to-red-600"
+              : "bg-gradient-to-tr from-blue-400 to-blue-600"
           }`}
         >
           {isExpense ? (
-            <BadgeIndianRupee className="text-white w-7 h-7" />
+            <BadgeIndianRupee className="text-white w-8 h-8" />
           ) : (
-            <Pizza className="text-white w-7 h-7" />
+            <Pizza className="text-white w-8 h-8" />
           )}
         </div>
-        <h3 className="text-lg font-semibold text-gray-800">
+        <h3 className="text-xl font-semibold text-gray-800">
           {isExpense ? data.title : data.foodName}
         </h3>
       </div>
 
       {/* Content Section */}
-      <div className="mt-4">
+      <div className="mt-6 space-y-4">
         {isExpense ? (
-          <>
-            <div className="flex justify-between items-center mb-3">
-              <p className="text-sm text-gray-500">Amount</p>
-              <p className="text-xl font-bold text-gray-800">
-                ₹{data.amount?.toFixed(2) ?? "0.00"}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="text-sm text-gray-500">Category:</p>
-              <p className="text-sm text-gray-800">{data.category || "N/A"}</p>
-            </div>
-          </>
+          <div className="text-center">
+            <p className="text-sm text-gray-500">Amount</p>
+            <p className="text-2xl font-bold text-gray-800">
+              ₹{data.amount?.toFixed(2) ?? "0.00"}
+            </p>
+          </div>
         ) : (
           <div
-            className={`mt-4 flex items-center gap-3 p-4 rounded-lg ${
-              data.isEatenToday ? "bg-red-50" : "bg-green-50"
+            className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
+              data.foodName ? "bg-red-100" : "bg-green-100"
             }`}
           >
             <div
-              className={`p-2 rounded-full ${
-                data.isEatenToday ? "bg-red-500" : "bg-green-500"
+              className={`flex items-center justify-center w-12 h-12 rounded-full ${
+                data.foodName ? "bg-red-500" : "bg-green-500"
               }`}
             >
-              {data.isEatenToday ? (
+              {data.foodName ? (
                 <Pizza className="text-white w-6 h-6" />
               ) : (
                 <Smile className="text-white w-6 h-6" />
@@ -64,12 +59,12 @@ const CardBox = ({ data }: { data: DataType }) => {
             </div>
             <p
               className={`text-sm font-medium ${
-                data.isEatenToday ? "text-red-600" : "text-green-600"
+                data.foodName ? "text-red-700" : "text-green-700"
               }`}
             >
-              {data.isEatenToday
-                ? "Junk food consumed today! 🍔"
-                : "Great! No junk food today! 🥗"}
+              {data.foodName
+                ? "Oops! Junk food today! 🍔"
+                : "Awesome! No junk food today! 🥗"}
             </p>
           </div>
         )}
