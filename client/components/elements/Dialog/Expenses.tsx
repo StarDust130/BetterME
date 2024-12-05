@@ -16,13 +16,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useRef } from "react";
 import { DialogClose } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 
@@ -36,34 +29,38 @@ const Expenses = () => {
     defaultValues: {
       title: "",
       amount: 0,
-      category: undefined,
     },
   });
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof expensesSchema>) {
     try {
-      const { title, amount, category } = values;
+      const { title, amount } = values;
       const clerkID = await getClerkUserID();
 
-       closeDialogRef.current?.click();
-       form.reset();
+      closeDialogRef.current?.click();
+      form.reset();
+
+      console.log(clerkID);
 
       // Make the API request
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/expenses`,
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}`,
         {
           clerkID,
-          title,
-          amount,
-          category,
-          date: new Date().toISOString(),
+          expenses: [
+            {
+              title,
+              amount,
+            },
+          ],
         },
         {
           withCredentials: true, // Include cookies for authentication
         }
       );
-     
+
+      console.log("Data:", data);
 
       toast({
         title: "Expense Recorded! 💸",
@@ -152,43 +149,6 @@ const Expenses = () => {
                           }
                         />
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Category Feild */}
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="space-y-5 text-start">
-                      <FormLabel className="text-sm font-medium">
-                        Select Category
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-full px-3 py-2 border rounded-lg flex items-center justify-between focus:ring-2">
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                        <SelectContent {...field}>
-                          <SelectItem value="food">Food</SelectItem>
-                          <SelectItem value="self-improvement">
-                            Self-Improvement
-                          </SelectItem>
-                          <SelectItem value="entertainment">
-                            Entertainment
-                          </SelectItem>
-                          <SelectItem value="girlfriend">Girlfriend</SelectItem>
-                          <SelectItem value="essential">Essential</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

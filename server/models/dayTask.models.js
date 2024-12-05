@@ -39,6 +39,11 @@ const dayTaskSchema = new mongoose.Schema(
       topExpenseCategory: { type: String, default: "" },
       aiTips: { type: String },
     },
+    date: {
+      type: Date,
+      required: true, // Ensure date is provided
+      index: true, // Make sure it's indexed
+    },
   },
   { timestamps: true }
 );

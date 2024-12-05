@@ -2,6 +2,7 @@ import { AppError } from "../lib/AppError.js";
 
 const validateClerkID = (req, res, next) => {
   const { clerkID } = req.query;
+  console.log("clerkID from backend", clerkID);
 
   if (!clerkID) {
     return next(new AppError("Please provide Clerk ID", 400));
@@ -19,4 +20,3 @@ const validateClerkID = (req, res, next) => {
 };
 
 export default validateClerkID;
-

@@ -14,13 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DialogClose } from "@/components/ui/dialog";
 import { useRef } from "react";
 import axios from "axios";
@@ -35,34 +28,29 @@ const JunkFood = () => {
     resolver: zodResolver(junkFoodSchema),
     defaultValues: {
       foodName: "",
-      isEatenToday: undefined,
+      amount: 0, // Added amount field here
     },
   });
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof junkFoodSchema>) {
-    const isEatenMessage =
-      values.isEatenToday === "yes"
-        ? `${
-            values.foodName || "Your treat"
-          } is now on the list. Indulge wisely! 🍔`
-        : "Good choice! Keep it healthy! 🍏";
-
     try {
-      const { foodName, isEatenToday } = values;
+      const { foodName, amount } = values;
       const clerkID = await getClerkUserID();
-      const isEatenTodayBoolean = isEatenToday.toLowerCase() === "yes";
 
       closeDialogRef.current?.click();
       form.reset();
 
       await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/junkFood`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}`,
         {
           clerkID,
-          foodName,
-          isEatenToday: isEatenTodayBoolean, // Pass boolean here
-          date: new Date().toISOString(),
+          junkFood: [
+            {
+              foodName,
+              amount,
+            },
+          ],
         },
         {
           withCredentials: true, // Include cookies for authentication
@@ -71,7 +59,7 @@ const JunkFood = () => {
 
       toast({
         title: "JunkFood Recorded 🍔",
-        description: isEatenMessage,
+        description: `${foodName} has been added to your list.`,
       });
     } catch (error: any) {
       console.error("Error:", error);
@@ -99,62 +87,66 @@ const JunkFood = () => {
           </p>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              {/* isEatenToday Field */}
+              {/* foodName Field */}
               <FormField
                 control={form.control}
-                name="isEatenToday"
+                name="foodName"
                 render={({ field }) => (
                   <FormItem>
                     <div className="space-y-5 text-start">
                       <FormLabel className="text-sm font-medium">
-                        Have you eaten junk food today?{" "}
+                        What did you eat?{" "}
                         <span className="text-red-500">*</span>
                       </FormLabel>
                     </div>
+
                     <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-full px-3 py-2 border rounded-lg flex items-center justify-between focus:ring-2 ">
-                          <SelectValue placeholder="Yes or No" />
-                        </SelectTrigger>
-                        <SelectContent {...field}>
-                          <SelectItem value="yes">Yes</SelectItem>
-                          <SelectItem value="no">No</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Input
+                        placeholder="e.g. Momos 🥟"
+                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              {/* foodName Field */}
-              {form.watch("isEatenToday") === "yes" && (
-                <FormField
-                  control={form.control}
-                  name="foodName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="space-y-5 text-start">
-                        <FormLabel className="text-sm font-medium">
-                          What did you eat?{" "}
-                          <span className="text-red-500">*</span>
-                        </FormLabel>
-                      </div>
 
-                      <FormControl>
+              {/* Amount Field */}
+              <FormField
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="space-y-5 text-start">
+                      <FormLabel className="text-sm font-medium">
+                        How much did you spend today?{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                    </div>
+                    <FormControl>
+                      <div className="relative">
+                        <span className="absolute font-semibold left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                          ₹
+                        </span>
                         <Input
-                          placeholder="e.g. Momos 🥟"
-                          className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
+                          type="number"
+                          placeholder="500"
+                          className="border rounded-md pl-7 pr-3 py-2 focus:ring-2 focus:ring-gray-500"
                           {...field}
+                          value={field.value || ""} // Ensure value is never null
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === "" ? "" : +e.target.value
+                            )
+                          }
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               {/* Submit Button */}
               <Button

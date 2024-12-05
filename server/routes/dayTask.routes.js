@@ -12,9 +12,10 @@ const router = Express.Router();
 router
   .route("/")
   .get(validateClerkID, getDayTask) //? Get all tasks
-  .post(validateClerkID, createDayTask) //? Create a new task
+  .post( createDayTask) //? Create a new task
   .delete(validateClerkID, deleteDayTask); //? Delete a task
 
-router.get("/today", validateClerkID, getTodayTask);
+router.get("/today", getTodayTask);
 
 export default router;
+
