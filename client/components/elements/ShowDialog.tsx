@@ -32,12 +32,10 @@ const ShowDialog = ({ title }: { title: string }) => {
           <div className="text-sm text-muted-foreground mx-2 my-2">
             {title === "Expenses" && <Expenses />}
             {title === "Junk Food" && <JunkFood />}
-            {title !== "Expenses" && title !== "Junk Food" && (
-              <span className="text-2xl md:text-4xl animate-pulse flex justify-center items-center">
-                Coming Soon 😉
-              </span>
-            )}
-            {/* Add other conditions for different card types as needed */}
+            {title === "Journal" && <JunkFood />}
+            {title === "Task" && <JunkFood />}
+            {title === "Habits" && <JunkFood />}
+            {title === "Exercise" && <JunkFood />}
           </div>
         </DialogHeader>
       </DialogContent>
