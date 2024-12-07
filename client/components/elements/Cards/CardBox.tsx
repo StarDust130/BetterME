@@ -31,14 +31,18 @@ const CardBox = ({ data }: { data: DataType }) => {
       {/* Main Content */}
       <div className="px-6 py-4 space-y-4">
         {/* Title */}
-        <h3 className="text-lg font-semibold text-gray-800">
-          {isExpense ? "Expense" : "Meal"}
-        </h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-gray-800">
+            {isExpense ? data.title : data.foodName}
+          </h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {isExpense ? "Expense" : "Meal"}
+          </h3>
+        </div>
 
         {/* Primary Info */}
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-sm text-gray-500">Amount</p>
             <p className="text-2xl font-bold text-gray-900">
               ₹{data.amount?.toFixed(2) ?? "0.00"}
             </p>
