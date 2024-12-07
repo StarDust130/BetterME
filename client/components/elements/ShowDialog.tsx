@@ -48,19 +48,14 @@ const ShowDialog = ({ title }: { title: string }) => {
         <DrawerTrigger className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
           Add {title}
         </DrawerTrigger>
-        <DrawerContent className="w-full max-w-[100vw] h-[80%]">
-          <DrawerHeader className="w-full min-h-full">
+        <DrawerContent className="w-full max-w-[100vw] h-[60%] md:h-auto flex flex-col">
+          <DrawerHeader className="w-full flex-none">
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-            <Journal />
           </DrawerHeader>
-          {/* <DrawerFooter>
-            <Button type="button">Submit</Button>
-            <DrawerClose>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DrawerClose>
-          </DrawerFooter> */}
+
+          <div className="flex-grow overflow-auto">
+            <Journal />
+          </div>
         </DrawerContent>
       </Drawer>
     );

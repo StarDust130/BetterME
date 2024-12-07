@@ -19,7 +19,7 @@ export default function GlobalError({
         {" "}
         Oops! Something went wrong. 🛠️
       </h1>
-      <p className="text-gray-500  text-center">{error?.message}😿</p>
+      <p className="text-gray-500  text-center mx-3">{error?.message}😿</p>
       <div className="main_wrapper">
         <div className="main">
           <div className="antenna">
