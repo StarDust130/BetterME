@@ -10,7 +10,7 @@ import {
 import Expenses from "./Dialog/Expenses";
 import JunkFood from "./Dialog/JunkFood";
 import Journal from "./Dialog/Journal";
-import Task from "./Dialog/Todo";
+import Todo from "./Dialog/Todo";
 import Habits from "./Dialog/Habits";
 
 export interface ExpnessProps {
@@ -37,7 +37,7 @@ const ShowDialog = ({ title }: { title: string }) => {
               {title === "Expenses" && <Expenses />}
               {title === "Junk Food" && <JunkFood />}
               {title === "Journal" && <Journal />}
-              {title === "Task" && <Task />}
+              {title === "Todo" && <Todo />}
               {title === "Habits" && <Habits />}
             </div>
           </DialogHeader>
