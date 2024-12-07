@@ -48,9 +48,11 @@ const ShowDialog = ({ title }: { title: string }) => {
         <DrawerTrigger className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
           Add {title}
         </DrawerTrigger>
-        <DrawerContent className=" w-full max-w-[100vw] h-[60%] md:h-auto  flex flex-col">
-          <DrawerHeader className="w-full flex-none">
-            <DrawerTitle>Are Today Journal! 📔</DrawerTitle>
+        <DrawerContent className=" w-full max-w-[100vw]  h-auto  flex flex-col">
+          <DrawerHeader className="w-full  flex-none">
+            <DrawerTitle className="w-full  text-center text-xl md:text-2xl">
+              ADD Today Journal! 📔
+            </DrawerTitle>
           </DrawerHeader>
 
           <Journal />

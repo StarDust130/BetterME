@@ -15,9 +15,9 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useRef } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
-import  MDEditor  from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
 import { journalSchema } from "@/lib/zodSchema";
-
+import { DrawerClose } from "@/components/ui/drawer";
 
 const Journal = () => {
   const { toast } = useToast();
@@ -43,11 +43,11 @@ const Journal = () => {
           text: values.text, // Get the text value from the form
         },
       };
+
       // API call
       await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}`, payload, {
         withCredentials: true,
       });
-
 
       toast({
         title: "Journal Added! 📓",
@@ -83,11 +83,11 @@ const Journal = () => {
                 </FormLabel>
                 <FormControl>
                   <div
-                    className="rounded border p-2 bg-white"
+                    className="rounded-2xl p-1   min-h-[180px]"
                     data-color-mode="auto"
                   >
                     <MDEditor
-                      className="w-full"
+                      className="w-full min-h-[300px] sm:min-h-[400px]"
                       value={field.value}
                       onChange={(val) => field.onChange(val || "")}
                     />
@@ -98,22 +98,27 @@ const Journal = () => {
             )}
           />
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row justify-end gap-4">
-            <Button type="submit" className="w-full sm:w-auto">
-              Save
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full sm:w-auto"
-              onClick={() => form.reset()}
-            >
-              Clear
-            </Button>
-          </div>
+                {/* Buttons */}
+              <div className="flex justify-end gap-2 mt-4">
+        <Button
+          type="submit"
+          className="px-4 py-2 text-sm sm:text-base"
+        >
+          Save
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          className="px-4 py-2 text-sm sm:text-base"
+          onClick={() => form.reset({ text: "" })}
+        >
+          Clear
+        </Button>
+      </div>
         </form>
       </Form>
+      {/* Add DialogClose button here, outside of the form */}
+      <DrawerClose ref={closeDialogRef} />
     </div>
   );
 };
