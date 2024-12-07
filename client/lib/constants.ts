@@ -3,8 +3,8 @@ import {
   Pizza,
   BookOpen,
   CheckCircle,
-  Dumbbell,
   Repeat,
+  TimerReset,
 } from "lucide-react";
 
 export const cardData = [
@@ -50,13 +50,9 @@ export const cardData = [
   },
   {
     id: "unique-id-6",
-    title: "Exercise",
-    icon: Dumbbell,
-    color: "from-green-400 to-green-500", // Green gradient to represent health and exercise
-    example: "e.g. 15 push-ups, 20 squats",
-    desc: "Stay fit, stay unstoppable.",
+    title: "Coming Soon",
+    icon: TimerReset,
+    color: "from-blue-500 to-teal-400",
+    desc: "We Add more soon.😎",
   },
 ];
-
-
-
