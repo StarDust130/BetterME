@@ -17,7 +17,7 @@ const Page = () => {
       </p>
 
       {/* Cards Container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-3xl">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-3xl md:max-w-5xl">
         {cardData.map((card) => (
           <Card data={card} key={card.id} />
         ))}         
