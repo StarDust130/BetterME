@@ -7,8 +7,8 @@ const Journal = () => {
   return (
     <>
       {" "}
-      <div className=" mx-auto h-full" data-color-mode="auto">
-        <MDEditor value={value} onChange={(val) => setValue(val || "")}  />
+      <div className=" mx-auto w-full" data-color-mode="auto">
+        <MDEditor className=" w-full" value={value} onChange={(val) => setValue(val || "")}  />
       </div>
 
       <div className="flex w-full justify-end my-0  md:my-10 gap-3 px-3">
