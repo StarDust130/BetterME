@@ -82,8 +82,8 @@ const JunkFood = () => {
       <div className=" flex items-center justify-center px-4">
         <div className="w-full max-w-md space-y-6">
           <p className="text-center text-xs md:text-sm text-gray-600">
-            Treat yourself! Log your favorite junk food items and keep track of
-            your cravings. 🍔
+            Junk food harms health and energy. Choose better for a happier you!
+            🥲🍔🚫
           </p>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
