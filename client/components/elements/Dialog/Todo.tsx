@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { todoSchema } from "@/lib/zodSchema";
@@ -27,7 +28,7 @@ import {
 } from "@/components/ui/select";
 
 const Todo = () => {
-  // const { toast } = useToast();
+  const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
   //! 1. Define your form.
@@ -41,7 +42,54 @@ const Todo = () => {
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof todoSchema>) {
-    console.log(values);
+    try {
+      const { task, description, priority } = values;
+      const clerkID = await getClerkUserID();
+
+      closeDialogRef.current?.click();
+      form.reset();
+
+      console.log(clerkID);
+
+      // Make the API request
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+        {
+          clerkID,
+          todo: [
+            {
+              task,
+              description,
+              priority,
+            },
+          ],
+        },
+        {
+          withCredentials: true, // Include cookies for authentication
+        }
+      );
+
+      console.log("Data:", data);
+
+      toast({
+        title: "Task Recorded! 📝",
+        description: `Task "${values.task}" has been added successfully.`,
+      });
+    } catch (error: any) {
+      console.error("Error:", error);
+
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          "An error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      closeDialogRef.current?.click();
+      form.reset();
+    }
   }
 
   return (
