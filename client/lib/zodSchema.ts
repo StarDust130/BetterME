@@ -22,5 +22,17 @@ export const junkFoodSchema = z.object({
     .number({ message: "Amount is Required 😅" })
     .int()
     .positive()
-    .nullable(),
+    .nullable()
+    .optional(),
+});
+
+export const todoSchema = z.object({
+  task: z
+    .string()
+    .min(2, { message: "Task Name must be at least 2 characters." })
+    .max(50),
+  description: z
+    .string()
+    .optional(),
+  priority: z.enum(["low", "medium", "high"]).optional(),
 });
