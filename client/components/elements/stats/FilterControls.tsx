@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "../DatePicker";
+import { DatePicker } from "./DatePicker";
 import ColumnToggleDropdown from "./ColumnToggleDropdown";
 import { Stats } from "./StatsPage";
 import { Table } from "@tanstack/react-table";
