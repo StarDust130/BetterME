@@ -21,7 +21,7 @@ const dayTaskSchema = new mongoose.Schema(
       },
     ],
     journal: {
-      text: { type: String },
+      text: { type: String, min: 2, required: true },
     },
     todo: [
       {
