@@ -4,7 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+ transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 @layer base {
@@ -1437,4 +1437,9 @@ body {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+/* Tailwind CSS transition */
+.transition-all {
+  transition: all 0.3s ease-in-out; /* Customize this duration */
 }
