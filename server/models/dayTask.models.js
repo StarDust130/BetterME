@@ -29,7 +29,15 @@ const dayTaskSchema = new mongoose.Schema(
         status: {
           type: String,
           enum: ["completed", "pending"],
-          required: true,
+          default: "pending",
+        },
+        description: {
+          type: String,
+        },
+        priroty: {
+          type: String,
+          enum: ["high", "medium", "low"],
+          default: "low",
         },
       },
     ],
