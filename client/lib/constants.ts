@@ -18,7 +18,7 @@ export const cardData = [
   },
   {
     id: "unique-id-4",
-    title: "Task",
+    title: "Todo",
     icon: CheckCircle,
     color: "from-teal-500 to-teal-600", // Cool teal gradient for tasks
     example: "e.g. Read 2 pages... maybe 3",
@@ -36,7 +36,7 @@ export const cardData = [
     id: "unique-id-2",
     title: "Junk Food",
     icon: Pizza,
-    color: "from-yellow-400 to-yellow-500", // Bright yellow gradient for junk food
+    color: "from-yellow-700 to-yellow-600", // Bright yellow gradient for junk food
     example: "e.g. Pizza... again",
     desc: "For those tasty, guilty moments.",
   },
