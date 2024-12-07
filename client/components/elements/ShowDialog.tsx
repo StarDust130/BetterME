@@ -35,7 +35,6 @@ const ShowDialog = ({ title }: { title: string }) => {
             {title === "Journal" && <JunkFood />}
             {title === "Task" && <JunkFood />}
             {title === "Habits" && <JunkFood />}
-            {title === "Exercise" && <JunkFood />}
           </div>
         </DialogHeader>
       </DialogContent>
