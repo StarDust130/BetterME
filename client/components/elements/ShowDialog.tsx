@@ -9,7 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -21,6 +23,7 @@ import Journal from "./Dialog/Journal";
 import Todo from "./Dialog/Todo";
 import Habits from "./Dialog/Habits";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 export interface ExpnessProps {
   title: string;
@@ -45,12 +48,17 @@ const ShowDialog = ({ title }: { title: string }) => {
         <DrawerTrigger className="mt-4 px-4 py-2 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-200 transition">
           Add {title}
         </DrawerTrigger>
-        <DrawerContent className="w-full max-w-[100vw] h-[60%] md:h-auto  flex flex-col">
+        <DrawerContent className=" w-full max-w-[100vw] h-[60%] md:h-auto  flex flex-col">
           <DrawerHeader className="w-full flex-none">
-            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+            <DrawerTitle>Are Today Journal! 📔</DrawerTitle>
           </DrawerHeader>
 
           <Journal />
+          <DrawerFooter>
+            <DrawerClose>
+              <X className="absolute right-3 top-3 text-red-500  h-6 w-6" />
+            </DrawerClose>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
