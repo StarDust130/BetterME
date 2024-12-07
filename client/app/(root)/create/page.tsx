@@ -24,7 +24,7 @@ const Page = () => {
       </div>
 
       {/* Footer */}
-      <div className="my-8 md:my-40 text-center">
+      <div className="my-8 md:mt-10 text-center">
         <p className="text-gray-400 text-sm">
           Start building your productive habits today! 🚀
         </p>

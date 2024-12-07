@@ -10,7 +10,7 @@ import {
 import Expenses from "./Dialog/Expenses";
 import JunkFood from "./Dialog/JunkFood";
 import Journal from "./Dialog/Journal";
-import Task from "./Dialog/Task";
+import Task from "./Dialog/Todo";
 import Habits from "./Dialog/Habits";
 
 export interface ExpnessProps {
