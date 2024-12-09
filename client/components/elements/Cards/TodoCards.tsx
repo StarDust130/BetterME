@@ -1,6 +1,6 @@
 const TodoCards = () => {
   return (
-    <div className="shadow-lg rounded-2xl flex justify-start">
+    <div className=" rounded-2xl text-xl flex justify-start items-start text-start">
       <div id="checklist">
         <input value="1" name="r" type="checkbox" id="01" />
         <label htmlFor="01">Bread</label>
