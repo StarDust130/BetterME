@@ -86,15 +86,26 @@ const List = () => {
           <div className="w-full flex flex-col gap-3">
             <Separator />
 
-            {/* Today Todo  */}
-            <div className="flex justify-center items-center text-2xl gap-2   md:justify-between md:items-start w-full">
-              <div className="flex-col justify-center items-center">
-                <h1 className="flex-grow text-center text-sm ml-6 md:text-xl  font-normal">
-                  Today Todo
+            <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-4 md:gap-8 p-4">
+              {/* Today Todo */}
+              <div className="flex flex-col items-center w-full md:w-auto text-center   rounded-lg p-4">
+                <h1 className="text-lg font-semibold mb-2  md:text-xl">
+                  Today’s Todo
+                </h1>
+                <TodoCards />
+              </div>
+
+              <Separator className="w-full h-px  md:hidden my-2" />
+
+              {/* Today Habits */}
+              <div className="flex flex-col items-center w-full md:w-auto text-center   rounded-lg p-4">
+                <h1 className="text-lg font-semibold  md:text-xl mb-2">
+                  Today’s Habits
                 </h1>
                 <TodoCards />
               </div>
             </div>
+
             <Separator />
 
             {/* Today Activity */}
