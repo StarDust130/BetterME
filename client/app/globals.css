@@ -1450,7 +1450,7 @@ body {
 #checklist {
   --background: #fff;
   --text: #414856;
-  --check: #4f29f0;
+ --check: #1e90ff; 
   --disabled: #c3c8de;
   --width: auto;
   --height: auto;
@@ -1464,8 +1464,8 @@ body {
   padding: 30px 85px;
   display: grid;
   grid-template-columns: 30px auto;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
+  justify-content: center;
 }
 
 #checklist label {
@@ -1640,7 +1640,7 @@ body {
 @keyframes firework {
   0% {
     opacity: 1;
-    box-shadow: 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0;
+    box-shadow: 0 0 0 -2px #1e90ff, 0 0 0 -2px #1e90ff, 0 0 0 -2px #1e90ff, 0 0 0 -2px #1e90ff, 0 0 0 -2px #1e90ff, 0 0 0 -2px #1e90ff;
   }
 
   30% {
@@ -1649,6 +1649,6 @@ body {
 
   100% {
     opacity: 0;
-    box-shadow: 0 -15px 0 0px #4f29f0, 14px -8px 0 0px #4f29f0, 14px 8px 0 0px #4f29f0, 0 15px 0 0px #4f29f0, -14px 8px 0 0px #4f29f0, -14px -8px 0 0px #4f29f0;
+    box-shadow: 0 -15px 0 0px #1e90ff, 14px -8px 0 0px #1e90ff, 14px 8px 0 0px #1e90ff, 0 15px 0 0px #1e90ff, -14px 8px 0 0px #1e90ff, -14px -8px 0 0px #1e90ff;
   }
 }
