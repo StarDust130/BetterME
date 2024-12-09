@@ -11,6 +11,7 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Share } from "lucide-react";
 import TodoCards from "./Cards/TodoCards";
+import HabitsCards from "./Cards/HabitsCards";
 
 export interface DataType {
   _id: string;
@@ -86,7 +87,7 @@ const List = () => {
           <div className="w-full flex flex-col gap-3">
             <Separator />
 
-            <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-4 md:gap-8 p-4">
+            <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-2 md:gap-8 p-4">
               {/* Today Todo */}
               <div className="flex flex-col items-center w-full md:w-auto text-center   rounded-lg p-4">
                 <h1 className="text-lg font-semibold mb-2  md:text-xl">
@@ -102,7 +103,7 @@ const List = () => {
                 <h1 className="text-lg font-semibold  md:text-xl mb-2">
                   Today’s Habits
                 </h1>
-                <TodoCards />
+                <HabitsCards />
               </div>
             </div>
 
