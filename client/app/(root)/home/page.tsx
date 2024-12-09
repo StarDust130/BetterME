@@ -41,7 +41,9 @@ const Page = async () => {
           <TabsTrigger value="github">Github</TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="mx-auto w-full">
+          {/* Mini List */}
           <MiniList />
+          {/* Today Activity */}
           <List />
         </TabsContent>
         <TabsContent value="github">

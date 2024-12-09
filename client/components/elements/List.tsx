@@ -10,6 +10,7 @@ import CardSkeleton from "./Cards/CardSkeleton";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Share } from "lucide-react";
+import TodoCards from "./Cards/TodoCards";
 
 export interface DataType {
   _id: string;
@@ -35,6 +36,8 @@ const List = () => {
         const { data: response } = await axios.get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
         );
+
+        console.log("Today's data:", response);
 
         // Transform data
         const transformedData: DataType[] = [
@@ -80,8 +83,22 @@ const List = () => {
             <NoDataFound />
           </div>
         ) : (
-          <div className="w-full ">
+          <div className="w-full flex flex-col gap-3">
             <Separator />
+
+            {/* Today Todo  */}
+            <div className="flex justify-center items-center text-2xl gap-2   md:justify-between md:items-start w-full">
+              <div className="flex-col justify-center items-center">
+                <h1 className="flex-grow text-center text-sm ml-6 md:text-xl  font-normal">
+                  Today Todo
+                </h1>
+                <TodoCards />
+              </div>
+            </div>
+            <Separator />
+
+            {/* Today Activity */}
+
             <div className="flex justify-between items-center w-full  py-4  rounded-lg">
               <h1 className="flex-grow text-center text-xl ml-6 md:text-2xl  font-semibold">
                 Today’s Activity
@@ -95,6 +112,7 @@ const List = () => {
               </Button>
             </div>
 
+            {/* Card Box of Today Activity  */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
               {data.map((item) => (
                 <CardBox data={item} key={item._id} />
