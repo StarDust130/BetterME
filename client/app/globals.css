@@ -1503,6 +1503,7 @@ body {
 
 #checklist input[type="checkbox"] {
   -webkit-appearance: none;
+  appearance: none;
   -moz-appearance: none;
   position: relative;
   height: 15px;
