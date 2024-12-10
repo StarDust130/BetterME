@@ -114,7 +114,7 @@ const List = () => {
         {/* Show Today Activity */}
         {data.length === 0 && todoData.length === 0 ? (
           <div className="col-span-2 md:col-span-3 lg:col-span-4">
-            <NoDataFound />
+            <NoDataFound title="No Today Activity! ✏️ " />
           </div>
         ) : (
           <div className="w-full flex flex-col gap-3">
@@ -128,6 +128,7 @@ const List = () => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-4">
+                 
                   <NoDataFound title="No Todo Found!" url="pencil.png" />
                 </div>
               )}
@@ -175,6 +176,7 @@ const List = () => {
               </>
             ) : (
               <div className="flex flex-col items-center justify-center py-4">
+                <Separator className="w-full h-px my-2" />
                 <NoDataFound
                   title="No activities found for today"
                   url="hand.png"
