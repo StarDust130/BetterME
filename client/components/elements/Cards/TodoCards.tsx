@@ -1,5 +1,6 @@
 import { TodoType } from "../List";
 import { CheckCircle, Circle } from "lucide-react"; // Icons for completed/pending tasks
+import More from "../More";
 
 interface TodoCardsProps {
   todoData: TodoType[];
@@ -39,13 +40,17 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
                 )}
               </button>
               <span
-                className={`text-lg flex-grow transition-colors duration-300 ${
+                className={`text-lg text-start flex-grow transition-colors duration-300 ${
                   todo.isCompleted
                     ? "line-through text-gray-400"
                     : "text-gray-900"
                 }`}
               >
                 {todo.task}
+              </span>
+
+              <span>
+                <More />
               </span>
             </div>
           </li>
