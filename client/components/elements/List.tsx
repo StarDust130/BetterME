@@ -28,7 +28,7 @@ export interface TodoType {
   task: string;
   isCompleted: boolean;
   description?: string;
-  priroty: "low" | "medium" | "high";
+  priority: "low" | "medium" | "high";
 }
 
 const List = () => {
@@ -71,7 +71,7 @@ const List = () => {
           response.data?.todo?.map((todo: TodoType) => ({
             _id: todo._id,
             task: todo.task,
-            priroty: todo.priroty,
+            priority: todo.priority,
             description: todo.description,
             isCompleted: todo.isCompleted,
           })) || []; // Fallback to empty array
