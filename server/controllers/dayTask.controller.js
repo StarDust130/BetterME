@@ -5,11 +5,7 @@ import { catchAsync } from "../lib/catchAsync.js";
 //! Get 🐘
 const getDayTask = catchAsync(async (req, res, next) => {
   // 1) Get Data from Query
-  const { clerkID } = req.query;
-
-  if (!clerkID) {
-    return next(new AppError("Please Provide Clerk ID", 400));
-  }
+  const clerkID = req.clerkID;
 
   // 2) Fetch all entries for the clerkID
   const AllTasks = await DayTask.find({ clerkID });
@@ -29,7 +25,8 @@ const getDayTask = catchAsync(async (req, res, next) => {
 
 //! Create 🐧 - Create or update today's DayTask.
 const createDayTask = catchAsync(async (req, res, next) => {
-  const { clerkID, expenses, junkFood, journal, todo } = req.body;
+  const clerkID = req.clerkID;
+  const { expenses, junkFood, journal, todo } = req.body;
 
   // 1) Validate Clerk ID
   if (!clerkID) {
@@ -88,7 +85,7 @@ const createDayTask = catchAsync(async (req, res, next) => {
 //! Delete 🚄
 const deleteDayTask = catchAsync(async (req, res, next) => {
   // Extract data from query and params
-  const { clerkID, _id } = req.query;
+  const clerkID = req.clerkID;
 
   // Validate inputs
   if (!clerkID) {
@@ -115,13 +112,7 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
 
 //! Get today's task 🥙
 const getTodayTask = catchAsync(async (req, res) => {
-  const clerkID = req.query.clerkID; // Change from req.params to req.query
-
-  console.log("clerkID from backend", clerkID);
-
-  if (!clerkID) {
-    return next(new AppError("Please provide Clerk ID", 400));
-  }
+  const clerkID = req.clerkID;
 
   // Find today's task using createdAt
   const todayTask = await DayTask.findOne({
@@ -143,4 +134,61 @@ const getTodayTask = catchAsync(async (req, res) => {
   });
 });
 
-export { createDayTask, getDayTask, deleteDayTask, getTodayTask };
+//! Toggle isCompleted in Todo🚀
+const isCompletedToggle = catchAsync(async (req, res, next) => {
+  // 1) Check Clerk ID
+  const clerkID = req.query.clerkID; // Change from req.params to req.query
+
+  if (!clerkID) {
+    return next(new AppError("Please provide Clerk ID", 400));
+  }
+
+  // 2) Find the task by ID
+  const { taskID } = req.params;
+
+  if (!taskID) {
+    return next(new AppError("Please provide Task ID", 400));
+  }
+
+  // 3) Find the todo by ID
+  const task = await DayTask.findOne({
+    clerkID,
+    "todo._id": taskID,
+  });
+
+  if (!task) {
+    return next(new AppError("Task not found", 404));
+  }
+
+  // 4) Toggle the isCompleted field
+  const updatedTask = await DayTask.findOneAndUpdate(
+    {
+      clerkID,
+      "todo._id": taskID,
+    },
+    {
+      $set: {
+        "todo.$.isCompleted": !task.todo.id(taskID).isCompleted,
+      },
+    },
+    { new: true }
+  );
+
+  // 5) Save the updated task
+  await updatedTask.save();
+
+  // 6) Send Response
+  res.status(200).json({
+    status: "success",
+    message: "Task Updated Successfully 🎉",
+    data: updatedTask,
+  });
+});
+
+export {
+  createDayTask,
+  getDayTask,
+  deleteDayTask,
+  getTodayTask,
+  isCompletedToggle,
+};

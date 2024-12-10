@@ -1,20 +1,30 @@
 import { AppError } from "../lib/AppError.js";
 
 const validateClerkID = (req, res, next) => {
-  const { clerkID } = req.query;
-  console.log("clerkID from backend", clerkID);
+  // Extract clerkID from multiple possible sources
+  const clerkID =
+    req.query?.clerkID || req.body?.clerkID || req.params?.clerkID;
 
+  console.log("clerkID from backend:", clerkID);
+
+  // Check if clerkID is missing
   if (!clerkID) {
-    return next(new AppError("Please provide Clerk ID", 400));
+    return next(new AppError("Clerk ID is required.", 400));
   }
 
-  // Optionally: Validate Clerk ID format or length
-  if (typeof clerkID !== "string" || clerkID.trim().length === 0) {
-    return next(new AppError("Invalid Clerk ID format", 400));
+  // Validate Clerk ID: Ensure it’s a non-empty string
+  if (typeof clerkID !== "string" || !clerkID.trim()) {
+    return next(new AppError("Clerk ID must be a non-empty string.", 400));
+  }
+
+  // Optional: Add additional format checks (e.g., regex)
+  const validClerkIDPattern = /^[A-Za-z0-9_-]+$/; // Example pattern
+  if (!validClerkIDPattern.test(clerkID)) {
+    return next(new AppError("Clerk ID contains invalid characters.", 400));
   }
 
   // Attach `clerkID` to `req` for use in subsequent handlers
-  req.clerkID = clerkID;
+  req.clerkID = clerkID.trim();
 
   next();
 };
