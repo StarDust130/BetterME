@@ -29,39 +29,37 @@ const List = () => {
 
   useEffect(() => {
     const fetchTodayExpenses = async () => {
-      setLoading(true); // Set loading to true
+      setLoading(true);
       try {
-        const clerkID = await getClerkUserID(); // Get Clerk ID
-
-        // Fetch data from the backend
+        const clerkID = await getClerkUserID();
         const { data: response } = await axios.get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
         );
 
         console.log("Today's data:", response);
 
-        // Transform data
+        // Ensure response.data exists and handle missing fields gracefully
         const transformedData: DataType[] = [
-          ...response.data.expenses.map((expense: any) => ({
+          ...(response.data?.expenses?.map((expense: any) => ({
             _id: expense._id,
             title: expense.title,
             amount: expense.amount,
             type: "expense",
-          })),
-          ...response.data.junkFood.map((food: any) => ({
+          })) || []),
+          ...(response.data?.junkFood?.map((food: any) => ({
             _id: food._id,
             foodName: food.foodName,
             amount: food.amount,
             type: "junkFood",
-          })),
+          })) || []),
         ];
 
-        setData(transformedData); // Safely set the data
+        setData(transformedData);
       } catch (error) {
         console.error("Error fetching today's data:", error);
-        setData([]); // Handle error gracefully
+        setData([]);
       } finally {
-        setLoading(false); // Set loading to false
+        setLoading(false);
       }
     };
 
