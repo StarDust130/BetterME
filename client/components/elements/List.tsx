@@ -23,8 +23,18 @@ export interface DataType {
   type: "expense" | "junkFood"; // Added type property to distinguish between expense and junk food
 }
 
+export interface TodoType {
+  _id: string;
+  task: string;
+  isCompleted: boolean;
+  description?: string;
+  priroty: "low" | "medium" | "high";
+}
+
 const List = () => {
   const [data, setData] = useState<DataType[]>([]); // Data will hold both expenses and junk food
+  const [todoData, setTodoData] = useState<TodoType[]>([]);
+  const [habitsData, setHabitsData] = useState<any[]>([]); // Habits data
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -38,7 +48,7 @@ const List = () => {
 
         console.log("Today's data:", response);
 
-        // Ensure response.data exists and handle missing fields gracefully
+        // Transform `expenses` and `junkFood` data
         const transformedData: DataType[] = [
           ...(response.data?.expenses?.map((expense: any) => ({
             _id: expense._id,
@@ -55,9 +65,34 @@ const List = () => {
         ];
 
         setData(transformedData);
+
+        // Transform `todo` data
+        const todo =
+          response.data?.todo?.map((todo: TodoType) => ({
+            _id: todo._id,
+            task: todo.task,
+            priroty: todo.priroty,
+            description: todo.description,
+            isCompleted: todo.isCompleted,
+          })) || []; // Fallback to empty array
+
+        setTodoData(todo); // Update the state
+        console.log("Today's todo 🤖:", todo); // Log the mapped array
+
+        // Transform `habits` data
+        const habits =
+          response.data?.habits?.map((habit: any) => ({
+            _id: habit._id,
+            habitName: habit.habitName,
+            isCompleted: habit.isCompleted,
+          })) || []; // Fallback to empty array
+
+        setHabitsData(habits); // Update the state
+        console.log("Today's habits 🧘‍♂️:", habits); // Log the mapped array
       } catch (error) {
         console.error("Error fetching today's data:", error);
         setData([]);
+        setTodoData([]); // Ensure `todoData` is also reset on error
       } finally {
         setLoading(false);
       }
@@ -75,9 +110,9 @@ const List = () => {
 
   return (
     <>
-      <div className=" w-full  px-3 py-3 mb-6 mx-auto">
+      <div className="w-full px-3 py-3 mb-6 mx-auto">
         {/* Show Today Activity */}
-        {data.length === 0 ? (
+        {data.length === 0 && todoData.length === 0 ? (
           <div className="col-span-2 md:col-span-3 lg:col-span-4">
             <NoDataFound />
           </div>
@@ -85,36 +120,47 @@ const List = () => {
           <div className="w-full flex flex-col gap-3">
             <Separator />
 
-            <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-2 md:gap-8 p-4">
-              {/* Today Todo */}
-              <div className="flex flex-col items-center w-full md:w-auto text-center   rounded-lg p-4">
-                <h1 className="text-lg font-semibold mb-2  md:text-xl">
-                  Today’s Todo
-                </h1>
-                <TodoCards />
+            {/* Today Todo */}
+            {todoData.length > 0 ? (
+              <div className="flex flex-col md:flex-row justify-center items-center md:justify-between gap-2 md:gap-8 p-4">
+                <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
+                  <div className="p-4 max-w-md mx-auto">
+                    <TodoCards todoData={todoData} setTodoData={setTodoData} />
+                  </div>
+                </div>
               </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-4">
+                <p className="text-gray-500">No Todos for today.</p>
+              </div>
+            )}
 
-              <Separator className="w-full h-px  md:hidden my-2" />
+            <Separator className="w-full h-px md:hidden my-2" />
 
-              {/* Today Habits */}
-              <div className="flex flex-col items-center w-full md:w-auto text-center   rounded-lg p-4">
-                <h1 className="text-lg font-semibold  md:text-xl mb-2">
+            {/* Today Habits */}
+            {habitsData?.length > 0 ? (
+              <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
+                <h1 className="text-lg font-semibold md:text-xl mb-2">
                   Today’s Habits
                 </h1>
                 <HabitsCards />
+                {/* habitsData={habitsData} */}
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-4">
+                <p className="text-gray-500">No Habits tracked today.</p>
+              </div>
+            )}
 
             <Separator />
 
             {/* Today Activity */}
-
-            <div className="flex justify-between items-center w-full  py-4  rounded-lg">
-              <h1 className="flex-grow text-center text-xl ml-6 md:text-2xl  font-semibold">
+            <div className="flex justify-between items-center w-full py-4 rounded-lg">
+              <h1 className="flex-grow text-center text-xl ml-6 md:text-2xl font-semibold">
                 Today’s Activity
               </h1>
               <Button
-                className="flex items-center gap-2 text-sm md:text-base pl-4 py-2  rounded-lg transition-colors duration-300"
+                className="flex items-center gap-2 text-sm md:text-base pl-4 py-2 rounded-lg transition-colors duration-300"
                 variant={"outline"}
               >
                 <Share className="w-5 h-5" />
@@ -122,12 +168,18 @@ const List = () => {
               </Button>
             </div>
 
-            {/* Card Box of Today Activity  */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
-              {data.map((item) => (
-                <CardBox data={item} key={item._id} />
-              ))}
-            </div>
+            {/* Card Box of Today Activity */}
+            {data.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
+                {data.map((item) => (
+                  <CardBox data={item} key={item._id} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-4">
+                <p className="text-gray-500">No activities found for today.</p>
+              </div>
+            )}
           </div>
         )}
       </div>
