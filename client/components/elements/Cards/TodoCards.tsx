@@ -15,16 +15,31 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
     setTodoData(updatedTodos);
   };
 
+  // Map priority levels to numerical values
+  const priorityOrder = { high: 3, medium: 2, low: 1 };
+
+  // Sort tasks by priority
+  const sortedTodos = [...todoData].sort(
+    (a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]
+  );
+
+  // Map priority levels to badge colors
+  const priorityColors = {
+    high: "bg-red-500 text-white",
+    medium: "bg-yellow-400 text-black",
+    low: "bg-gray-400 text-black",
+  };
+
   return (
-    <div className=" p-6 rounded-xl bg-gray-100  shadow-md w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
-      <h2 className="text-xl font-semibold mb-4 text-black  text-center">
+    <div className="p-6 rounded-xl bg-gray-100 shadow-md w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
+      <h2 className="text-xl font-semibold mb-4 text-black text-center">
         Today’s Todos
       </h2>
       <ul className="space-y-4">
-        {todoData.map((todo, index) => (
+        {sortedTodos?.map((todo, index) => (
           <li
             key={todo._id}
-            className={`flex items-center border justify-between bg-gray-50  p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
+            className={`flex items-center border justify-between bg-gray-50 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
               todo.isCompleted ? "opacity-60" : "opacity-100"
             }`}
           >
@@ -39,17 +54,27 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
                   <Circle className="w-6 h-6 text-gray-400 transform scale-90 transition-transform duration-300" />
                 )}
               </button>
-              <span
-               onClick={() => handleToggle(index)}
-                className={`text-lg text-start flex-grow transition-colors cursor-pointer duration-300 ${
-                  todo.isCompleted
-                    ? "line-through text-gray-400"
-                    : "text-gray-900"
-                }`}
-              >
-                {todo.task}
-              </span>
-
+              <div className="flex flex-col flex-grow">
+                <span
+                  onClick={() => handleToggle(index)} // Enable toggling on text click
+                  className={`text-lg text-start cursor-pointer transition-colors duration-300 ${
+                    todo.isCompleted
+                      ? "line-through text-gray-400"
+                      : "text-gray-900"
+                  }`}
+                >
+                  {todo.task}
+                </span>
+                <span
+                  className={`mt-1 px-2 py-1 text-sm rounded-full self-start ${
+                    priorityColors[todo.priority]
+                  }`}
+                >
+                  {todo.priority.charAt(0).toUpperCase() +
+                    todo.priority.slice(1)}{" "}
+                  Priority
+                </span>
+              </div>
               <span>
                 <More />
               </span>
