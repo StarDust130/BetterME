@@ -15,19 +15,19 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 p-6 rounded-xl shadow-md w-full">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+    <div className=" p-6 rounded-xl shadow-md w-full md:max-w-4xl md:mx-auto">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200 text-center sm:text-left">
         Today’s Todos
       </h2>
       <ul className="space-y-4">
         {todoData.map((todo, index) => (
           <li
             key={todo._id}
-            className={`flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-all duration-300 ${
+            className={`flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
               todo.isCompleted ? "opacity-70" : "opacity-100"
             }`}
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 w-full">
               <button
                 onClick={() => handleToggle(index)}
                 className="focus:outline-none"
@@ -39,7 +39,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
                 )}
               </button>
               <span
-                className={`text-lg transition-colors duration-300 ${
+                className={`text-lg flex-grow transition-colors duration-300 ${
                   todo.isCompleted
                     ? "line-through text-gray-400"
                     : "text-gray-900 dark:text-gray-100"
