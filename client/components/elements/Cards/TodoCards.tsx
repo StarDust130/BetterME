@@ -8,9 +8,9 @@ interface TodoCardsProps {
 }
 
 const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
-  const handleToggle = (index: number) => {
-    const updatedTodos = todoData.map((todo, i) =>
-      i === index ? { ...todo, isCompleted: !todo.isCompleted } : todo
+  const handleToggle = (id: string) => {
+    const updatedTodos = todoData.map((todo) =>
+      todo._id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
     );
     setTodoData(updatedTodos);
   };
@@ -36,7 +36,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
         Today’s Todos
       </h2>
       <ul className="space-y-4">
-        {sortedTodos?.map((todo, index) => (
+        {sortedTodos.map((todo) => (
           <li
             key={todo._id}
             className={`flex items-center border justify-between bg-gray-50 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
@@ -45,7 +45,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
           >
             <div className="flex items-center gap-4 w-full">
               <button
-                onClick={() => handleToggle(index)}
+                onClick={() => handleToggle(todo._id)}
                 className="focus:outline-none"
               >
                 {todo.isCompleted ? (
@@ -56,7 +56,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
               </button>
               <div className="flex flex-col flex-grow">
                 <span
-                  onClick={() => handleToggle(index)} // Enable toggling on text click
+                  onClick={() => handleToggle(todo._id)} // Enable toggling on text click
                   className={`text-lg text-start cursor-pointer transition-colors duration-300 ${
                     todo.isCompleted
                       ? "line-through text-gray-400"
@@ -85,5 +85,6 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
     </div>
   );
 };
+
 
 export default TodoCards;
