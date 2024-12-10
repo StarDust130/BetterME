@@ -25,7 +25,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
           <li
             key={todo._id}
             className={`flex items-center border justify-between bg-gray-50  p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
-              todo.isCompleted ? "opacity-70" : "opacity-100"
+              todo.isCompleted ? "opacity-60" : "opacity-100"
             }`}
           >
             <div className="flex items-center gap-4 w-full">
@@ -40,7 +40,8 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
                 )}
               </button>
               <span
-                className={`text-lg text-start flex-grow transition-colors duration-300 ${
+               onClick={() => handleToggle(index)}
+                className={`text-lg text-start flex-grow transition-colors cursor-pointer duration-300 ${
                   todo.isCompleted
                     ? "line-through text-gray-400"
                     : "text-gray-900"
