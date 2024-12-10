@@ -146,7 +146,7 @@ const List = () => {
                 </div>
               ) : (
                 <div className="flex flex-col text-center items-center justify-center py-4">
-                  <NoDataFound title="No Habits tracked today" url="dog.png" />
+                  <NoDataFound title="No Habits tracked today" url="dog.png" size={200} />
                 </div>
               )}
             </div>
