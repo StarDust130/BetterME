@@ -33,7 +33,7 @@ const dayTaskSchema = new mongoose.Schema(
         description: {
           type: String,
         },
-        priroty: {
+        priority: {
           type: String,
           enum: ["high", "medium", "low"],
           default: "low",
