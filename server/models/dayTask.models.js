@@ -26,10 +26,9 @@ const dayTaskSchema = new mongoose.Schema(
     todo: [
       {
         task: { type: String, required: true },
-        status: {
-          type: String,
-          enum: ["completed", "pending"],
-          default: "pending",
+        isCompleted: {
+          type: Boolean,
+          default: false,
         },
         description: {
           type: String,
