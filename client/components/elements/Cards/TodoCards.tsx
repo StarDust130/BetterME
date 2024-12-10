@@ -8,10 +8,12 @@ interface TodoCardsProps {
 }
 
 const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
+
   const handleToggle = (id: string) => {
     const updatedTodos = todoData.map((todo) =>
       todo._id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
     );
+    
     setTodoData(updatedTodos);
   };
 
