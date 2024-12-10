@@ -15,15 +15,15 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
   };
 
   return (
-    <div className=" p-6 rounded-xl shadow-md w-full md:max-w-4xl md:mx-auto">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200 text-center sm:text-left">
+    <div className=" p-6 rounded-xl shadow-md w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200 text-center">
         Today’s Todos
       </h2>
       <ul className="space-y-4">
         {todoData.map((todo, index) => (
           <li
             key={todo._id}
-            className={`flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
+            className={`flex items-center border justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
               todo.isCompleted ? "opacity-70" : "opacity-100"
             }`}
           >
