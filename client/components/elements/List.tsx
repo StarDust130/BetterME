@@ -120,33 +120,35 @@ const List = () => {
           <div className="w-full flex flex-col gap-3">
             <Separator />
 
-            {/* Today Todo */}
-            {todoData.length > 0 ? (
-              <div className="flex flex-col  text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-4">
-                <TodoCards todoData={todoData} setTodoData={setTodoData} />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-4">
-                <p className="text-gray-500">No Todos for today.</p>
-              </div>
-            )}
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              {/* Today Todo */}
+              {todoData.length > 0 ? (
+                <div className="flex flex-col  text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-4">
+                  <TodoCards todoData={todoData} setTodoData={setTodoData} />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-4">
+                  <p className="text-gray-500">No Todos for today.</p>
+                </div>
+              )}
 
-            <Separator className="w-full h-px md:hidden my-2" />
+              <Separator className="w-full h-px md:hidden my-2" />
 
-            {/* Today Habits */}
-            {habitsData?.length > 0 ? (
-              <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
-                <h1 className="text-lg font-semibold md:text-xl mb-2">
-                  Today’s Habits
-                </h1>
-                <HabitsCards />
-                {/* habitsData={habitsData} */}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-4">
-                <p className="text-gray-500">No Habits tracked today.</p>
-              </div>
-            )}
+              {/* Today Habits */}
+              {habitsData?.length > 0 ? (
+                <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
+                  <h1 className="text-lg font-semibold md:text-xl mb-2">
+                    Today’s Habits
+                  </h1>
+                  <HabitsCards />
+                  {/* habitsData={habitsData} */}
+                </div>
+              ) : (
+                <div className="flex flex-col text-center items-center justify-center py-4">
+                  <p className="text-gray-500">No Habits tracked today.</p>
+                </div>
+              )}
+            </div>
 
             <Separator />
 
