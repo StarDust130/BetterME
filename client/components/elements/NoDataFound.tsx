@@ -6,9 +6,10 @@ import { BadgePlus } from "lucide-react";
 interface NoDataFoundProps {
   url?: string;
   title?: string;
+  size?: number;
 }
 
-const NoDataFound = ({ url, title }: NoDataFoundProps) => {
+const NoDataFound = ({ url, title , size }: NoDataFoundProps) => {
   return (
     <div className="flex flex-col justify-center items-center w-full h-full text-center">
       <h1 className="text-xl my-2 md:text-2xl mt-4 text-gray-800 dark:text-gray-200 font-semibold flex items-center space-x-2">
@@ -24,8 +25,8 @@ const NoDataFound = ({ url, title }: NoDataFoundProps) => {
         />
         <Image
           src={`/${url || "no-data.png"}`}
-          width={300}
-          height={300}
+          width={size || 300}
+          height={size || 300}
           alt="No-Data-Found"
           className="hidden md:block"
         />
