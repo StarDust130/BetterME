@@ -137,14 +137,11 @@ const getTodayTask = catchAsync(async (req, res) => {
 //! Toggle isCompleted in Todo🚀
 const isCompletedToggle = catchAsync(async (req, res, next) => {
   // 1) Check Clerk ID
-  const clerkID = req.query.clerkID; // Change from req.params to req.query
-
-  if (!clerkID) {
-    return next(new AppError("Please provide Clerk ID", 400));
-  }
+  const clerkID = req.clerkID;
 
   // 2) Find the task by ID
-  const { taskID } = req.params;
+
+  const taskID = req.query.taskID;
 
   if (!taskID) {
     return next(new AppError("Please provide Task ID", 400));

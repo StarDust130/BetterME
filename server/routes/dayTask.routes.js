@@ -4,6 +4,7 @@ import {
   deleteDayTask,
   getDayTask,
   getTodayTask,
+  isCompletedToggle,
 } from "../controllers/dayTask.controller.js";
 import validateClerkID from "../middlewares/validateClerkID.js";
 
@@ -16,5 +17,6 @@ router
   .delete(validateClerkID, deleteDayTask); //? Delete a task
 
 router.get("/today", validateClerkID, getTodayTask);
+router.post("/toggle", validateClerkID, isCompletedToggle);   //! Toggle isCompleted in Todo
 
 export default router;

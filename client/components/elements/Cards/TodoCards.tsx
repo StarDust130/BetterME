@@ -1,6 +1,9 @@
 import { TodoType } from "../List";
 import { CheckCircle, Circle } from "lucide-react"; // Icons for completed/pending tasks
 import More from "../More";
+import { getClerkUserID } from "@/lib/action";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
 interface TodoCardsProps {
   todoData: TodoType[];
@@ -8,13 +11,42 @@ interface TodoCardsProps {
 }
 
 const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
+  const { toast } = useToast();
 
-  const handleToggle = (id: string) => {
+  // Toggle task completion status
+  const handleToggle = async (id: string) => {
     const updatedTodos = todoData.map((todo) =>
       todo._id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
     );
-    
-    setTodoData(updatedTodos);
+
+    try {
+      setTodoData(updatedTodos);
+      const clerkID = await getClerkUserID();
+      const toggle = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/toggle?clerkID=${clerkID}&taskID=${id}`
+      );
+
+      console.log(toggle);
+
+      toast({
+        title: "Task updated successfully 🎉",
+        description: `${
+          todoData.find((todo) => todo._id === id)?.task
+        } is now ${
+          updatedTodos.find((todo) => todo._id === id)?.isCompleted
+            ? "✅ completed! Great job! 🎊"
+            : "❌ pending! Keep going! 💪"
+        }`,
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Failed to update task 😢",
+        description:
+          "Something went wrong while updating the task! 🚨 Please try again. 🔄",
+        variant: "destructive",
+      });
+    }
   };
 
   // Map priority levels to numerical values
@@ -87,6 +119,5 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
     </div>
   );
 };
-
 
 export default TodoCards;
