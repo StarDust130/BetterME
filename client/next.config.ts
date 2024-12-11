@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*", // Redirects all /api requests
-        destination: "http://localhost:5000/api/:path*", // The backend URL
+        destination: "http://http://192.168.29.198/api/:path*", // The backend URL
       },
     ];
   },
