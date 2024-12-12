@@ -34,7 +34,7 @@ const Page = async () => {
 
       <Tabs
         defaultValue="overview"
-        className=" text-right w-full md:max-w-3xl mx-auto mt-2"
+        className=" text-right w-full md:max-w-3xl mx-auto mt-2 overflow-hidden"
       >
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
