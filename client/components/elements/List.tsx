@@ -8,8 +8,6 @@ import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
 import CardSkeleton from "./Cards/CardSkeleton";
 import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
-import { Share } from "lucide-react";
 import TodoCards from "./Cards/TodoCards";
 import HabitsCards from "./Cards/HabitsCards";
 
@@ -159,22 +157,17 @@ const List = () => {
               <>
                 {" "}
                 <Separator />
-                <div className="flex justify-between items-center w-full py-4 rounded-lg">
-                  <h1 className="flex-grow text-center text-xl ml-6 md:text-2xl font-semibold">
-                    Today’s Activity
-                  </h1>
-                  <Button
-                    className="flex items-center gap-2 text-sm md:text-base pl-4 py-2 rounded-lg transition-colors duration-300"
-                    variant={"outline"}
-                  >
-                    <Share className="w-5 h-5" />
-                    <span className="hidden md:block">Share</span>
-                  </Button>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
-                  {data.map((item) => (
-                    <CardBox data={item} key={item._id} setData={setData} />
-                  ))}
+                <div className=" md:mt-3 rounded-xl bg-gray-100 shadow-md border-b-2 border-t-2 p-3">
+                  <div className="flex justify-between items-center w-full py-4 rounded-lg">
+                    <h1 className="flex-grow text-center text-black/90 text-xl ml-6 md:text-2xl font-semibold">
+                      Today’s Activity
+                    </h1>
+                  </div>
+                  <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
+                    {data.map((item) => (
+                      <CardBox data={item} key={item._id} setData={setData} />
+                    ))}
+                  </div>
                 </div>
               </>
             ) : (
