@@ -110,7 +110,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
                 </span>
               </div>
               <span>
-                <More />
+                <More _id={todo._id} field={"todo"} />
               </span>
             </div>
           </li>
