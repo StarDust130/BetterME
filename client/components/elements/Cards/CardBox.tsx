@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BadgeIndianRupee, Pizza, Annoyed, Frown } from "lucide-react";
+import { BadgeIndianRupee, Pizza } from "lucide-react";
 import { DataType } from "../List";
+import { getRandomEmoji } from "@/lib/utils";
 import More from "../More";
 
 interface CardBoxProps {
@@ -12,61 +13,56 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
   const isExpense = data.type === "expenses";
 
   return (
-    <div className="relative w-full max-w-sm bg-white rounded-lg shadow-lg hover:shadow-2xl md:hover:scale-[1.03] transition-transform duration-300 overflow-hidden">
-      {/* Header Section */}
-      <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-br from-gray-100 to-gray-50 border-b">
-        <div
-          className={`flex items-center justify-center w-12 h-12 rounded-full shadow-md ${
-            isExpense ? "bg-red-500" : "bg-blue-500"
-          }`}
-        >
-          {isExpense ? (
-            <BadgeIndianRupee className="text-white w-6 h-6" />
-          ) : (
-            <Pizza className="text-white w-6 h-6" />
-          )}
-        </div>
+    <div className="relative w-full max-w-sm bg-gradient-to-br from-white via-gray-100 to-gray-200 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
+      <div className="absolute right-5 top-5">
         <More
-          field={data.type}
-          _id={data._id}
           setData={setData}
+          field={data.type}
           todayData={data}
+          _id={data._id}
         />
       </div>
 
       {/* Main Content */}
-      <div className="px-6 py-4 space-y-4">
-        {/* Title */}
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-800">
-            {isExpense ? data.title : data.foodName}
+      <div className="p-6 space-y-6">
+        {/* Title Section */}
+        <div className="flex flex-col items-start">
+          <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            {isExpense ? (
+              <>
+                {data.title} {getRandomEmoji("expenses")}
+              </>
+            ) : (
+              <>
+                {data.foodName} {getRandomEmoji("junkfood")}
+              </>
+            )}
           </h3>
-          <h3 className="text-lg font-semibold text-gray-800">
-            {isExpense ? "Expense" : "JunkFood"}
-          </h3>
+          <span
+            className={`text-sm font-light mt-1 px-3 py-1 rounded-full ${
+              isExpense ? "bg-rose-600 text-white" : "bg-cyan-800 text-white"
+            }`}
+          >
+            {isExpense ? "Expenses" : "Junk Food"}
+          </span>
         </div>
 
-        {/* Primary Info */}
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              ₹{data.amount?.toFixed(2) ?? "0.00"}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            {data.foodName ? (
-              <Frown className="text-orange-500 w-6 h-6" />
-            ) : (
-              <Annoyed className="text-red-500 w-6 h-6" />
-            )}
-            <p
-              className={`text-sm font-medium ${
-                data.foodName ? "text-orange-600" : "text-red-600"
-              }`}
-            >
-              {data.foodName ? "JunkFood is Bad!" : "Don't Waste Money"}
-            </p>
-          </div>
+        {/* Amount Section */}
+        <div className="flex items-center justify-between">
+          <p className="text-4xl font-extrabold text-gray-900">
+            ₹{data.amount?.toFixed(2) ?? "0.00"}
+          </p>
+
+          {/* Icon Section */}
+          <div className="absolute bottom-4 opacity-80 right-4 w-14 h-14 flex items-center justify-center  rounded-lg">
+        <div className="w-12 h-12 flex items-center justify-center   md:hover:scale-105 transform transition-transform duration-300 rounded-md">
+          {isExpense ? (
+            <BadgeIndianRupee className="text-green-600 w-8 h-8" />
+          ) : (
+            <Pizza className="text-yellow-600 w-8 h-8" />
+          )}
+        </div>
+      </div>
         </div>
       </div>
     </div>
