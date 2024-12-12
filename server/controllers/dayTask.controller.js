@@ -82,6 +82,8 @@ const createDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
+
+//! Delete 🚄
 //! Delete 🚄
 const deleteDayTask = catchAsync(async (req, res, next) => {
   // Extract data from query and params
@@ -92,23 +94,45 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide Clerk ID", 400));
   }
 
-  if (!_id) {
+  const taskId = req.query.taskId; // The ID of the object to delete
+  const field = req.query.field; // The field (e.g., 'todo', 'expenses', 'junkFood')
+  
+  console.log("Task ID:", taskId, "Field:", field);
+
+  if (!taskId) {
     return next(new AppError("Please provide Task ID", 400));
   }
 
-  // Attempt to delete the task
-  const deletedTask = await DayTask.findOneAndDelete({ _id, clerkID });
+  if (!field || !['todo', 'expenses', 'junkFood'].includes(field)) {
+    return next(new AppError("Invalid or missing field name", 400));
+  }
 
-  if (!deletedTask) {
-    return next(new AppError("No matching task found", 404));
+  // Dynamically construct the $pull operation
+  const update = {
+    $pull: { [field]: { _id: taskId } }, // Pull the object with matching _id from the specified field
+  };
+
+  // Attempt to remove the object from the specified field
+  const updatedDayTask = await DayTask.findOneAndUpdate(
+    { clerkID }, // Match the document by clerkID
+    update, // Apply the dynamic update
+    { new: true } // Return the updated document
+  );
+
+  console.log("Updated Day Task:", updatedDayTask);
+
+  if (!updatedDayTask) {
+    return next(new AppError("No matching document or task found", 404));
   }
 
   // Send success response
   res.status(200).json({
     status: "success",
-    message: "Day Task deleted successfully 🎉",
+    message: `${field.slice(0, 1).toUpperCase() + field.slice(1)} item deleted successfully 🎉`,
+    data: updatedDayTask,
   });
 });
+
 
 //! Get today's task 🥙
 const getTodayTask = catchAsync(async (req, res) => {

@@ -17,12 +17,6 @@ const validateClerkID = (req, res, next) => {
     return next(new AppError("Clerk ID must be a non-empty string.", 400));
   }
 
-  // Optional: Add additional format checks (e.g., regex)
-  const validClerkIDPattern = /^[A-Za-z0-9_-]+$/; // Example pattern
-  if (!validClerkIDPattern.test(clerkID)) {
-    return next(new AppError("Clerk ID contains invalid characters.", 400));
-  }
-
   // Attach `clerkID` to `req` for use in subsequent handlers
   req.clerkID = clerkID.trim();
 
