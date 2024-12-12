@@ -48,21 +48,28 @@ const More = ({
         }
       }
 
-      // Update id it is expense or junk food
-      // if (field === "expense" || field === "junkFood") {
-      //   if (setData) {
-      //     if (todayData) {
-      //       const updatedData = Array.isArray(todayData) ? todayData.filter((item: any) => item._id !== _id) : [];
-      //       setData(updatedData);
-      //     }
-      //   }
-      // }
+      console.log("Todo Data 🫰", todoData); // this is a array
+
+      // Update `data` if the field is `expenses` or `junkFood`
+      if (
+        (field === "expenses" || field === "junkFood") &&
+        todayData &&
+        setData
+      ) {
+        setData((prevData: DataType[]) =>
+          prevData.filter((item) => item._id !== _id)
+        );
+      }
+
+      console.log("Today Data 🫵", todayData); // this is a just data
 
       console.log("Data 🫥:", data);
 
       toast({
         title: "Task Deleted Successfully 🥳",
-        description: `${data?.data?.task} has been deleted successfully.`,
+        description: `${
+          data?.data?.task || todayData?.title
+        } has been deleted successfully.`,
       });
     } catch (error: any) {
       console.log(error);
