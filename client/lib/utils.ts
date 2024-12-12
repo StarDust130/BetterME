@@ -12,3 +12,27 @@ export const formatDate = (date: string): string => {
     year: "numeric",
   });
 };
+
+const emojiCategories = {
+  junkFood: ["🍕", "🍔", "🌭", "🍟", "🍩", "🍪", "🥤"],
+  expenses: ["💸", "💰", "💳", "🏦", "📈", "📉"],
+  others: ["🚀", "🎉", "🐱", "🌟", "🎵", "💻", "😎", "👾", "🏖️", "🎮", "🧑‍💻"],
+};
+
+// Function to get a random emoji based on the argument
+export function getRandomEmoji(category?: "junkfood" | "expenses"): string {
+  if (category === "junkfood") {
+    return emojiCategories.junkFood[
+      Math.floor(Math.random() * emojiCategories.junkFood.length)
+    ];
+  } else if (category === "expenses") {
+    return emojiCategories.expenses[
+      Math.floor(Math.random() * emojiCategories.expenses.length)
+    ];
+  } else {
+    // Pick a random emoji from "others"
+    return emojiCategories.others[
+      Math.floor(Math.random() * emojiCategories.others.length)
+    ];
+  }
+}
