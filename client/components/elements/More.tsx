@@ -9,21 +9,34 @@ import { useToast } from "@/hooks/use-toast";
 import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
 import { EllipsisVertical, EyeOff, Pencil, Trash2 } from "lucide-react";
+import { TodoType } from "./List";
 
 interface MoreProps {
   _id: string;
   field: string;
+  setTodoData?: (data: any) => void;
+  todoData?: TodoType[];
 }
 
-const More = ({ _id }: MoreProps) => {
+const More = ({ _id, field, setTodoData, todoData }: MoreProps) => {
   const { toast } = useToast();
 
   const handleDelete = async () => {
     try {
       const clerkID = await getClerkUserID();
       const data = await axios.delete(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=todo`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
       );
+
+      // Update the todoData after deletion
+      if (field === "todo") {
+        if (todoData) {
+          const updatedTodos = todoData.filter((todo) => todo._id !== _id);
+          if (setTodoData) {
+            setTodoData(updatedTodos);
+          }
+        }
+      }
 
       console.log("Data 🫥:", data);
 
