@@ -26,12 +26,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
             <Pizza className="text-white w-6 h-6" />
           )}
         </div>
-        <More
-          field={data.type}
-          _id={data._id}
-          setData={setData}
-          todayData={data}
-        />
+        <More field={data.type} _id={data._id} setData={setData} todayData={data} />
       </div>
 
       {/* Main Content */}
