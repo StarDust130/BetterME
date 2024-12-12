@@ -1,14 +1,15 @@
-import {
-  BadgeIndianRupee,
-  Pizza,
-  MoreHorizontal,
-  Plus,
-  CheckCircle,
-} from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { BadgeIndianRupee, Pizza, Plus, CheckCircle } from "lucide-react";
 import { DataType } from "../List";
+import More from "../More";
 
-const CardBox = ({ data }: { data: DataType }) => {
-  const isExpense = data.type === "expense";
+interface CardBoxProps {
+  data: DataType;
+  setData: (data: any) => void;
+}
+
+const CardBox = ({ data, setData }: CardBoxProps) => {
+  const isExpense = data.type === "expenses";
 
   return (
     <div className="relative w-full max-w-sm bg-white rounded-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-transform duration-300 overflow-hidden">
@@ -25,7 +26,12 @@ const CardBox = ({ data }: { data: DataType }) => {
             <Pizza className="text-white w-6 h-6" />
           )}
         </div>
-        <MoreHorizontal className="w-6 h-6 text-gray-500 cursor-pointer" />
+        <More
+          field={data.type}
+          _id={data._id}
+          setData={setData}
+          todayData={data}
+        />
       </div>
 
       {/* Main Content */}
