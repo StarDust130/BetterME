@@ -28,17 +28,12 @@ const createDayTask = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
   const { expenses, junkFood, journal, todo } = req.body;
 
-  // 1) Validate Clerk ID
-  if (!clerkID) {
-    return next(new AppError("Please provide Clerk ID", 400));
-  }
-
-  // 2) Get today's start and end timestamps (adjust for timezone consistency)
+  // 1) Get today's start and end timestamps (adjust for timezone consistency)
   const now = new Date();
   const startOfDay = new Date(now.setUTCHours(0, 0, 0, 0)); // Start of today in UTC
   const endOfDay = new Date(now.setUTCHours(23, 59, 59, 999)); // End of today in UTC
 
-  // 3) Check if a DayTask exists for today using the `date` field
+  // 2) Check if a DayTask exists for today using the `date` field
   let dayTask = await DayTask.findOne({
     clerkID,
     date: { $gte: startOfDay, $lte: endOfDay }, // Query by date field
@@ -72,7 +67,7 @@ const createDayTask = catchAsync(async (req, res, next) => {
     });
   }
 
-  // 4) Send Response
+  // 3) Send Response
   res.status(201).json({
     status: "success",
     message: dayTask
@@ -111,7 +106,6 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
   };
 
   console.log("Update 😆:", update);
-  
 
   // Attempt to remove the object from the specified field
   const updatedDayTask = await DayTask.findOneAndUpdate(

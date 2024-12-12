@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BadgeIndianRupee, Pizza, Plus, CheckCircle } from "lucide-react";
+import { BadgeIndianRupee, Pizza, Annoyed, Frown } from "lucide-react";
 import { DataType } from "../List";
 import More from "../More";
 
@@ -12,7 +12,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
   const isExpense = data.type === "expenses";
 
   return (
-    <div className="relative w-full max-w-sm bg-white rounded-lg shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-transform duration-300 overflow-hidden">
+    <div className="relative w-full max-w-sm bg-white rounded-lg shadow-lg hover:shadow-2xl md:hover:scale-[1.03] transition-transform duration-300 overflow-hidden">
       {/* Header Section */}
       <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-br from-gray-100 to-gray-50 border-b">
         <div
@@ -26,7 +26,12 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
             <Pizza className="text-white w-6 h-6" />
           )}
         </div>
-        <More field={data.type} _id={data._id} setData={setData} todayData={data} />
+        <More
+          field={data.type}
+          _id={data._id}
+          setData={setData}
+          todayData={data}
+        />
       </div>
 
       {/* Main Content */}
@@ -37,7 +42,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
             {isExpense ? data.title : data.foodName}
           </h3>
           <h3 className="text-lg font-semibold text-gray-800">
-            {isExpense ? "Expense" : "Meal"}
+            {isExpense ? "Expense" : "JunkFood"}
           </h3>
         </div>
 
@@ -50,26 +55,19 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
           </div>
           <div className="flex items-center gap-2">
             {data.foodName ? (
-              <CheckCircle className="text-green-500 w-6 h-6" />
+              <Frown className="text-orange-500 w-6 h-6" />
             ) : (
-              <Plus className="text-red-500 w-6 h-6" />
+              <Annoyed className="text-red-500 w-6 h-6" />
             )}
             <p
               className={`text-sm font-medium ${
-                data.foodName ? "text-green-600" : "text-red-600"
+                data.foodName ? "text-orange-600" : "text-red-600"
               }`}
             >
-              {data.foodName ? "Healthy choice!" : "Try something new"}
+              {data.foodName ? "JunkFood is Bad!" : "Don't Waste Money"}
             </p>
           </div>
         </div>
-      </div>
-
-      {/* Footer Section */}
-      <div className="bg-gray-50 border-t px-6 py-4">
-        <button className="w-full py-2 bg-indigo-500 text-white rounded-md font-medium hover:bg-indigo-600 transition">
-          View Details
-        </button>
       </div>
     </div>
   );
