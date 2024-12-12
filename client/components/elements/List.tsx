@@ -20,7 +20,7 @@ export interface DataType {
   category?: string;
   foodName?: string;
   isEatenToday?: boolean;
-  type: "expense" | "junkFood"; // Added type property to distinguish between expense and junk food
+  type: "expenses" | "junkFood"; // Added type property to distinguish between expense and junk food
 }
 
 export interface TodoType {
@@ -53,7 +53,7 @@ const List = () => {
           _id: expense._id,
           title: expense.title,
           amount: expense.amount,
-          type: "expense",
+          type: "expenses",
         })) || []),
         ...(response.data?.junkFood?.map((food: any) => ({
           _id: food._id,
@@ -173,7 +173,7 @@ const List = () => {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6">
                   {data.map((item) => (
-                    <CardBox data={item} key={item._id} />
+                    <CardBox data={item} key={item._id} setData={setData} />
                   ))}
                 </div>
               </>
