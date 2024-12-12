@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   DropdownMenu,
@@ -9,16 +10,25 @@ import { useToast } from "@/hooks/use-toast";
 import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
 import { EllipsisVertical, EyeOff, Pencil, Trash2 } from "lucide-react";
-import { TodoType } from "./List";
+import { DataType, TodoType } from "./List";
 
 interface MoreProps {
   _id: string;
   field: string;
   setTodoData?: (data: any) => void;
   todoData?: TodoType[];
+  setData?: (data: any) => void;
+  todayData?: DataType;
 }
 
-const More = ({ _id, field, setTodoData, todoData }: MoreProps) => {
+const More = ({
+  _id,
+  field,
+  setTodoData,
+  todoData,
+  setData,
+  todayData,
+}: MoreProps) => {
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -37,6 +47,16 @@ const More = ({ _id, field, setTodoData, todoData }: MoreProps) => {
           }
         }
       }
+
+      // Update id it is expense or junk food
+      // if (field === "expense" || field === "junkFood") {
+      //   if (setData) {
+      //     if (todayData) {
+      //       const updatedData = Array.isArray(todayData) ? todayData.filter((item: any) => item._id !== _id) : [];
+      //       setData(updatedData);
+      //     }
+      //   }
+      // }
 
       console.log("Data 🫥:", data);
 
