@@ -113,6 +113,7 @@ const More = ({
       <DropdownMenu>
         <DropdownMenuTrigger>
           <EllipsisVertical className="w-6 h-6 text-gray-600  transition-colors duration-300 cursor-pointer" />
+          
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-white   shadow-xl rounded-lg p-2 border border-gray-200">
           <DropdownMenuItem
