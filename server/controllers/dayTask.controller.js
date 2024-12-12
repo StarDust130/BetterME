@@ -23,7 +23,6 @@ const getDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
-
 //! Create 🐧 - Create or update today's DayTask.
 const createDayTask = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
@@ -83,7 +82,6 @@ const createDayTask = catchAsync(async (req, res, next) => {
   });
 });
 
-
 //! Delete 🚄
 const deleteDayTask = catchAsync(async (req, res, next) => {
   // Extract data from query and params
@@ -96,14 +94,14 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
 
   const taskId = req.query.taskId; // The ID of the object to delete
   const field = req.query.field; // The field (e.g., 'todo', 'expenses', 'junkFood')
-  
+
   console.log("Task ID:", taskId, "Field:", field);
 
   if (!taskId) {
     return next(new AppError("Please provide Task ID", 400));
   }
 
-  if (!field || !['todo', 'expenses', 'junkFood'].includes(field)) {
+  if (!field || !["todo", "expenses", "junkFood"].includes(field)) {
     return next(new AppError("Invalid or missing field name", 400));
   }
 
@@ -112,14 +110,15 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
     $pull: { [field]: { _id: taskId } }, // Pull the object with matching _id from the specified field
   };
 
+  console.log("Update 😆:", update);
+  
+
   // Attempt to remove the object from the specified field
   const updatedDayTask = await DayTask.findOneAndUpdate(
     { clerkID }, // Match the document by clerkID
     update, // Apply the dynamic update
     { new: true } // Return the updated document
   );
-
-  console.log("Updated Day Task:", updatedDayTask);
 
   if (!updatedDayTask) {
     return next(new AppError("No matching document or task found", 404));
@@ -128,11 +127,12 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
   // Send success response
   res.status(200).json({
     status: "success",
-    message: `${field.slice(0, 1).toUpperCase() + field.slice(1)} item deleted successfully 🎉`,
+    message: `${
+      field.slice(0, 1).toUpperCase() + field.slice(1)
+    } item deleted successfully 🎉`,
     data: updatedDayTask,
   });
 });
-
 
 //! Get today's task 🥙
 const getTodayTask = catchAsync(async (req, res) => {
