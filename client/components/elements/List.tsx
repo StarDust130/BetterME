@@ -37,68 +37,68 @@ const List = () => {
   const [habitsData, setHabitsData] = useState<any[]>([]); // Habits data
   const [loading, setLoading] = useState<boolean>(true);
 
+  const fetchTodayData = async () => {
+    setLoading(true);
+    try {
+      const clerkID = await getClerkUserID();
+      const { data: response } = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
+      );
+
+      console.log("Today's data:", response);
+
+      // Transform `expenses` and `junkFood` data
+      const transformedData: DataType[] = [
+        ...(response.data?.expenses?.map((expense: any) => ({
+          _id: expense._id,
+          title: expense.title,
+          amount: expense.amount,
+          type: "expense",
+        })) || []),
+        ...(response.data?.junkFood?.map((food: any) => ({
+          _id: food._id,
+          foodName: food.foodName,
+          amount: food.amount,
+          type: "junkFood",
+        })) || []),
+      ];
+
+      setData(transformedData);
+
+      // Transform `todo` data
+      const todo =
+        response.data?.todo?.map((todo: TodoType) => ({
+          _id: todo._id,
+          task: todo.task,
+          priority: todo.priority,
+          description: todo.description,
+          isCompleted: todo.isCompleted,
+        })) || []; // Fallback to empty array
+
+      setTodoData(todo); // Update the state
+      console.log("Today's todo 🤖:", todo); // Log the mapped array
+
+      // Transform `habits` data
+      const habits =
+        response.data?.habits?.map((habit: any) => ({
+          _id: habit._id,
+          habitName: habit.habitName,
+          isCompleted: habit.isCompleted,
+        })) || []; // Fallback to empty array
+
+      setHabitsData(habits); // Update the state
+      console.log("Today's habits 🧘‍♂️:", habits); // Log the mapped array
+    } catch (error) {
+      console.error("Error fetching today's data:", error);
+      setData([]);
+      setTodoData([]); // Ensure `todoData` is also reset on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTodayExpenses = async () => {
-      setLoading(true);
-      try {
-        const clerkID = await getClerkUserID();
-        const { data: response } = await axios.get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/today?clerkID=${clerkID}`
-        );
-
-        console.log("Today's data:", response);
-
-        // Transform `expenses` and `junkFood` data
-        const transformedData: DataType[] = [
-          ...(response.data?.expenses?.map((expense: any) => ({
-            _id: expense._id,
-            title: expense.title,
-            amount: expense.amount,
-            type: "expense",
-          })) || []),
-          ...(response.data?.junkFood?.map((food: any) => ({
-            _id: food._id,
-            foodName: food.foodName,
-            amount: food.amount,
-            type: "junkFood",
-          })) || []),
-        ];
-
-        setData(transformedData);
-
-        // Transform `todo` data
-        const todo =
-          response.data?.todo?.map((todo: TodoType) => ({
-            _id: todo._id,
-            task: todo.task,
-            priority: todo.priority,
-            description: todo.description,
-            isCompleted: todo.isCompleted,
-          })) || []; // Fallback to empty array
-
-        setTodoData(todo); // Update the state
-        console.log("Today's todo 🤖:", todo); // Log the mapped array
-
-        // Transform `habits` data
-        const habits =
-          response.data?.habits?.map((habit: any) => ({
-            _id: habit._id,
-            habitName: habit.habitName,
-            isCompleted: habit.isCompleted,
-          })) || []; // Fallback to empty array
-
-        setHabitsData(habits); // Update the state
-        console.log("Today's habits 🧘‍♂️:", habits); // Log the mapped array
-      } catch (error) {
-        console.error("Error fetching today's data:", error);
-        setData([]);
-        setTodoData([]); // Ensure `todoData` is also reset on error
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTodayExpenses();
+    fetchTodayData();
   }, []);
 
   if (loading)
@@ -128,7 +128,6 @@ const List = () => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-4">
-                 
                   <NoDataFound title="No Todo Found!" url="pencil.png" />
                 </div>
               )}
@@ -146,7 +145,11 @@ const List = () => {
                 </div>
               ) : (
                 <div className="flex flex-col text-center items-center justify-center py-4">
-                  <NoDataFound title="No Habits tracked today" url="dog.png" size={200} />
+                  <NoDataFound
+                    title="No Habits tracked today"
+                    url="dog.png"
+                    size={200}
+                  />
                 </div>
               )}
             </div>
