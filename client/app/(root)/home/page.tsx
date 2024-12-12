@@ -47,7 +47,7 @@ const Page = async () => {
           <List />
         </TabsContent>
         <TabsContent value="github">
-         <GithubInfo />
+          <GithubInfo />
         </TabsContent>
       </Tabs>
     </main>

@@ -55,7 +55,7 @@ const More = ({ _id, field, setTodoData, todoData }: MoreProps) => {
   };
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <EllipsisVertical className="w-6 h-6 text-gray-600  transition-colors duration-300 cursor-pointer" />
