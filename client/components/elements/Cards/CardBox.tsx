@@ -39,7 +39,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
             )}
           </h3>
           <span
-            className={`text-sm font-light mt-1 px-3 py-1 rounded-full ${
+            className={`text-sm  font-light mt-1 px-3 py-1 rounded-full ${
               isExpense ? "bg-rose-600 text-white" : "bg-cyan-800 text-white"
             }`}
           >
@@ -49,20 +49,20 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
 
         {/* Amount Section */}
         <div className="flex items-center justify-between">
-          <p className="text-4xl font-extrabold text-gray-900">
+          <p className="text-2xl md:text-3xl font-extrabold text-gray-900">
             ₹{data.amount?.toFixed(2) ?? "0.00"}
           </p>
 
           {/* Icon Section */}
           <div className="absolute bottom-4 opacity-80 right-4 w-14 h-14 flex items-center justify-center  rounded-lg">
-        <div className="w-12 h-12 flex items-center justify-center   md:hover:scale-105 transform transition-transform duration-300 rounded-md">
-          {isExpense ? (
-            <BadgeIndianRupee className="text-green-600 w-8 h-8" />
-          ) : (
-            <Pizza className="text-yellow-600 w-8 h-8" />
-          )}
-        </div>
-      </div>
+            <div className="w-12 h-12 flex items-center justify-center   md:hover:scale-105 transform transition-transform duration-300 rounded-md">
+              {isExpense ? (
+                <BadgeIndianRupee className="text-green-600 w-8 h-8" />
+              ) : (
+                <Pizza className="text-yellow-600 w-8 h-8" />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
