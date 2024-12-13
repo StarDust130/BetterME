@@ -1,8 +1,6 @@
+import Loading from "@/app/loading";
+
 const loading = () => {
-  return (
-    <div className="flex justify-center items-center h-screen w-full">
-      loading... For Stats
-    </div>
-  );
+  return <Loading />;
 };
 export default loading;
