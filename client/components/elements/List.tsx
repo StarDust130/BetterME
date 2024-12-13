@@ -6,7 +6,7 @@ import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
-import CardSkeleton from "./Cards/CardSkeleton";
+import CardSkeleton from "./Loading/CardSkeleton";
 import { Separator } from "../ui/separator";
 import TodoCards from "./Cards/TodoCards";
 import HabitsCards from "./Cards/HabitsCards";
