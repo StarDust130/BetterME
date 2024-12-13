@@ -157,9 +157,9 @@ const List = () => {
               <>
                 {" "}
                 <Separator />
-                <div className=" md:mt-3 rounded-xl bg-gray-100 shadow-md border-b-2 border-t-2 p-3">
+                <div className=" md:mt-3 rounded-xl ">
                   <div className="flex justify-between items-center w-full py-4 rounded-lg">
-                    <h1 className="flex-grow text-center text-black/90 text-xl ml-6 md:text-2xl font-semibold">
+                    <h1 className="flex-grow text-center  text-xl ml-6 md:text-2xl font-semibold">
                       Today’s Activity
                     </h1>
                   </div>
