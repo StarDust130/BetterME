@@ -1,6 +1,6 @@
 import StatsPage from "@/components/elements/stats/StatsPage";
 
-const page = () => {
+const Page = () => {
   return <StatsPage />;
 };
-export default page;
+export default Page;

@@ -1,6 +1,6 @@
-import Loading from "@/components/elements/Loading/loading";
+import StatsSkelton from "@/components/elements/Loading/StatsSkelton";
 
 const loading = () => {
-  return <Loading />;
+  return <StatsSkelton />;
 };
 export default loading;
