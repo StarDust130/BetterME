@@ -1403,7 +1403,6 @@ body {
 .rope {
   height: 13.62em;
   width: 0.15em;
-  background-color: #ffffff;
   animation: swing 2s infinite;
 }
 
@@ -1611,7 +1610,6 @@ body {
 .cover {
   height: 3.12em;
   width: 0.15em;
-  background-color: #ffffff;
   bottom: 8.12em;
 }
 

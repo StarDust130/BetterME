@@ -2,7 +2,7 @@ const Loading = () => {
   return (
     <div className="w-full h-screen flex flex-col gap-6 justify-center items-center">
       <div className="container center">
-        <div className="rope center">
+        <div className="rope dark:bg-gray-100 bg-gray-800 center">
           <div className="legs center">
             <div className="boot-l"></div>
             <div className="boot-r"></div>
@@ -22,7 +22,7 @@ const Loading = () => {
               <div className="eye-l"></div>
               <div className="eye-r"></div>
             </div>
-            <div className="cover center"></div>
+            <div className="cover dark:bg-gray-100 bg-gray-800 center"></div>
           </div>
         </div>
       </div>
