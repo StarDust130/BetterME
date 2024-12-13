@@ -39,9 +39,9 @@ const HomeSkeleton = () => {
           <Separator />
 
           {/* Today Todo Skeleton */}
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-            <Skeleton className="w-full  h-16 md:h-60" />
-            <Skeleton className="w-full  h-16 md:h-60" />
+          <div className="flex flex-col md:flex-row gap-8 justify-between items-center">
+            <Skeleton className="w-full  h-10 md:h-80" />
+            <Skeleton className="w-full  h-10 md:h-80" />
           </div>
 
           {/* Today Activity Skeleton */}
