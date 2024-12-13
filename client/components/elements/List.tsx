@@ -6,7 +6,6 @@ import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
 import CardBox from "./Cards/CardBox";
 import NoDataFound from "./NoDataFound";
-import CardSkeleton from "./Loading/CardSkeleton";
 import { Separator } from "../ui/separator";
 import TodoCards from "./Cards/TodoCards";
 import HabitsCards from "./Cards/HabitsCards";
@@ -33,10 +32,8 @@ const List = () => {
   const [data, setData] = useState<DataType[]>([]); // Data will hold both expenses and junk food
   const [todoData, setTodoData] = useState<TodoType[]>([]);
   const [habitsData, setHabitsData] = useState<any[]>([]); // Habits data
-  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchTodayData = async () => {
-    setLoading(true);
     try {
       const clerkID = await getClerkUserID();
       const { data: response } = await axios.get(
@@ -90,21 +87,12 @@ const List = () => {
       console.error("Error fetching today's data:", error);
       setData([]);
       setTodoData([]); // Ensure `todoData` is also reset on error
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchTodayData();
   }, []);
-
-  if (loading)
-    return (
-      <div className="flex gap-2 items-center h-full mb-20 md:mt-10 justify-center">
-        <CardSkeleton />
-      </div>
-    );
 
   return (
     <>
