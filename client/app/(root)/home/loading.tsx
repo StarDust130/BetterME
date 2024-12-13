@@ -1,6 +1,7 @@
-import Loading from "@/components/elements/Loading/loading";
+import HomeSkeleton from "@/components/elements/Loading/HomeSkeleton";
+
 
 const loading = () => {
-  return <Loading />;
+  return <HomeSkeleton />;
 };
 export default loading;
