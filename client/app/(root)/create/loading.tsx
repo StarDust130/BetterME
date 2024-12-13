@@ -1,8 +1,6 @@
-import Loading from "@/app/loading";
+import CreateSkelton from "@/components/elements/Loading/CreateSkeleton";
 
 const loading = () => {
-  return (
-   <Loading />
-  );
+  return <CreateSkelton />;
 }
 export default loading
