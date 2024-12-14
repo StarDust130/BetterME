@@ -2,6 +2,7 @@ import Express from "express";
 import {
   createDayTask,
   deleteDayTask,
+  editTask,
   getDayTask,
   getTodayTask,
   isCompletedToggle,
@@ -14,6 +15,7 @@ router
   .route("/")
   .get(validateClerkID, getDayTask) //? Get all tasks
   .post(validateClerkID, createDayTask) //? Create a new task
+  .patch(validateClerkID, editTask) //? Edit a task
   .delete(validateClerkID, deleteDayTask); //? Delete a task
 
 router.get("/today", validateClerkID, getTodayTask);

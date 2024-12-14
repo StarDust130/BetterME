@@ -200,10 +200,14 @@ const isCompletedToggle = catchAsync(async (req, res, next) => {
   });
 });
 
+//! Edit Task ✏️ - Edit a task in the todo, expenses, or junkFood array
+const editTask = catchAsync(async (req, res, next) => {});
+
 export {
   createDayTask,
   getDayTask,
   deleteDayTask,
   getTodayTask,
   isCompletedToggle,
+  editTask,
 };
