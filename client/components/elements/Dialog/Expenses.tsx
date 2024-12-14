@@ -26,6 +26,12 @@ interface ExpensesProps {
   setData?: (data: any) => void;
 }
 
+interface Todo {
+  title: string;
+  amount: number;
+  _id?: string;
+}
+
 const Expenses = ({ todayData, setData }: ExpensesProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
@@ -73,7 +79,7 @@ const Expenses = ({ todayData, setData }: ExpensesProps) => {
           title: "Expense Updated! 💸",
           description: `₹${values.amount} spent on ${
             values.title || "an item"
-          } has been added successfully.`,
+          } has been updated successfully.`,
         });
       } else {
         // Create a new task
@@ -93,24 +99,12 @@ const Expenses = ({ todayData, setData }: ExpensesProps) => {
 
       // Update state with the new or updated task
       if (responseData) {
-        interface Task {
-          _id: string;
-          title: string;
-          amount: number;
-        }
-
-        interface ResponseData {
-          data: {
-            todo: Task[];
-          };
-        }
-
-        setData?.((prevTasks: Task[]) => {
+        setData?.((prevTasks: Todo[]) => {
           const updatedTasks = todayData
             ? prevTasks.map((t) =>
                 t._id === todayData._id ? { ...t, title, amount } : t
               )
-            : [...prevTasks, (responseData as ResponseData).data.todo[0]];
+            : [...prevTasks, responseData.data.todo[0]];
 
           return updatedTasks;
         });
