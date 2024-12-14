@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import Image from "next/image";
 import Todo from "./Dialog/Todo";
+import { Capitalized } from "@/lib/utils";
 
 // 🛠️ Props Interface
 interface MoreProps {
@@ -165,7 +166,9 @@ const More = ({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="z-50">
           <DialogHeader>
-            <DialogTitle>Edit {field} ✏️</DialogTitle>
+            <DialogTitle className="text-center w-full">
+              Edit {Capitalized(field)} ✏️
+            </DialogTitle>
 
             <div className="flex flex-col items-center gap-4">
               <Image
