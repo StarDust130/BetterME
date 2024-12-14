@@ -172,7 +172,7 @@ const More = ({
 
             <div className="flex flex-col items-center gap-4">
               <Image
-                src="/anya.png"
+                src="/anime-girl-2.png"
                 alt="Anime Girl"
                 width={300}
                 height={300}
