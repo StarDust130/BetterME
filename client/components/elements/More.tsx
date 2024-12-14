@@ -75,7 +75,9 @@ const More = ({
       toast({
         title: "Task Edited Successfully 🥳",
         description: `${
-          response?.data?.task || todayData?.title || todayData?.foodName
+          field === "todo"
+            ? todoData?.find((todo) => todo._id === _id)?.task
+            : todayData?.title || todayData?.foodName
         } has been edited successfully.`,
       });
     } catch (error: any) {
