@@ -129,7 +129,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
         width={300}
         height={300}
       />
-      <div className="flex items-center justify-center px-4">
+      <div className="flex items-center justify-center w-full ">
         <div className="w-full max-w-md space-y-6">
           <p className="text-center text-xs md:text-sm ">
             {taskData

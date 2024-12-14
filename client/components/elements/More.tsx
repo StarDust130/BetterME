@@ -163,9 +163,9 @@ const More = ({
 
       {/* 🔍 Dialog for Task Editing */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="z-50">
-          <DialogHeader>
-            <DialogTitle className="text-center w-full">
+        <DialogContent className="z-50 border-2 border-black dark:border-gray-300 border-dashed p-4 rounded-lg shadow-lg w-full">
+          <DialogHeader >
+            <DialogTitle className="text-xl text-center md:text-2xl">
               Edit {Capitalized(field)} ✏️
             </DialogTitle>
 
