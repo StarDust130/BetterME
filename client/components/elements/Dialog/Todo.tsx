@@ -82,7 +82,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
         );
         responseData = data;
         toast({
-          title: "Task Updated!",
+          title: "Task Updated! 🔄",
           description: `Task "${task}" updated successfully.`,
         });
       } else {
