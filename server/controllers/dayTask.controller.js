@@ -157,8 +157,7 @@ const isCompletedToggle = catchAsync(async (req, res, next) => {
   // 1) Check Clerk ID
   const clerkID = req.clerkID;
 
-  // 2) Find the task by ID
-
+  // 2) Get the task by ID
   const taskID = req.query.taskID;
 
   if (!taskID) {
@@ -201,7 +200,62 @@ const isCompletedToggle = catchAsync(async (req, res, next) => {
 });
 
 //! Edit Task ✏️ - Edit a task in the todo, expenses, or junkFood array
-const editTask = catchAsync(async (req, res, next) => {});
+const editTask = catchAsync(async (req, res, next) => {
+  // 🛠️ 1) Extract necessary parameters
+  const clerkID = req.clerkID; // Clerk ID from request middleware
+  const taskID = req.query.taskID; // Task ID from query parameters
+  const { field, updates } = req.body; // Field to edit and updates from body
+
+  // 🚨 2) Validate inputs
+  if (!taskID) {
+    return next(new AppError("Please provide Task ID", 400));
+  }
+
+  if (!["expenses", "junkFood", "journal", "todo"].includes(field)) {
+    return next(
+      new AppError(
+        "Field must be one of: expenses, junkFood, journal, todo",
+        400
+      )
+    );
+  }
+
+  // 🔍 3) Dynamically find and update the field
+  const updateQuery = {
+    clerkID,
+    [`${field}._id`]: taskID, // Dynamically set field ID to find
+  };
+
+  const updateOperation =
+    field === "journal"
+      ? { $set: { [field]: updates } } // For journal, update the entire object
+      : {
+          $set: {
+            [`${field}.$`]: updates, // For arrays, update the matching item
+          },
+        };
+
+  const updatedTask = await DayTask.findOneAndUpdate(
+    updateQuery,
+    updateOperation,
+    {
+      new: true, // Return the updated document
+      runValidators: true, // Validate the updates
+    }
+  );
+
+  // 🔎 4) Handle case when the task is not found
+  if (!updatedTask) {
+    return next(new AppError("Task not found or update failed", 404));
+  }
+
+  // ✅ 5) Respond with success
+  res.status(200).json({
+    status: "success",
+    message: "Updated successfully 🎉",
+    data: updatedTask,
+  });
+});
 
 export {
   createDayTask,
