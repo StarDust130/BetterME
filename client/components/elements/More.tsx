@@ -179,6 +179,7 @@ const More = ({
               />
               <Todo
                 taskData={todoData?.find((todo) => todo._id === _id) || null}
+                setTodoData={setTodoData}
               />
             </div>
           </DialogHeader>

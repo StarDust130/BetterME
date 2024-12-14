@@ -34,9 +34,10 @@ interface TaskData extends z.infer<typeof todoSchema> {
 
 interface TodoProps {
   taskData?: TaskData | null;
+  setTodoData?: React.Dispatch<React.SetStateAction<TaskData[]>>;
 }
 
-const Todo = ({ taskData = null }: TodoProps) => {
+const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
@@ -54,75 +55,68 @@ const Todo = ({ taskData = null }: TodoProps) => {
       // Pre-fill the form with existing task data when in edit mode
       form.reset(taskData);
       console.log("Task Data 👺:", taskData);
-      
     }
   }, [taskData, form]);
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof todoSchema>) {
-    try {
-      const { task, priority } = values;
-      const clerkID = await getClerkUserID();
+    const { task, priority } = values;
+    const clerkID = await getClerkUserID();
 
+    try {
       closeDialogRef.current?.click();
       form.reset();
 
-      console.log(clerkID);
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
+      const options = { withCredentials: true };
 
-      // Make the API request
+      let responseData;
+
       if (taskData) {
-        const data = await axios.patch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskID=${taskData._id}`,
-          {
-            field: "todo",
-            updates: {
-              task,
-              priority
-            },
-          },
-          {
-            withCredentials: true, // Include cookies for authentication
-          }
+        // Update existing task
+        const { data } = await axios.patch(
+          `${url}?clerkID=${clerkID}&taskID=${taskData._id}`,
+          { field: "todo", updates: { task, priority } },
+          options
         );
-        console.log("Data from Update:", data);
+        responseData = data;
+        toast({
+          title: "Task Updated!",
+          description: `Task "${task}" updated successfully.`,
+        });
       } else {
-        const data = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}`,
-          {
-            clerkID,
-            todo: [
-              {
-                task,
-
-                priority,
-              },
-            ],
-          },
-          {
-            withCredentials: true, // Include cookies for authentication
-          }
+        // Create a new task
+        const { data } = await axios.post(
+          url,
+          { clerkID, todo: [{ task, priority }] },
+          options
         );
-        console.log("Data from Create:", data);
+        responseData = data;
+        toast({
+          title: "Task Added!",
+          description: `Task "${task}" added successfully.`,
+        });
       }
 
-      toast({
-        title: "Task Recorded! 📝",
-        description: `Task "${values.task}" has been added successfully.`,
-      });
+      // Update state with the new or updated task
+      if (responseData) {
+        setTodoData?.((prevTasks) => {
+          const updatedTasks = taskData
+            ? prevTasks.map((t) =>
+                t._id === taskData._id ? { ...t, task, priority } : t
+              )
+            : [...prevTasks, responseData.data.todo[0]];
+
+          return updatedTasks;
+        });
+      }
     } catch (error: any) {
       console.error("Error:", error);
-
       toast({
         title: "Error",
-        description:
-          error.response?.data?.message ||
-          error.message ||
-          "An error occurred.",
+        description: error.response?.data?.message || "Something went wrong.",
         variant: "destructive",
       });
-    } finally {
-      closeDialogRef.current?.click();
-      form.reset();
     }
   }
 
