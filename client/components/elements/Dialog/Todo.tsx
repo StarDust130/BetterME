@@ -41,6 +41,7 @@ const Todo = ({ taskData = null }: TodoProps) => {
     resolver: zodResolver(todoSchema),
     defaultValues: {
       task: "",
+      priority: taskData?.priority && taskData?.priority,
     },
   });
 
@@ -178,7 +179,7 @@ const Todo = ({ taskData = null }: TodoProps) => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                Add Task
+                {!taskData ? "Add Task 📝" : "Edit Task 🔄"} 
               </Button>
             </form>
           </Form>
