@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,6 @@ import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
 import { EllipsisVertical, EyeOff, Pencil, Trash2 } from "lucide-react";
 import { DataType, TodoType } from "./List";
-
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 
+// 🛠️ Props Interface
 interface MoreProps {
   _id: string;
   field: string;
@@ -42,54 +43,41 @@ const More = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Handle dialog close
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
-
-  //! Update UI to Edit a Task
-  const UpdateUI = () => {
-    // Update the todoData after deletion
-    if (field === "todo") {
-      if (todoData) {
-        const updatedTodos = todoData.filter((todo) => todo._id !== _id);
-        if (setTodoData) {
-          setTodoData(updatedTodos);
-        }
-      }
+  //! ✨ Update UI after task is deleted
+  const updateUIAfterDelete = () => {
+    if (field === "todo" && todoData && setTodoData) {
+      const updatedTodos = todoData.filter((todo) => todo._id !== _id);
+      setTodoData(updatedTodos);
     }
 
-    // Update `data` if the field is `expenses` or `junkFood`
     if (
       (field === "expenses" || field === "junkFood") &&
       todayData &&
       setData
     ) {
-      setData((prevData: DataType[]) => {
-        return prevData.filter((item) => item._id !== _id);
-      });
+      setData((prevData: DataType[]) =>
+        prevData.filter((item) => item._id !== _id)
+      );
     }
   };
 
-  //! Edit a Task
-  const handleEdit = async () => {
-    setIsDialogOpen(true); // Open the dialog after successful edit
+  //! ✏️ Handle task editing
+  const handleEditTask = async () => {
+    setIsDialogOpen(true); // Open dialog
     try {
       const clerkID = await getClerkUserID();
-      const data = await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
       );
-
-      console.log("Data 🫥:", data);
 
       toast({
         title: "Task Edited Successfully 🥳",
         description: `${
-          data?.data?.task || todayData?.title || todayData?.foodName
+          response?.data?.task || todayData?.title || todayData?.foodName
         } has been edited successfully.`,
       });
     } catch (error: any) {
-      console.log(error);
+      console.error("Error editing task", error);
       toast({
         title: "Error",
         description: error?.response?.data?.message || "Something went wrong",
@@ -98,25 +86,23 @@ const More = ({
     }
   };
 
-  //! Delete a task
-  const handleDelete = async () => {
-    UpdateUI();
+  //! 🗑️ Handle task deletion
+  const handleDeleteTask = async () => {
+    updateUIAfterDelete();
     try {
       const clerkID = await getClerkUserID();
-      const data = await axios.delete(
+      const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
       );
-
-      console.log("Data 🫥:", data);
 
       toast({
         title: "Task Deleted Successfully 🥳",
         description: `${
-          data?.data?.task || todayData?.title || todayData?.foodName
+          response?.data?.task || todayData?.title || todayData?.foodName
         } has been deleted successfully.`,
       });
     } catch (error: any) {
-      console.log(error);
+      console.error("Error deleting task", error);
       toast({
         title: "Error",
         description: error?.response?.data?.message || "Something went wrong",
@@ -125,57 +111,57 @@ const More = ({
     }
   };
 
-  // Close dropdown when dialog opens
-  const handleOpenDialog = () => {
-    console.log("Todo Data 😶‍🌫️", todoData);
-    handleEdit();
-    setIsDialogOpen(true);
-    setIsDropdownOpen(false); // Ensure dropdown closes
+  //! 😚 Handle dropdown closing when opening dialog
+  const handleOpenEditDialog = () => {
+    setIsDropdownOpen(false);
+    handleEditTask();
   };
 
   return (
     <div>
-      {/* Dropdown Menu */}
+      {/* 📜 Dropdown Menu */}
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger>
-          <EllipsisVertical className="w-6 h-6 text-gray-600 transition-colors duration-300 cursor-pointer" />
+          <EllipsisVertical className="w-6 h-6 text-gray-600 cursor-pointer" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className={`bg-white shadow-xl rounded-lg p-2 border border-gray-200 ${
-            isDropdownOpen ? "z-50" : "z-auto"
-          }`}
-        >
+
+        <DropdownMenuContent className="z-50 bg-white shadow rounded-lg p-2">
+          {/* ✏️ Edit Task */}
           <DropdownMenuItem
-            onClick={handleOpenDialog}
-            className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-gray-100"
+            onClick={handleOpenEditDialog}
+            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100"
           >
             <Pencil className="w-4 h-4 text-blue-500" />
-            <span className="text-gray-800 font-medium">Edit Details</span>
+            <span>Edit Task</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-gray-100">
+
+          {/* 👁️ Hide Task */}
+          <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100">
             <EyeOff className="w-4 h-4 text-yellow-500" />
-            <span className="text-gray-800 font-medium">Hide Activity</span>
+            <span>Hide Task</span>
           </DropdownMenuItem>
+
+          {/* 🗑️ Delete Task */}
           <DropdownMenuItem
-            onClick={handleDelete}
-            className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-red-100"
+            onClick={handleDeleteTask}
+            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-red-100"
           >
             <Trash2 className="w-4 h-4 text-red-500" />
-            <span className="text-red-500 font-medium">Delete Permanently</span>
+            <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Dialog Component */}
+      {/* 🔍 Dialog for Task Editing */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="z-50">
           <DialogHeader>
             <DialogTitle>Edit Task</DialogTitle>
             <DialogDescription>
-              You can update the details of this task here.
+              Modify the task details below:
             </DialogDescription>
           </DialogHeader>
-          {/* Add form or content to edit task here */}
+          {/* Add form fields for editing the task here */}
         </DialogContent>
       </Dialog>
     </div>
