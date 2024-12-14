@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Image from "next/image";
 
 interface TaskData extends z.infer<typeof todoSchema> {
   _id?: string;
@@ -121,13 +122,21 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center w-full gap-4">
+      <Image
+        src={taskData ? "/anime-girl-2.png" : "/anime-girl-3.png"}
+        alt="Anime Girl"
+        width={300}
+        height={300}
+      />
       <div className="flex items-center justify-center px-4">
         <div className="w-full max-w-md space-y-6">
-          <p className="text-center text-xs md:text-sm text-gray-600">
-            Keep track of your tasks and stay organized. Log your daily
-            activities and stay on top of your to-do list! 📝
+          <p className="text-center text-xs md:text-sm ">
+            {taskData
+              ? "Edit your task to keep it updated and relevant. ✏️"
+              : "Add a new task to stay organized and on top of your to-do list! 📝"}
           </p>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               {/* Task Field */}
@@ -194,7 +203,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                {!taskData ? "Add Task 📝" : "Edit Task 🔄"}
+                {!taskData ? "Add Task 📝" : "Edit Todo 🔄"}
               </Button>
             </form>
           </Form>
@@ -202,7 +211,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
           <DialogClose ref={closeDialogRef} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

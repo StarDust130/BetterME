@@ -19,7 +19,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import Image from "next/image";
 import Todo from "./Dialog/Todo";
 import { Capitalized } from "@/lib/utils";
 
@@ -170,18 +169,10 @@ const More = ({
               Edit {Capitalized(field)} ✏️
             </DialogTitle>
 
-            <div className="flex flex-col items-center gap-4">
-              <Image
-                src="/anime-girl-2.png"
-                alt="Anime Girl"
-                width={300}
-                height={300}
-              />
-              <Todo
-                taskData={todoData?.find((todo) => todo._id === _id) || null}
-                setTodoData={setTodoData}
-              />
-            </div>
+            <Todo
+              taskData={todoData?.find((todo) => todo._id === _id) || null}
+              setTodoData={setTodoData}
+            />
           </DialogHeader>
           {/* Add form fields for editing the task here */}
         </DialogContent>
