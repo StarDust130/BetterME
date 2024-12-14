@@ -21,6 +21,8 @@ import {
 import { useState } from "react";
 import Todo from "./Dialog/Todo";
 import { Capitalized } from "@/lib/utils";
+import Expenses from "./Dialog/Expenses";
+import JunkFood from "./Dialog/JunkFood";
 
 // 🛠️ Props Interface
 interface MoreProps {
@@ -164,15 +166,23 @@ const More = ({
       {/* 🔍 Dialog for Task Editing */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="z-50 border-2 border-black dark:border-gray-300 border-dashed p-4 rounded-lg shadow-lg w-full">
-          <DialogHeader >
+          <DialogHeader>
             <DialogTitle className="text-xl text-center md:text-2xl">
               Edit {Capitalized(field)} ✏️
             </DialogTitle>
 
-            <Todo
-              taskData={todoData?.find((todo) => todo._id === _id) || null}
-              setTodoData={setTodoData}
-            />
+            <div className="text-sm text-muted-foreground mx-2 my-2">
+              {field === "expenses" && (
+                <Expenses todayData={todayData} setData={setData} />
+              )}
+              {field === "junkFood" && <JunkFood />}
+              {field === "todo" && (
+                <Todo
+                  setTodoData={setTodoData}
+                  taskData={todoData?.find((todo) => todo._id === _id) || null}
+                />
+              )}
+            </div>
           </DialogHeader>
           {/* Add form fields for editing the task here */}
         </DialogContent>
