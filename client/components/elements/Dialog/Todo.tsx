@@ -93,7 +93,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
         );
         responseData = data;
         toast({
-          title: "Task Added!",
+          title: "Task Added!🥳",
           description: `Task "${task}" added successfully.`,
         });
       }
@@ -113,7 +113,7 @@ const Todo = ({ taskData = null, setTodoData }: TodoProps) => {
     } catch (error: any) {
       console.error("Error:", error);
       toast({
-        title: "Error",
+        title: "Error 😿",
         description: error.response?.data?.message || "Something went wrong.",
         variant: "destructive",
       });
