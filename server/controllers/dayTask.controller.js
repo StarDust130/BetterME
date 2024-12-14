@@ -228,7 +228,7 @@ const editTask = catchAsync(async (req, res, next) => {
 
   const updateOperation =
     field === "journal"
-      ? { $set: { [field]: updates } } // Update the entire journal object
+      ? { $set: { [field]: updates } } // Update the entire journal object ( //TODO: Imprve it not all a part update)
       : Object.keys(updates).reduce(
           (acc, key) => ({
             ...acc,
