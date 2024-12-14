@@ -92,7 +92,7 @@ const More = ({
   };
 
   //! 🗑️ Handle task deletion
-  const handleDeleteTask = async () => {
+  const handleDelete = async () => {
     updateUIAfterDelete();
     try {
       const clerkID = await getClerkUserID();
@@ -138,25 +138,25 @@ const More = ({
           {/* ✏️ Edit Task */}
           <DropdownMenuItem
             onClick={handleOpenEditDialog}
-            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100"
+            className="flex items-center dark:hover:bg-gray-100 gap-3 px-4 py-2 rounded-md transition-colors duration-300"
           >
             <Pencil className="w-4 h-4 text-blue-500" />
-            <span>Edit Task</span>
+            <span className="text-gray-800 font-medium">Edit Details</span>
           </DropdownMenuItem>
 
           {/* 👁️ Hide Task */}
-          <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100">
+          <DropdownMenuItem className="flex items-center dark:hover:bg-gray-100 gap-3 px-4 py-2 rounded-md transition-colors duration-300">
             <EyeOff className="w-4 h-4 text-yellow-500" />
-            <span>Hide Task</span>
+            <span className="text-gray-800 font-medium">Hide Activity</span>
           </DropdownMenuItem>
 
           {/* 🗑️ Delete Task */}
           <DropdownMenuItem
-            onClick={handleDeleteTask}
-            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-red-100"
+            className="flex items-center dark:hover:bg-red-100 gap-3 px-4 py-2 rounded-md transition-colors duration-300"
+            onClick={handleDelete}
           >
             <Trash2 className="w-4 h-4 text-red-500" />
-            <span>Delete</span>
+            <span className="text-red-500 font-medium">Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
