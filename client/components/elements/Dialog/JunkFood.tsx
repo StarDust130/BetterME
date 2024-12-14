@@ -119,20 +119,21 @@ const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center w-full gap-4">
       <Image
         src={todayData ? "/anime-girl-2.png" : "/anime-girl-3.png"}
         alt="Anime Girl"
         width={300}
         height={300}
-        className=" w-full "
       />
-      <div className=" flex items-center justify-center px-4">
+      <div className="flex items-center justify-center w-full ">
         <div className="w-full max-w-md space-y-6">
-          <p className="text-center text-xs md:text-sm text-gray-600">
-            Junk food harms health and energy. Choose better for a happier you!
-            🥲🍔🚫
+          <p className="text-center text-xs md:text-sm">
+            {todayData
+              ? "Update your task and say no to junk food! 🥲🍔🚫"
+              : "Junk food = bad vibes. Create a task for a healthier you! 🥔💪"}
           </p>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               {/* foodName Field */}
@@ -201,7 +202,7 @@ const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                Submit
+                {!todayData ? "Add Junk Food 🍔📝" : "Edit Junk Food 🍟🔄"}
               </Button>
             </form>
           </Form>
@@ -209,7 +210,7 @@ const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
           <DialogClose ref={closeDialogRef} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

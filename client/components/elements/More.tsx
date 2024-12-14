@@ -168,7 +168,7 @@ const More = ({
         <DialogContent className="z-50 border-2 border-black dark:border-gray-300 border-dashed p-4 rounded-lg shadow-lg w-full">
           <DialogHeader>
             <DialogTitle className="text-xl text-center md:text-2xl">
-              Edit {Capitalized(field)} ✏️
+              Edit {Capitalized(field)} 📝
             </DialogTitle>
 
             <div className="text-sm text-muted-foreground mx-2 my-2">
