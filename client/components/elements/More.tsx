@@ -15,16 +15,17 @@ import { DataType, TodoType } from "./List";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import Image from "next/image";
+import Todo from "./Dialog/Todo";
 
 // 🛠️ Props Interface
 interface MoreProps {
   _id: string;
-  field: string;
+  field: "expenses" | "junkFood" | "todo";
   setTodoData?: (data: any) => void;
   todoData?: TodoType[];
   setData?: (data: any) => void;
@@ -72,14 +73,14 @@ const More = ({
 
       console.log("Task to edit 😅", response.data);
 
-      toast({
-        title: "Task Edited Successfully 🥳",
-        description: `${
-          field === "todo"
-            ? todoData?.find((todo) => todo._id === _id)?.task
-            : todayData?.title || todayData?.foodName
-        } has been edited successfully.`,
-      });
+      // toast({
+      //   title: "Task Edited Successfully 🥳",
+      //   description: `${
+      //     field === "todo"
+      //       ? todoData?.find((todo) => todo._id === _id)?.task
+      //       : todayData?.title || todayData?.foodName
+      //   } has been edited successfully.`,
+      // });
     } catch (error: any) {
       console.error("Error editing task", error);
       toast({
@@ -133,7 +134,7 @@ const More = ({
           <EllipsisVertical className="w-6 h-6 text-gray-600 cursor-pointer" />
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="z-50 bg-white shadow rounded-lg p-2">
+        <DropdownMenuContent className="z-50 bg-white text-black shadow rounded-lg p-2">
           {/* ✏️ Edit Task */}
           <DropdownMenuItem
             onClick={handleOpenEditDialog}
@@ -164,10 +165,19 @@ const More = ({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="z-50">
           <DialogHeader>
-            <DialogTitle>Edit Task</DialogTitle>
-            <DialogDescription>
-              Modify the task details below:
-            </DialogDescription>
+            <DialogTitle>Edit {field} ✏️</DialogTitle>
+
+            <div className="flex flex-col items-center gap-4">
+              <Image
+                src="/anime-girl.png"
+                alt="Anime Girl"
+                width={300}
+                height={300}
+              />
+              <Todo
+                taskData={todoData?.find((todo) => todo._id === _id) || null}
+              />
+            </div>
           </DialogHeader>
           {/* Add form fields for editing the task here */}
         </DialogContent>
