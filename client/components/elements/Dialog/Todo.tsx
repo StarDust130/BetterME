@@ -28,8 +28,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface TaskData extends z.infer<typeof todoSchema> {
+  _id?: string;
+}
+
 interface TodoProps {
-  taskData?: z.infer<typeof todoSchema> | null;
+  taskData?: TaskData | null;
 }
 
 const Todo = ({ taskData = null }: TodoProps) => {
@@ -49,8 +53,9 @@ const Todo = ({ taskData = null }: TodoProps) => {
     if (taskData) {
       // Pre-fill the form with existing task data when in edit mode
       form.reset(taskData);
+      console.log("Task Data 👺:", taskData);
+      
     }
-    console.log("Task Data 🥺:", taskData);
   }, [taskData, form]);
 
   //! 2. Define a submit handler.
@@ -65,24 +70,40 @@ const Todo = ({ taskData = null }: TodoProps) => {
       console.log(clerkID);
 
       // Make the API request
-      const data = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}`,
-        {
-          clerkID,
-          todo: [
-            {
+      if (taskData) {
+        const data = await axios.patch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskID=${taskData._id}`,
+          {
+            field: "todo",
+            updates: {
               task,
-
-              priority,
+              priority
             },
-          ],
-        },
-        {
-          withCredentials: true, // Include cookies for authentication
-        }
-      );
+          },
+          {
+            withCredentials: true, // Include cookies for authentication
+          }
+        );
+        console.log("Data from Update:", data);
+      } else {
+        const data = await axios.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+          {
+            clerkID,
+            todo: [
+              {
+                task,
 
-      console.log("Data:", data);
+                priority,
+              },
+            ],
+          },
+          {
+            withCredentials: true, // Include cookies for authentication
+          }
+        );
+        console.log("Data from Create:", data);
+      }
 
       toast({
         title: "Task Recorded! 📝",
@@ -179,7 +200,7 @@ const Todo = ({ taskData = null }: TodoProps) => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                {!taskData ? "Add Task 📝" : "Edit Task 🔄"} 
+                {!taskData ? "Add Task 📝" : "Edit Task 🔄"}
               </Button>
             </form>
           </Form>
