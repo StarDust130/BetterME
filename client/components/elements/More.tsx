@@ -12,6 +12,15 @@ import axios from "axios";
 import { EllipsisVertical, EyeOff, Pencil, Trash2 } from "lucide-react";
 import { DataType, TodoType } from "./List";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+
 interface MoreProps {
   _id: string;
   field: string;
@@ -30,6 +39,13 @@ const More = ({
   todayData,
 }: MoreProps) => {
   const { toast } = useToast();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Handle dialog close
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
 
   //! Update UI to Edit a Task
   const UpdateUI = () => {
@@ -57,6 +73,7 @@ const More = ({
 
   //! Edit a Task
   const handleEdit = async () => {
+    setIsDialogOpen(true); // Open the dialog after successful edit
     try {
       const clerkID = await getClerkUserID();
       const data = await axios.post(
@@ -69,9 +86,9 @@ const More = ({
         title: "Task Edited Successfully 🥳",
         description: `${
           data?.data?.task || todayData?.title || todayData?.foodName
-        } has been deleted successfully.`,
+        } has been edited successfully.`,
       });
-    } catch (error : any) {
+    } catch (error: any) {
       console.log(error);
       toast({
         title: "Error",
@@ -108,34 +125,59 @@ const More = ({
     }
   };
 
+  // Close dropdown when dialog opens
+  const handleOpenDialog = () => {
+    console.log("Todo Data 😶‍🌫️", todoData);
+    handleEdit();
+    setIsDialogOpen(true);
+    setIsDropdownOpen(false); // Ensure dropdown closes
+  };
+
   return (
-    <div className="overflow-hidden">
-      <DropdownMenu>
+    <div>
+      {/* Dropdown Menu */}
+      <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger>
-          <EllipsisVertical className="w-6 h-6 text-gray-600  transition-colors duration-300 cursor-pointer" />
-          
+          <EllipsisVertical className="w-6 h-6 text-gray-600 transition-colors duration-300 cursor-pointer" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-white   shadow-xl rounded-lg p-2 border border-gray-200">
+        <DropdownMenuContent
+          className={`bg-white shadow-xl rounded-lg p-2 border border-gray-200 ${
+            isDropdownOpen ? "z-50" : "z-auto"
+          }`}
+        >
           <DropdownMenuItem
-            onClick={handleEdit}
-            className="flex  items-center dark:hover:bg-gray-100 gap-3  px-4 py-2  rounded-md transition-colors duration-300"
+            onClick={handleOpenDialog}
+            className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-gray-100"
           >
             <Pencil className="w-4 h-4 text-blue-500" />
             <span className="text-gray-800 font-medium">Edit Details</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center dark:hover:bg-gray-100 gap-3 px-4 py-2  rounded-md transition-colors duration-300">
+          <DropdownMenuItem className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-gray-100">
             <EyeOff className="w-4 h-4 text-yellow-500" />
-            <span className="text-gray-800  font-medium">Hide Activity</span>
+            <span className="text-gray-800 font-medium">Hide Activity</span>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex items-center dark:hover:bg-red-100 gap-3 px-4 py-2  rounded-md transition-colors duration-300"
             onClick={handleDelete}
+            className="flex items-center gap-3 px-4 py-2 rounded-md transition-colors duration-300 hover:bg-red-100"
           >
             <Trash2 className="w-4 h-4 text-red-500" />
             <span className="text-red-500 font-medium">Delete Permanently</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Dialog Component */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="z-50">
+          <DialogHeader>
+            <DialogTitle>Edit Task</DialogTitle>
+            <DialogDescription>
+              You can update the details of this task here.
+            </DialogDescription>
+          </DialogHeader>
+          {/* Add form or content to edit task here */}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
