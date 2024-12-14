@@ -70,6 +70,8 @@ const More = ({
         `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
       );
 
+      console.log("Task to edit 😅", response.data);
+
       toast({
         title: "Task Edited Successfully 🥳",
         description: `${
@@ -95,10 +97,14 @@ const More = ({
         `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
       );
 
+      console.log("Task deleted successfully", response);
+
       toast({
         title: "Task Deleted Successfully 🥳",
         description: `${
-          response?.data?.task || todayData?.title || todayData?.foodName
+          field === "todo"
+            ? todoData?.find((todo) => todo._id === _id)?.task
+            : todayData?.title || todayData?.foodName
         } has been deleted successfully.`,
       });
     } catch (error: any) {
