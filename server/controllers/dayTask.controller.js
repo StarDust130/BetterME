@@ -220,20 +220,25 @@ const editTask = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 🔍 3) Dynamically find and update the field
+  // 🔍 3) Dynamically find and partially update the field
   const updateQuery = {
     clerkID,
-    [`${field}._id`]: taskID, // Dynamically set field ID to find
+    [`${field}._id`]: taskID, // Match the specific array element by ID
   };
 
   const updateOperation =
     field === "journal"
-      ? { $set: { [field]: updates } } // For journal, update the entire object
-      : {
-          $set: {
-            [`${field}.$`]: updates, // For arrays, update the matching item
-          },
-        };
+      ? { $set: { [field]: updates } } // Update the entire journal object
+      : Object.keys(updates).reduce(
+          (acc, key) => ({
+            ...acc,
+            $set: {
+              ...acc.$set,
+              [`${field}.$.${key}`]: updates[key], // Partial updates within the array
+            },
+          }),
+          { $set: {} }
+        );
 
   const updatedTask = await DayTask.findOneAndUpdate(
     updateQuery,
@@ -244,6 +249,8 @@ const editTask = catchAsync(async (req, res, next) => {
     }
   );
 
+  console.log("updatedTask 😆", updatedTask);
+  
   // 🔎 4) Handle case when the task is not found
   if (!updatedTask) {
     return next(new AppError("Task not found or update failed", 404));
@@ -256,6 +263,8 @@ const editTask = catchAsync(async (req, res, next) => {
     data: updatedTask,
   });
 });
+
+
 
 export {
   createDayTask,
