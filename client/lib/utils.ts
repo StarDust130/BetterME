@@ -14,7 +14,7 @@ export const formatDate = (date: string): string => {
 };
 
 const emojiCategories = {
-  junkFood: ["🍕", "🍔", "🌭", "🍟", "🍩", "🍪", "🥤" , "🧁"],
+  junkFood: ["🍕", "🍔", "🌭", "🍟", "🍩", "🍪", "🥤", "🧁"],
   expenses: ["💸", "💰", "💳", "🏦", "📈", "📉"],
   others: ["🚀", "🎉", "🐱", "🌟", "🎵", "💻", "😎", "👾", "🏖️", "🎮", "🧑‍💻"],
 };
@@ -36,3 +36,8 @@ export function getRandomEmoji(category?: "junkfood" | "expenses"): string {
     ];
   }
 }
+
+export const Capitalized = (text: string) => {
+  if (!text) return ""; // Handle empty or undefined text input
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
