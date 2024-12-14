@@ -31,7 +31,6 @@ export const todoSchema = z.object({
     .string()
     .min(2, { message: "Task Name must be at least 2 characters." })
     .max(50),
-  description: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]).optional(),
 });
 

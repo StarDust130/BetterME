@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
@@ -27,7 +28,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const Todo = () => {
+interface TodoProps {
+  taskData?: z.infer<typeof todoSchema> | null;
+}
+
+const Todo = ({ taskData = null }: TodoProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
@@ -36,14 +41,21 @@ const Todo = () => {
     resolver: zodResolver(todoSchema),
     defaultValues: {
       task: "",
-      description: "",
     },
   });
+
+  useEffect(() => {
+    if (taskData) {
+      // Pre-fill the form with existing task data when in edit mode
+      form.reset(taskData);
+    }
+    console.log("Task Data 🥺:", taskData);
+  }, [taskData, form]);
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof todoSchema>) {
     try {
-      const { task, description, priority } = values;
+      const { task, priority } = values;
       const clerkID = await getClerkUserID();
 
       closeDialogRef.current?.click();
@@ -59,7 +71,7 @@ const Todo = () => {
           todo: [
             {
               task,
-              description,
+
               priority,
             },
           ],
@@ -125,31 +137,9 @@ const Todo = () => {
                   </FormItem>
                 )}
               />
-              {/* Description Field */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="space-y-5 text-start">
-                      <FormLabel className="text-sm font-medium">
-                        Task Description
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <Input
-                        placeholder="Add details for your task 📖"
-                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               {/* Priority Field */}
-              <div className="w-full ">
+              <div className="w-full cursor-pointer">
                 <FormField
                   control={form.control}
                   name="priority"
@@ -166,11 +156,11 @@ const Todo = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="w-full cursor-pointer">
                             <SelectValue placeholder="Select Task Priority" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="cursor-pointer">
                           <SelectItem value="high">High</SelectItem>
                           <SelectItem value="medium">Medium</SelectItem>
                           <SelectItem value="low">Low</SelectItem>
