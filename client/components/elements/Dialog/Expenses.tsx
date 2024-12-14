@@ -111,11 +111,14 @@ const Expenses = ({ todayData, setData }: ExpensesProps) => {
       }
     } catch (error: any) {
       console.error("Error:", error);
-      toast({
-        title: "Error 😿",
-        description: error.response?.data?.message || "Something went wrong.",
-        variant: "destructive",
-      });
+        toast({
+          title: "Error 😿",
+          description:
+            error.response?.data?.message ||
+            error.message ||
+            "An error occurred.",
+          variant: "destructive",
+        });
     }
   }
 

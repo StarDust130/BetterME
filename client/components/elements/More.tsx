@@ -175,7 +175,9 @@ const More = ({
               {field === "expenses" && (
                 <Expenses todayData={todayData} setData={setData} />
               )}
-              {field === "junkFood" && <JunkFood />}
+              {field === "junkFood" && (
+                <JunkFood todayData={todayData} setData={setData} />
+              )}
               {field === "todo" && (
                 <Todo
                   setTodoData={setTodoData}

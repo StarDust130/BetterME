@@ -15,11 +15,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { DialogClose } from "@/components/ui/dialog";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
+import { DataType } from "../List";
+import Image from "next/image";
 
-const JunkFood = () => {
+interface JunkFoodProps {
+  todayData?: DataType;
+  setData?: (data: any) => void;
+}
+
+interface JunkFood {
+  foodName: string;
+  amount: number;
+  _id?: string;
+}
+
+const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
@@ -32,53 +45,88 @@ const JunkFood = () => {
     },
   });
 
+  useEffect(() => {
+    if (todayData) {
+      // Pre-fill the form with existing task data when in edit mode
+      form.reset(todayData);
+      console.log("Task Data 👺:", todayData);
+    }
+  }, [todayData, form]);
+
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof junkFoodSchema>) {
-    try {
-      const { foodName, amount } = values;
-      const clerkID = await getClerkUserID();
+    const { foodName, amount } = values;
+    const clerkID = await getClerkUserID();
 
+    try {
       closeDialogRef.current?.click();
       form.reset();
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}`,
-        {
-          clerkID,
-          junkFood: [
-            {
-              foodName,
-              amount,
-            },
-          ],
-        },
-        {
-          withCredentials: true, // Include cookies for authentication
-        }
-      );
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}`;
+      const options = { withCredentials: true };
 
-      toast({
-        title: "JunkFood Recorded 🍔",
-        description: `${foodName} has been added to your list.`,
-      });
+      let responseData;
+
+      if (todayData) {
+        // Update existing task
+        const { data } = await axios.patch(
+          `${url}?clerkID=${clerkID}&taskID=${todayData._id}`,
+          { field: "junkFood", updates: { foodName, amount } },
+          options
+        );
+        responseData = data;
+        toast({
+          title: "JunkFood Updated 🍔",
+          description: `${foodName} has been updated to your list.`,
+        });
+      } else {
+        // Create a new task
+        const { data } = await axios.post(
+          url,
+          { clerkID, todo: [{ foodName, amount }] },
+          options
+        );
+        responseData = data;
+        toast({
+          title: "JunkFood Recorded 🍔",
+          description: `${foodName} has been added to your list.`,
+        });
+      }
+
+      // Update state with the new or updated task
+      if (responseData) {
+        setData?.((prevTasks: JunkFood[]) => {
+          const updatedTasks = todayData
+            ? prevTasks.map((t) =>
+                t._id === todayData._id ? { ...t, foodName, amount } : t
+              )
+            : [...prevTasks, responseData.data.todo[0]];
+
+          return updatedTasks;
+        });
+      }
     } catch (error: any) {
       console.error("Error:", error);
       toast({
-        title: "Error",
+        title: "Error 😿",
         description:
           error.response?.data?.message ||
           error.message ||
           "An error occurred.",
         variant: "destructive",
       });
-    } finally {
-      closeDialogRef.current?.click();
-      form.reset();
     }
   }
 
   return (
     <>
+      <Image
+        src={todayData ? "/anime-girl-2.png" : "/anime-girl-3.png"}
+        alt="Anime Girl"
+        width={300}
+        height={300}
+        className=" w-full "
+      />
       <div className=" flex items-center justify-center px-4">
         <div className="w-full max-w-md space-y-6">
           <p className="text-center text-xs md:text-sm text-gray-600">
