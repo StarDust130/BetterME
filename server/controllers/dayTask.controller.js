@@ -237,7 +237,7 @@ const editTask = catchAsync(async (req, res, next) => {
               [`${field}.$.${key}`]: updates[key], // Partial updates within the array
             },
           }),
-          { $set: {} }
+          { $set: {} } //  <-- intial value of reduce
         );
 
   const updatedTask = await DayTask.findOneAndUpdate(
