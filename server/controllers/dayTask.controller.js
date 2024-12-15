@@ -226,19 +226,16 @@ const editTask = catchAsync(async (req, res, next) => {
     [`${field}._id`]: taskID, // Match the specific array element by ID
   };
 
-  const updateOperation =
-    field === "journal"
-      ? { $set: { [field]: updates } } // Update the entire journal object ( //TODO: Imprve it not all a part update)
-      : Object.keys(updates).reduce(
-          (acc, key) => ({
-            ...acc,
-            $set: {
-              ...acc.$set,
-              [`${field}.$.${key}`]: updates[key], // Partial updates within the array
-            },
-          }),
-          { $set: {} } //  <-- intial value of reduce
-        );
+const updateOperation = {
+  $set: Object.fromEntries(  // 🌟 Convert array of entries back into an object
+    Object.entries(updates) // 📤 Convert `updates` object into an array of key-value pairs
+      .map(([key, value]) => [ // 🔄 Map over each entry to create a new entry with updated key format
+        `${field}.$.${key}`, // 🖋️ Format the key for MongoDB to update specific array elements
+        value, // 🧩 Keep the value as-is from the `updates` object
+      ])
+  ),
+};
+
 
   const updatedTask = await DayTask.findOneAndUpdate(
     updateQuery,
@@ -250,7 +247,7 @@ const editTask = catchAsync(async (req, res, next) => {
   );
 
   console.log("updatedTask 😆", updatedTask);
-  
+
   // 🔎 4) Handle case when the task is not found
   if (!updatedTask) {
     return next(new AppError("Task not found or update failed", 404));
@@ -263,8 +260,6 @@ const editTask = catchAsync(async (req, res, next) => {
     data: updatedTask,
   });
 });
-
-
 
 export {
   createDayTask,
