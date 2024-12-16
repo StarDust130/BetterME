@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 
 const habitsSchema = new mongoose.Schema(
   {
+    clerkID: {
+      type: String,
+      index: true,
+    },
     habitName: {
       type: String,
       required: [true, "Habit name is required"],
@@ -51,6 +55,9 @@ const habitsSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Index for unique habitName for each clerk and habitName
+habitsSchema.index({ habitName: 1, clerkId: 1 }, { unique: true });
 
 const Habits = mongoose.model("habits", habitsSchema);
 
