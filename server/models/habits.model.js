@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
+import { calculateStreak } from "../lib/extras.js";
 
-// weekdays -> Mon-Sat
 
 const habitsSchema = new mongoose.Schema(
   {
@@ -17,6 +17,10 @@ const habitsSchema = new mongoose.Schema(
       maxlength: 50,
     },
     streak: {
+      type: Number,
+      default: 0,
+    },
+    highestStreak: {
       type: Number,
       default: 0,
     },
@@ -62,6 +66,25 @@ const habitsSchema = new mongoose.Schema(
 
 // Index for unique habitName for each clerk and habitName
 habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true }); // Use clerkID here
+
+
+//! Pre-save hook to update streak and highest streak 🔥
+habitsSchema.pre("save", function (next) {
+  const habit = this;
+
+  // Calculate the current streak based on completedDates
+  const currentStreak = calculateStreak(habit.completedDates);
+
+  // Set the current streak
+  habit.streak = currentStreak;
+
+  // Update the highest streak if the current streak is greater
+  if (habit.streak > habit.highestStreak) {
+    habit.highestStreak = habit.streak;
+  }
+
+  next(); // Proceed with saving the habit
+});
 
 const Habits = mongoose.model("habits", habitsSchema);
 

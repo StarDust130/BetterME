@@ -1,7 +1,7 @@
 import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
-import { frequencyMap } from "../lib/extras.js";
+import { calculateStreak, frequencyMap } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
 const getAllHabits = catchAsync(async (req, res, next) => {});
@@ -84,6 +84,7 @@ const markCompletion = catchAsync(async (req, res, next) => {
 
   // 4) Remove duplicates (optional but safe)
   habit.completedDates = [...new Set(habit.completedDates)];
+
 
   // 5) Save the updated habit
   await habit.save();
