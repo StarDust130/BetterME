@@ -6,6 +6,7 @@ const habitsSchema = new mongoose.Schema(
   {
     clerkID: {
       type: String,
+      required: [true, "Clerk ID is required"],
       index: true,
     },
     habitName: {
