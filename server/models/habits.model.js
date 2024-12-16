@@ -27,6 +27,7 @@ const habitsSchema = new mongoose.Schema(
         "weekdays",
         "mon-wed-fri",
         "tue-thu-sat",
+        "mon-sat",
         "mon",
         "tue",
         "wed",
