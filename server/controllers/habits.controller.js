@@ -2,6 +2,10 @@ import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
 
+
+//! Get 🦒 - Get all habits for a clerk
+const getAllHabits = catchAsync(async (req, res, next) => {});
+
 //! Create 🦆 - Create a new habit
 const createHabits = catchAsync(async (req, res, next) => {
   // 1) Check Clerk ID (middleware check it)
@@ -37,4 +41,13 @@ const createHabits = catchAsync(async (req, res, next) => {
   });
 });
 
-export { createHabits };
+//! Mark as Done 🎯 - Mark a habit as done
+const markCompletion = catchAsync(async (req, res, next) => {});
+
+//! updateHabit ⏺️ - Update (e.g., frequency, endDate)
+const updateHabit = catchAsync(async (req, res, next) => {});
+
+//! Delte 🗑️ - Delete a habit
+const deleteHabit = catchAsync(async (req, res, next) => {});
+
+export { createHabits, getAllHabits, markCompletion, deleteHabit, updateHabit };
