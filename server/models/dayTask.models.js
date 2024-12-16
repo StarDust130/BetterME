@@ -52,6 +52,6 @@ const dayTaskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const DayTask = mongoose.model("DayTask", dayTaskSchema);
+const DayTask = mongoose.model("dayTask", dayTaskSchema);
 
 export default DayTask;
