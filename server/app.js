@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dayTaskRoutes from "./routes/dayTask.routes.js"; // 📅 DayTask Routes
+import dayTaskRoutes from "./routes/habits.routes.js"; // 🤑 Habits Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
 import "dotenv/config";
@@ -26,6 +27,7 @@ app.use(express.json({ limit: "10kb" })); // 📝 Parse JSON requests
 
 //! Routes 🎠
 app.use("/api/v1/dayTask", dayTaskRoutes); // 📅 DayTask Routes
+app.use("/api/v1/habits", habitsRouter); // 🤑 Habits Routes
 
 
 //! 404 Handler
