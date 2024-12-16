@@ -58,7 +58,7 @@ const habitsSchema = new mongoose.Schema(
 );
 
 // Index for unique habitName for each clerk and habitName
-habitsSchema.index({ habitName: 1, clerkId: 1 }, { unique: true });
+habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true }); // Use clerkID here
 
 const Habits = mongoose.model("habits", habitsSchema);
 
