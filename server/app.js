@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dayTaskRoutes from "./routes/dayTask.routes.js"; // 📅 DayTask Routes
-import dayTaskRoutes from "./routes/habits.routes.js"; // 🤑 Habits Routes
+import habitsRouter from "./routes/habits.routes.js"; // 🤑 Habits Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
 import "dotenv/config";

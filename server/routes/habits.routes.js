@@ -1,11 +1,12 @@
 import Express from 'express';
-import { createHabits } from '../controllers/habits.controller';
+import { createHabits } from '../controllers/habits.controller.js';
+import validateClerkID from '../middlewares/validateClerkID.js';
 
 
 const router = Express.Router();
 
 // Create a new habit
-router.post("/" , createHabits);
+router.post("/" ,validateClerkID , createHabits);
 
 
 
