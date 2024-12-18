@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import { calculateStreak } from "../lib/extras.js";
-
+import { isDayInFrequency } from "../lib/extras.js";
 
 const habitsSchema = new mongoose.Schema(
   {
@@ -57,7 +56,7 @@ const habitsSchema = new mongoose.Schema(
       },
     },
     completedDates: {
-      type: [Date], // Array of dates the habit was completed
+      type: [String], // Array of ISO strings for completed dates
       default: [],
     },
   },
@@ -65,26 +64,45 @@ const habitsSchema = new mongoose.Schema(
 );
 
 // Index for unique habitName for each clerk and habitName
-habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true }); // Use clerkID here
+habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true });
 
-
-//! Pre-save hook to update streak and highest streak 🔥
+// Pre-save hook to update streak and highest streak
 habitsSchema.pre("save", function (next) {
-  const habit = this;
+  // Ensure dates are unique and sorted
+  this.completedDates = [...new Set(this.completedDates)].sort();
 
-  // Calculate the current streak based on completedDates
-  const currentStreak = calculateStreak(habit.completedDates);
+  const frequencyDays = new Set(this.frequency); // Convert frequency to a Set for faster lookups
+  let streak = 1; // Start streak count
 
-  // Set the current streak
-  habit.streak = currentStreak;
+  for (let i = this.completedDates.length - 1; i > 0; i--) {
+    const currentDate = new Date(this.completedDates[i]);
+    const previousDate = new Date(this.completedDates[i - 1]);
 
-  // Update the highest streak if the current streak is greater
-  if (habit.streak > habit.highestStreak) {
-    habit.highestStreak = habit.streak;
+    // Get the day name of the previous date
+    const previousDay = previousDate
+      .toLocaleString("en-US", { weekday: "short" })
+      .toLowerCase();
+
+    // Check if the previous date matches the expected frequency
+    if (
+      frequencyDays.has(previousDay) &&
+      currentDate - previousDate <= 7 * 24 * 60 * 60 * 1000 // At most 7 days apart
+    ) {
+      streak++; // Increase streak
+    } else {
+      break; // Break streak if it's not within frequency
+    }
   }
 
-  next(); // Proceed with saving the habit
+  // Update streak and highest streak
+  this.streak = streak;
+  this.highestStreak = Math.max(this.highestStreak, this.streak);
+
+  next();
 });
+
+
+
 
 const Habits = mongoose.model("habits", habitsSchema);
 
