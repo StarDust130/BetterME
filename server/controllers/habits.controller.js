@@ -1,7 +1,7 @@
 import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
-import {  frequencyMap } from "../lib/extras.js";
+import { frequencyMap } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
 const getAllHabits = catchAsync(async (req, res, next) => {});
@@ -55,17 +55,17 @@ const markCompletion = catchAsync(async (req, res, next) => {
   if (!habitID) {
     return next(new AppError("Habit ID is required", 400));
   }
-
+  // 1) Find the habit by ID
   const habit = await Habits.findOne({ clerkID, _id: habitID });
 
   if (!habit) {
     return next(new AppError("Habit not found", 404));
   }
 
-  // Format today's date
+  // 2) Format today's date
   const todayDate = new Date().toISOString().split("T")[0];
 
-  // Validate and filter completedDates
+  // 3) Validate and filter completedDates
   habit.completedDates = habit.completedDates.filter((date) => {
     const isValid = !isNaN(new Date(date));
     if (!isValid) {
@@ -74,7 +74,7 @@ const markCompletion = catchAsync(async (req, res, next) => {
     return isValid;
   });
 
-  // Check if today's date is already in the array
+  // 4) Check if today's date is already in the array
   const index = habit.completedDates.findIndex((date) => {
     const formattedDate = new Date(date).toISOString().split("T")[0];
     return formattedDate === todayDate;
@@ -88,17 +88,20 @@ const markCompletion = catchAsync(async (req, res, next) => {
     habit.completedDates.splice(index, 1);
   }
 
-  // Remove duplicates and save the updated habit
+  // 5) Remove duplicates and save the updated habit
   habit.completedDates = [...new Set(habit.completedDates)];
+
+  // 6) Save the updated habit
   await habit.save();
 
   res.status(200).json({
     status: "success",
-    message: `Habit successfully ${index === -1 ? "marked" : "removed"} for today 🥳`,
+    message: `Habit successfully ${
+      index === -1 ? "marked" : "removed"
+    } for today 🥳`,
     data: { habit },
   });
 });
-
 
 //! updateHabit ⏺️ - Update (e.g., frequency, endDate)
 const updateHabit = catchAsync(async (req, res, next) => {});
