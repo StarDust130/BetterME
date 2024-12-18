@@ -73,10 +73,6 @@ habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true });
 habitsSchema.pre("save", updateStreakMiddleware);
 
 
-
-
-
-
 const Habits = mongoose.model("habits", habitsSchema);
 
 export default Habits;

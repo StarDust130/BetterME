@@ -4,7 +4,32 @@ import { catchAsync } from "../lib/catchAsync.js";
 import { frequencyMap } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
-const getAllHabits = catchAsync(async (req, res, next) => {});
+const getAllHabits = catchAsync(async (req, res, next) => {
+  // 1) Check Clerk ID (middleware check it)
+  const clerkID = req.clerkID;
+
+  // 2) Get all habits for the clerk
+  // Get the current day of the week (e.g., "wed" for Wednesday)
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const currentDay = days[new Date().getDay()];
+
+  // Query habits that match the conditions
+  const habits = await Habits.find({
+    clerkID,
+    $or: [
+      { frequency: "daily" }, // Include habits with "daily" frequency
+      { frequency: currentDay }, // Include habits for the current day
+    ],
+  });
+
+  res.status(200).json({
+    status: "success",
+    total: habits.length,
+    data: {
+      habits,
+    },
+  });
+});
 
 //! Create 🦆 - Create a new habit
 const createHabits = catchAsync(async (req, res, next) => {
