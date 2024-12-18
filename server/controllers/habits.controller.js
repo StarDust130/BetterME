@@ -1,7 +1,7 @@
 import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
-import { calculateStreak, frequencyMap } from "../lib/extras.js";
+import {  frequencyMap } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
 const getAllHabits = catchAsync(async (req, res, next) => {});
@@ -101,7 +101,7 @@ const markCompletion = catchAsync(async (req, res, next) => {
 //! updateHabit ⏺️ - Update (e.g., frequency, endDate)
 const updateHabit = catchAsync(async (req, res, next) => {});
 
-//! Delte 🗑️ - Delete a habit
+//! Delete 🗑️ - Delete a habit
 const deleteHabit = catchAsync(async (req, res, next) => {});
 
 export { createHabits, getAllHabits, markCompletion, deleteHabit, updateHabit };
