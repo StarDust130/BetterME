@@ -107,6 +107,24 @@ const markCompletion = catchAsync(async (req, res, next) => {
 const updateHabit = catchAsync(async (req, res, next) => {});
 
 //! Delete 🗑️ - Delete a habit
-const deleteHabit = catchAsync(async (req, res, next) => {});
+const deleteHabit = catchAsync(async (req, res, next) => {
+  const clerkID = req.clerkID;
+  const { habitID } = req.query;
+
+  if (!habitID) {
+    return next(new AppError("Habit ID is required", 400));
+  }
+  // 1) Find the habit by ID
+  const habit = await Habits.deleteOne({ clerkID, _id: habitID });
+
+  if (!habit) {
+    return next(new AppError("Habit not found", 404));
+  }
+
+  res.status(204).json({
+    status: "success",
+    message: "Habit deleted successfully 🥳",
+  });
+});
 
 export { createHabits, getAllHabits, markCompletion, deleteHabit, updateHabit };
