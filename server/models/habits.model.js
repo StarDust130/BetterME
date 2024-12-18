@@ -66,7 +66,7 @@ const habitsSchema = new mongoose.Schema(
 // Index for unique habitName for each clerk and habitName
 habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true });
 
-// Pre-save hook to update streak and highest streak
+//! Pre-save hook to update streak and highest streak
 habitsSchema.pre("save", function (next) {
   // Ensure dates are unique and sorted
   this.completedDates = [...new Set(this.completedDates)].sort();
