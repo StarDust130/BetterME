@@ -6,10 +6,14 @@ export const frequencyMap = {
   daily: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"], // All days
 };
 
+//! Helper Function
 export function isDayInFrequency(date, frequency) {
-  const dayOfWeek = date
+  const dayOfWeek = new Date(date)
     .toLocaleString("en-us", { weekday: "short" })
     .toLowerCase();
+
+  console.log("dayOfWeek 💮", dayOfWeek);
+
   return frequency.includes("daily") || frequency.includes(dayOfWeek);
 }
 
