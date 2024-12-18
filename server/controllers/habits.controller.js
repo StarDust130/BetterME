@@ -12,7 +12,7 @@ const createHabits = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
 
   // 2) Validate the request body (habitName, startDate, frequency, endDate)
-  let { habitName, startDate, frequency, endDate } = req.body;
+  let { habitName, startDate, frequency, endDate, completedDates } = req.body;
 
   if (!habitName || !startDate) {
     return next(new AppError("Habit name and start date are required", 400));
@@ -36,6 +36,7 @@ const createHabits = catchAsync(async (req, res, next) => {
     startDate,
     frequency,
     endDate,
+    completedDates,
   });
   // 6) Send the response
   res.status(201).json({
@@ -48,7 +49,6 @@ const createHabits = catchAsync(async (req, res, next) => {
 
 //! Mark as Done 🎯 - Mark a habit as done
 const markCompletion = catchAsync(async (req, res, next) => {
-  // 1) Check Clerk ID and habit ID
   const clerkID = req.clerkID;
   const { habitID } = req.query;
 
@@ -62,41 +62,43 @@ const markCompletion = catchAsync(async (req, res, next) => {
     return next(new AppError("Habit not found", 404));
   }
 
-  // 2) Format today's date in full ISO format
+  // Format today's date
   const todayDate = new Date().toISOString().split("T")[0];
-  const todayISO = new Date(todayDate).toISOString();
 
-  console.log("todayDate:", todayDate);
-  console.log("Formatted todayISO:", todayISO);
+  // Validate and filter completedDates
+  habit.completedDates = habit.completedDates.filter((date) => {
+    const isValid = !isNaN(new Date(date));
+    if (!isValid) {
+      console.warn(`Invalid date removed: ${date}`);
+    }
+    return isValid;
+  });
 
-  // 3) Check if today's date is already in the array
-  const index = habit.completedDates.findIndex(
-    (date) => new Date(date).toISOString() === todayISO
-  );
+  // Check if today's date is already in the array
+  const index = habit.completedDates.findIndex((date) => {
+    const formattedDate = new Date(date).toISOString().split("T")[0];
+    return formattedDate === todayDate;
+  });
 
   if (index === -1) {
-    // Add the date if not found
-    habit.completedDates.push(todayISO);
+    // Add today's date if not found
+    habit.completedDates.push(todayDate);
   } else {
-    // Remove the date if found
+    // Remove today's date if found
     habit.completedDates.splice(index, 1);
   }
 
-  // 4) Remove duplicates (optional but safe)
+  // Remove duplicates and save the updated habit
   habit.completedDates = [...new Set(habit.completedDates)];
-
-
-  // 5) Save the updated habit
   await habit.save();
 
   res.status(200).json({
     status: "success",
-    message: `Habit successfully ${
-      index === -1 ? "marked" : "removed"
-    } for today 🥳`,
+    message: `Habit successfully ${index === -1 ? "marked" : "removed"} for today 🥳`,
     data: { habit },
   });
 });
+
 
 //! updateHabit ⏺️ - Update (e.g., frequency, endDate)
 const updateHabit = catchAsync(async (req, res, next) => {});
