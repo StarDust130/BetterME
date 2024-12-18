@@ -85,7 +85,7 @@ const Expenses = ({ todayData, setData }: ExpensesProps) => {
         // Create a new task
         const { data } = await axios.post(
           url,
-          { clerkID, todo: [{ title, amount }] },
+          { clerkID, expenses: [{ title, amount }] },
           options
         );
         responseData = data;

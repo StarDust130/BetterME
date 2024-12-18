@@ -83,7 +83,7 @@ const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
         // Create a new task
         const { data } = await axios.post(
           url,
-          { clerkID, todo: [{ foodName, amount }] },
+          { clerkID, junkFood: [{ foodName, amount }] },
           options
         );
         responseData = data;
@@ -100,7 +100,7 @@ const JunkFood = ({ todayData, setData }: JunkFoodProps) => {
             ? prevTasks.map((t) =>
                 t._id === todayData._id ? { ...t, foodName, amount } : t
               )
-            : [...prevTasks, responseData.data.todo[0]];
+            : [...prevTasks, responseData.data.junkFood[0]];
 
           return updatedTasks;
         });
