@@ -104,7 +104,50 @@ const markCompletion = catchAsync(async (req, res, next) => {
 });
 
 //! updateHabit ⏺️ - Update (e.g., frequency, endDate)
-const updateHabit = catchAsync(async (req, res, next) => {});
+const updateHabit = catchAsync(async (req, res, next) => {
+  const clerkID = req.clerkID;
+  const { habitID } = req.query;
+  const { habitName, frequency, endDate } = req.body;
+
+  if (!habitID) {
+    return next(new AppError("Habit ID is required", 400));
+  }
+
+  // 1) Find the habit by ID
+  const habit = await Habits.findOne({ clerkID, _id: habitID });
+
+  if (!habit) {
+    return next(new AppError("Habit not found", 404));
+  }
+
+  // 2) Check the frequency field
+  if (frequency) {
+    if (frequencyMap[frequency]) {
+      habit.frequency = frequencyMap[frequency]; // Handle cases like "mon-sat"
+    } else {
+      habit.frequency = frequency;
+    }
+  }
+
+  // 3) Check the endDate field
+  if (endDate) {
+    habit.endDate = endDate;
+  }
+
+  // 4) Check the habitName field
+  if (habitName) {
+    habit.habitName = habitName;
+  }
+
+  // 4) Save the updated habit
+  await habit.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "Habit updated successfully 🥳",
+    data: { habit },
+  });
+});
 
 //! Delete 🗑️ - Delete a habit
 const deleteHabit = catchAsync(async (req, res, next) => {
