@@ -3,8 +3,8 @@ import { z } from "zod";
 export const expensesSchema = z.object({
   title: z
     .string()
-    .min(2, { message: "Title must be at least 2 characters." })
-    .max(50),
+    .min(2, { message: "Too short! She says, 'Size does matter! 😉'" })
+    .max(25, { message: "Too long!🥲 'That's what she says 😜 " }),
 
   amount: z
     .number({ message: "Amount is Required 😅" })
@@ -16,8 +16,8 @@ export const expensesSchema = z.object({
 export const junkFoodSchema = z.object({
   foodName: z
     .string()
-    .min(2, { message: "Food Name must be at least 2 characters." })
-    .max(50),
+    .min(2, { message: "Too short! She says, 'Size does matter! 😉'" })
+    .max(25, { message: "Too long!🥲 'That's what she says 😜 " }),
   amount: z
     .number({ message: "Amount is Required 😅" })
     .int()
@@ -29,8 +29,8 @@ export const junkFoodSchema = z.object({
 export const todoSchema = z.object({
   task: z
     .string()
-    .min(2, { message: "Task Name must be at least 2 characters." })
-    .max(50),
+    .min(2, { message: "Too short! She says, 'Size does matter! 😉'" })
+    .max(25, { message: "Too long!🥲 'That's what she says 😜 " }),
   priority: z.enum(["low", "medium", "high"]).optional(),
 });
 
