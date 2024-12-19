@@ -107,7 +107,7 @@ const List = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             {/* Today Todo */}
             {todoData.length > 0 ? (
-              <div className="flex flex-col text-center md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-4">
+              <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
                 <TodoCards todoData={todoData} setTodoData={setTodoData} />
               </div>
             ) : (
