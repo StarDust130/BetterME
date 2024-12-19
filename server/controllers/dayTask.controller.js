@@ -107,12 +107,14 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
 
   console.log("Update 😆:", update);
 
-  // Attempt to remove the object from the specified field
+  // Find and update the document
   const updatedDayTask = await DayTask.findOneAndUpdate(
-    { clerkID }, // Match the document by clerkID
+    { clerkID, [`${field}._id`]: taskId }, // Find the document by clerk and feild ID
     update, // Apply the dynamic update
     { new: true } // Return the updated document
   );
+
+  console.log("Updated Day Task 🦏:", updatedDayTask);
 
   if (!updatedDayTask) {
     return next(new AppError("No matching document or task found", 404));
@@ -122,7 +124,7 @@ const deleteDayTask = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: `${
-      field.slice(0, 1).toUpperCase() + field.slice(1)
+      field.charAt(0).toUpperCase() + field.slice(1)
     } item deleted successfully 🎉`,
     data: updatedDayTask,
   });
@@ -226,16 +228,17 @@ const editTask = catchAsync(async (req, res, next) => {
     [`${field}._id`]: taskID, // Match the specific array element by ID
   };
 
-const updateOperation = {
-  $set: Object.fromEntries(  // 🌟 Convert array of entries back into an object
-    Object.entries(updates) // 📤 Convert `updates` object into an array of key-value pairs
-      .map(([key, value]) => [ // 🔄 Map over each entry to create a new entry with updated key format
-        `${field}.$.${key}`, // 🖋️ Format the key for MongoDB to update specific array elements
-        value, // 🧩 Keep the value as-is from the `updates` object
-      ])
-  ),
-};
-
+  const updateOperation = {
+    $set: Object.fromEntries(
+      // 🌟 Convert array of entries back into an object
+      Object.entries(updates) // 📤 Convert `updates` object into an array of key-value pairs
+        .map(([key, value]) => [
+          // 🔄 Map over each entry to create a new entry with updated key format
+          `${field}.$.${key}`, // 🖋️ Format the key for MongoDB to update specific array elements
+          value, // 🧩 Keep the value as-is from the `updates` object
+        ])
+    ),
+  };
 
   const updatedTask = await DayTask.findOneAndUpdate(
     updateQuery,
