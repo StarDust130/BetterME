@@ -91,7 +91,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
               <div className="flex flex-col flex-grow">
                 <span
                   onClick={() => handleToggle(todo._id)} // Enable toggling on text click
-                  className={`text-lg text-start cursor-pointer transition-colors duration-300 ${
+                  className={`text-lg text-start font-semibold cursor-pointer transition-colors duration-300 ${
                     todo.isCompleted
                       ? "line-through text-gray-400"
                       : "text-gray-900"
