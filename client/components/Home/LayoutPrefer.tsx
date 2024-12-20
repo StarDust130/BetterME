@@ -1,46 +1,58 @@
-import {
-  Settings2,
-  CheckCircle,
-  Star,
-  ArrowUp,
-  ArrowDown,
-  Palette,
-} from "lucide-react";
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import React from "react";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import { Settings2, CheckCircle, Star, EyeOff, Palette } from "lucide-react";
+
+type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const LayoutPrefer = () => {
+  const [showTodo, setShowTodo] = React.useState<Checked>(true);
+  const [showHabits, setShowHabits] = React.useState<Checked>(false);
+
   return (
-    <div className="w-full py-2 justify-end items-center flex">
+    <div className="w-full flex justify-end items-center py-3 px-4">
       <DropdownMenu>
-        <DropdownMenuTrigger className="p-2 border rounded-lg cursor-pointer hover:bg-gray-200">
-          <Settings2 />
+        <DropdownMenuTrigger className="p-2 border rounded-lg bg-gray-100 hover:shadow-md transition-all duration-200">
+          <Settings2 className="w-5 h-5 text-gray-600" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem>
-            <Star className="mr-2 text-blue-500" />
-            Habit&apos;s First
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CheckCircle className="mr-2 text-green-500" />
+        <DropdownMenuContent className="min-w-[280px] shadow-lg rounded-lg">
+          <DropdownMenuLabel className="text-sm font-bold text-gray-800 mb-2">
+            Preferences
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuCheckboxItem
+            checked={showTodo}
+            onCheckedChange={() => setShowTodo(!showTodo)}
+            className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition"
+          >
+            <CheckCircle className="w-4 h-4 text-green-500" />
             Todo&apos;s First
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ArrowUp className="mr-2 text-yellow-500" />
-            Sort by Priority
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ArrowDown className="mr-2 text-red-500" />
-            Sort by Date
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Palette className="mr-2 text-purple-500" />
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={showHabits}
+            onCheckedChange={() => setShowHabits(!showHabits)}
+            className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition"
+          >
+            <Star className="w-4 h-4 text-blue-500" />
+            Habit&apos;s First
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuCheckboxItem className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition">
+            <EyeOff className="w-4 h-4 text-gray-500" />
+            Hide Empty Section
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition">
+            <Palette className="w-4 h-4 text-purple-500" />
             Customize Card Color
-          </DropdownMenuItem>
+          </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
