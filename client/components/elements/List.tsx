@@ -22,6 +22,13 @@ export interface DataType {
   type: "expenses" | "junkFood";
 }
 
+export type Preferences = {
+  priority: "todos" | "habits";
+  hideEmptySections: boolean;
+  enableColorCustomization: boolean;
+};
+
+
 export interface HabitsType {
   clerkID: string;
   habitName: string;
@@ -46,6 +53,12 @@ const List = () => {
   const [todoData, setTodoData] = useState<TodoType[]>([]);
   const [habitsData, setHabitsData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
+const [preferences, setPreferences] = useState<Preferences>({
+  priority: "todos",
+  hideEmptySections: false,
+  enableColorCustomization: false,
+});
+
 
   const fetchTodayData = async () => {
     try {
@@ -119,7 +132,7 @@ const List = () => {
   return (
     <div className="w-full px-3 py-3 mb-6 mx-auto">
       {/* Layout Prefer */}
-      <LayoutPrefer />
+      <LayoutPrefer preferences={preferences} setPreferences={setPreferences} />
 
       {/* Show Today Activity */}
       {loading ? ( // Show loading state (skeleton or loading UI)
@@ -131,7 +144,11 @@ const List = () => {
       ) : (
         <div className="w-full flex flex-col gap-3">
           <Separator />
-          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
+          <div
+            className={`flex flex-col ${
+              preferences.priority === "todos" ? "" : "flex-col-reverse"
+            } md:flex-row gap-2 justify-between items-center`}
+          >
             {/* Today Todo 🤭 */}
             {todoData.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
