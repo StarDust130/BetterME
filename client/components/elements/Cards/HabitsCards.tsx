@@ -61,7 +61,9 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
 
                     <div className="mt-2 text-sm text-gray-700 flex justify-center items-center">
                       <span className="font-semibold">{habit.streak}</span> 🔥{" "}
-                      {getRandomEmoji(2)}
+                      {habit.habitName.length <= 7
+                        ? getRandomEmoji(2)
+                        : getRandomEmoji(1)}
                     </div>
                   </div>
 
