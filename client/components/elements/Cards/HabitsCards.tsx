@@ -31,7 +31,7 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
           return (
             <li
               key={index}
-              className={`flex items-center justify-between bg-white p-5 rounded-lg shadow-md transition-all duration-300 transform md:hover:scale-105 ${
+              className={`flex items-center justify-between bg-white border-2 border-blue-50 p-5 rounded-lg shadow-md transition-all duration-300 transform md:hover:scale-105 ${
                 completed ? "opacity-60" : "opacity-100"
               }`}
             >
