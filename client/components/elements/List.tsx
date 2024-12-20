@@ -127,7 +127,7 @@ const List = () => {
       ) : (
         <div className="w-full flex flex-col gap-3">
           <Separator />
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
             {/* Today Todo 🤭 */}
             {todoData.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
@@ -143,7 +143,7 @@ const List = () => {
 
             {/* Today Habits 💕 */}
             {habitsData?.length > 0 ? (
-              <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
+              <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
                 <HabitsCards habitsData={habitsData} />
               </div>
             ) : (
