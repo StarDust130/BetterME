@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MiniList from "@/components/elements/MiniList";
 import GithubInfo from "@/components/elements/GitHub/GithubInfo";
+import LayoutPrefer from "@/components/Home/LayoutPrefer";
 
 const Page = async () => {
   const user = await currentUser();
@@ -43,6 +44,7 @@ const Page = async () => {
         <TabsContent value="overview" className="mx-auto w-full">
           {/* Mini List */}
           <MiniList />
+
           {/* Today Activity */}
           <List />
         </TabsContent>
