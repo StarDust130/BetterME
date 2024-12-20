@@ -53,11 +53,29 @@ const List = () => {
   const [todoData, setTodoData] = useState<TodoType[]>([]);
   const [habitsData, setHabitsData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
-const [preferences, setPreferences] = useState<Preferences>({
-  priority: "todos",
-  hideEmptySections: false,
-  enableColorCustomization: false,
-});
+
+ const [preferences, setPreferences] = useState<Preferences>(() => { // Load preferences from localStorage 🚏
+   if (typeof window !== "undefined") {
+     const storedPreferences = localStorage.getItem("preferences");
+     return storedPreferences
+       ? JSON.parse(storedPreferences)
+       : {
+           priority: "todos",
+           hideEmptySections: false,
+           enableColorCustomization: false,
+         };
+   }
+   return {
+     priority: "todos",
+     hideEmptySections: false,
+     enableColorCustomization: false,
+   };
+ });
+
+ // Save preferences to localStorage whenever they change
+ useEffect(() => {
+   localStorage.setItem("preferences", JSON.stringify(preferences));
+ }, [preferences]);
 
 
   const fetchTodayData = async () => {
