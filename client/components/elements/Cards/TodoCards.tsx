@@ -66,8 +66,8 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
 
   return (
     <div className="p-6 rounded-xl bg-gray-100 shadow-md w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
-      <h2 className="text-xl font-semibold mb-4 text-black text-center">
-        Today’s Todos
+      <h2 className="text-xl font-semibold mb-4 flex justify-center gap-3 text-black text-center">
+        <CheckCircle className="w-7 h-7 text-green-500" />Today’s Todos
       </h2>
       <ul className="space-y-4">
         {sortedTodos.map((todo) => (
