@@ -73,7 +73,7 @@ const TodoCards = ({ todoData, setTodoData }: TodoCardsProps) => {
         {sortedTodos.map((todo) => (
           <li
             key={todo._id}
-            className={`flex items-center border justify-between bg-gray-50 p-4 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
+            className={`flex items-center border justify-between bg-gray-50 p-5 rounded-lg shadow-sm transition-all duration-300 transform hover:scale-[1.02] ${
               todo.isCompleted ? "opacity-60" : "opacity-100"
             }`}
           >
