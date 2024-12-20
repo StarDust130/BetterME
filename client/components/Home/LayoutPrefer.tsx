@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-import { Settings2, CheckCircle, Star, EyeOff, Palette } from "lucide-react";
+import { Settings2, CheckCircle,  EyeOff, Palette } from "lucide-react";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -41,8 +41,7 @@ const LayoutPrefer = () => {
             onCheckedChange={() => setShowHabits(!showHabits)}
             className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition"
           >
-            <Star className="w-4 h-4 text-blue-500" />
-            Habit&apos;s First
+            <span className="text-xl">🎉</span> Habit&apos;s First
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
           <DropdownMenuCheckboxItem className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition">
