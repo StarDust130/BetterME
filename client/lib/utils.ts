@@ -13,9 +13,11 @@ export const formatDate = (date: string): string => {
   });
 };
 
+type EmojiCategory = "junkFood" | "expenses" | "others";
+
 const emojiCategories = {
-  junkFood: ["🍕", "🍔", "🌭", "🍟", "🍩", "🍪", "🥤", "🧁"],
-  expenses: ["💸", "💰", "💳", "🏦", "📈", "📉"],
+  junkFood: ["🍕", "🍔", "🍟", "🍩", "🍪", "🍦", "🍫", "🍿", "🍓", "🍇"],
+  expenses: ["💰", "💸", "📉", "📊", "💳", "💵", "🏦", "💼", "🛒", "💸"],
   others: [
     "🚀",
     "🎉",
@@ -28,7 +30,6 @@ const emojiCategories = {
     "🏖️",
     "🎮",
     "🧑‍💻",
-    "🍕",
     "🐉",
     "🦄",
     "🌈",
@@ -38,25 +39,25 @@ const emojiCategories = {
     "🍉",
     "🍿",
     "🍩",
+    "🎨",
+    "🏅",
+    "🌍",
+    "🛸",
+    "🤖",
+    "🎩",
+    "💡",
   ],
 };
 
-// Function to get a random emoji based on the argument
-export function getRandomEmoji(category?: "junkfood" | "expenses"): string {
-  if (category === "junkfood") {
-    return emojiCategories.junkFood[
-      Math.floor(Math.random() * emojiCategories.junkFood.length)
-    ];
-  } else if (category === "expenses") {
-    return emojiCategories.expenses[
-      Math.floor(Math.random() * emojiCategories.expenses.length)
-    ];
-  } else {
-    // Pick a random emoji from "others"
-    return emojiCategories.others[
-      Math.floor(Math.random() * emojiCategories.others.length)
-    ];
-  }
+export function getRandomEmoji(
+  count: number = 1,
+  category?: EmojiCategory
+): string {
+  const emojis = category ? emojiCategories[category] : emojiCategories.others;
+  return Array.from(
+    { length: count },
+    () => emojis[Math.floor(Math.random() * emojis.length)]
+  ).join(" ");
 }
 
 export const Capitalized = (text: string) => {
