@@ -21,6 +21,17 @@ export interface DataType {
   type: "expenses" | "junkFood";
 }
 
+export interface HabitsType {
+  clerkID: string;
+  habitName: string;
+  streak: number;
+  highestStreak: number;
+  frequency: string[]; // Array of strings representing the days or frequency
+  startDate: Date;
+  endDate?: Date; // Optional as per validation
+  completedDates: string[]; // Array of ISO string dates for completed habits
+}
+
 export interface TodoType {
   _id: string;
   task: string;
@@ -70,14 +81,6 @@ const List = () => {
           isCompleted: todo.isCompleted,
         })) || [];
       setTodoData(todo);
-
-      const habits =
-        response.data?.habits?.map((habit: any) => ({
-          _id: habit._id,
-          habitName: habit.habitName,
-          isCompleted: habit.isCompleted,
-        })) || [];
-      setHabitsData(habits);
     } catch (error) {
       console.error("Error fetching today's data:", error);
       setData([]);
@@ -88,8 +91,25 @@ const List = () => {
     }
   };
 
+  const fetchHabitsData = async () => {
+    try {
+      const clerkID = await getClerkUserID();
+      const { data: response } = await axios.get(
+        `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}?clerkID=${clerkID}`
+      );
+
+      console.log("Habits data:", response.data.habits);
+
+      setHabitsData(response.data.habits || []);
+    } catch (error) {
+      console.error("Error fetching habits data:", error);
+      setHabitsData([]);
+    }
+  };
+
   useEffect(() => {
     fetchTodayData();
+    fetchHabitsData();
   }, []);
 
   return (
@@ -105,7 +125,7 @@ const List = () => {
         <div className="w-full flex flex-col gap-3">
           <Separator />
           <div className="flex flex-col md:flex-row justify-between items-center">
-            {/* Today Todo */}
+            {/* Today Todo 🤭 */}
             {todoData.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
                 <TodoCards todoData={todoData} setTodoData={setTodoData} />
@@ -118,13 +138,10 @@ const List = () => {
 
             <Separator className="w-full h-px md:hidden my-2" />
 
-            {/* Today Habits */}
+            {/* Today Habits 💕 */}
             {habitsData?.length > 0 ? (
               <div className="flex flex-col items-center w-full md:w-auto text-center rounded-lg p-4">
-                <h1 className="text-lg font-semibold md:text-xl mb-2">
-                  Today’s Habits
-                </h1>
-                <HabitsCards />
+                <HabitsCards habitsData={habitsData} />
               </div>
             ) : (
               <div className="flex flex-col text-center items-center justify-center py-4">
