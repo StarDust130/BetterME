@@ -86,8 +86,6 @@ const List = () => {
       setData([]);
       setTodoData([]);
       setHabitsData([]);
-    } finally {
-      setLoading(false); // Stop loading once data is fetched
     }
   };
 
@@ -101,6 +99,7 @@ const List = () => {
       console.log("Habits data:", response.data.habits);
 
       setHabitsData(response.data.habits || []);
+      setLoading(false); // Stop loading once data is fetched
     } catch (error) {
       console.error("Error fetching habits data:", error);
       setHabitsData([]);
@@ -108,8 +107,12 @@ const List = () => {
   };
 
   useEffect(() => {
-    fetchTodayData();
-    fetchHabitsData();
+    const fetchData = async () => {
+      await Promise.all([fetchTodayData(), fetchHabitsData()]);
+      setLoading(false); // Stop loading once both fetches are done
+    };
+
+    fetchData();
   }, []);
 
   return (
