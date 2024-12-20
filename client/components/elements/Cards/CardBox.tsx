@@ -30,11 +30,11 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
           <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
             {isExpense ? (
               <>
-                {data.title} {getRandomEmoji("expenses")}
+                {data.title} {getRandomEmoji(1, "expenses")}
               </>
             ) : (
               <>
-                {data.foodName} {getRandomEmoji("junkfood")}
+                {data.foodName} {getRandomEmoji(1 ,"junkFood")}
               </>
             )}
           </h3>
