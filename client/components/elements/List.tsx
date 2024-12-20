@@ -10,6 +10,7 @@ import { Separator } from "../ui/separator";
 import TodoCards from "./Cards/TodoCards";
 import HabitsCards from "./Cards/HabitsCards";
 import ActivitySkeleton from "./Loading/ActivitySkeleton";
+import LayoutPrefer from "../Home/LayoutPrefer";
 
 export interface DataType {
   _id: string;
@@ -117,6 +118,9 @@ const List = () => {
 
   return (
     <div className="w-full px-3 py-3 mb-6 mx-auto">
+      {/* Layout Prefer */}
+      <LayoutPrefer />
+
       {/* Show Today Activity */}
       {loading ? ( // Show loading state (skeleton or loading UI)
         <ActivitySkeleton />
