@@ -34,13 +34,13 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
               </>
             ) : (
               <>
-                {data.foodName} {getRandomEmoji(1 ,"junkFood")}
+                {data.foodName} {getRandomEmoji(1, "junkFood")}
               </>
             )}
           </h3>
           <span
-            className={`text-sm  font-light mt-1 px-3 py-1 rounded-full ${
-              isExpense ? "bg-rose-600 text-white" : "bg-cyan-800 text-white"
+            className={`text-sm  font-light mt-1 px-3 py-1 rounded-full text-white ${
+              isExpense ? "bg-rose-600 " : "bg-cyan-800"
             }`}
           >
             {isExpense ? "Expenses" : "Junk Food"}
