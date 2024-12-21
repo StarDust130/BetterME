@@ -1,12 +1,69 @@
 import { Capitalized, getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
-import { MoreVertical, CheckCircle, Circle, CalendarCheck,} from "lucide-react"; // Import Lucide icons
+import { MoreVertical, CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
+import { useToast } from "@/hooks/use-toast";
+import { getClerkUserID } from "@/lib/action";
+import axios from "axios";
 
 interface HabitsCardsProps {
   habitsData: HabitsType[];
+  setHabitsData: (data: HabitsType[]) => void;
 }
 
-const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
+const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
+  const { toast } = useToast();
+
+  //! Mark habit completion 🥰
+  const markCompletion = async (id: string) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    const updatedHabits = habitsData.map((habit) => {
+      if (habit._id === id) {
+        const isCompletedToday = habit.completedDates.includes(today);
+        const newCompletedDates = isCompletedToday
+          ? habit.completedDates.filter((date) => date !== today)
+          : [...habit.completedDates, today];
+
+        return { ...habit, completedDates: newCompletedDates };
+      }
+      return habit;
+    });
+
+    try {
+      setHabitsData(updatedHabits);
+
+      const clerkID = await getClerkUserID();
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}/markCompletion?clerkID=${clerkID}&habitID=${id}`
+      );
+
+      console.log("Marked completion:", res.data);
+
+      const updatedHabit = updatedHabits.find((habit) => habit._id === id);
+
+      toast({
+        title: "Habit Updated 🥳",
+        description: `"${updatedHabit?.habitName || "Habit"}" is now ${
+          updatedHabit?.completedDates.includes(today)
+            ? "✅ completed! Great job! 🎊"
+            : "❌ pending! Keep going! 💪"
+        }`,
+      });
+    } catch (error) {
+      console.error(error);
+
+      // Revert to previous state on error
+      setHabitsData(habitsData);
+
+      toast({
+        title: "Failed to update task 😢",
+        description:
+          "Something went wrong while updating the task! 🚨 Please try again. 🔄",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="p-5 rounded-xl bg-gray-100 shadow-lg w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
       <h2 className="text-xl font-semibold mb-4 flex justify-center items-center gap-3 text-black text-center">
@@ -14,11 +71,9 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
       </h2>
 
       <ul className="space-y-6">
-        {habitsData.map((habit, index) => {
-          const startDate = new Date(habit.startDate);
-          const completed = habit.completedDates.includes(
-            startDate.toISOString()
-          );
+        {habitsData.map((habit) => {
+          const today = new Date().toISOString().split("T")[0];
+          const completed = habit.completedDates.includes(today);
           const frequencyText =
             habit.frequency.length === 7
               ? "Daily"
@@ -30,14 +85,17 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
 
           return (
             <li
-              key={index}
+              key={habit._id}
               className={`flex items-center justify-between bg-white border-2 border-blue-50 p-5 rounded-lg shadow-md transition-all duration-300 transform md:hover:scale-105 ${
                 completed ? "opacity-60" : "opacity-100"
               }`}
             >
-              <div className="flex gap-4 w-full">
+              <div
+                className="flex gap-4 w-full"
+                onClick={() => markCompletion(habit._id)}
+              >
                 {/* Circle Icon */}
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center cursor-pointer">
                   {completed ? (
                     <CheckCircle className="w-6 h-6 text-green-500" />
                   ) : (
@@ -67,10 +125,12 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
                     </div>
                   </div>
 
-                  {/* Frequency  */}
-                  <div className=" flex items-center  text-sm  font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-blue-500 bg-blue-100">
+                  {/* Frequency */}
+                  <div className="flex items-center text-sm font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-blue-500 bg-blue-100">
                     <CalendarCheck className="w-5 h-5 text-blue-500" />
-                    <span className="ml-2 text-gray-800 font-semibold">{frequencyText}</span>
+                    <span className="ml-2 text-gray-800 font-semibold">
+                      {frequencyText}
+                    </span>
                   </div>
                 </div>
 
