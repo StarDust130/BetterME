@@ -43,7 +43,7 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
 
       toast({
         title: "Habit Updated 🥳",
-        description: `"${updatedHabit?.habitName || "Habit"}" is now ${
+        description: `"${updatedHabit?.habitName || "Habit"} is now ${
           updatedHabit?.completedDates.includes(today)
             ? "✅ completed! Great job! 🎊"
             : "❌ pending! Keep going! 💪"
@@ -65,7 +65,7 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
   };
 
   return (
-    <div className="p-5 rounded-xl bg-gray-100 shadow-lg w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
+    <div className="p-4 rounded-xl bg-gray-100 shadow-lg w-full md:max-w-4xl md:mx-auto border-b-2 border-t-2">
       <h2 className="text-xl font-semibold mb-4 flex justify-center items-center gap-3 text-black text-center">
         <span className="text-3xl">🎉</span> Today’s Habits
       </h2>
