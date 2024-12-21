@@ -39,7 +39,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
             )}
           </h3>
           <span
-            className={`text-sm  font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-gray-100 ${
+            className={`text-sm  font-light mt-1 px-3 py-1 rounded-full text-white ${
               isExpense ? "bg-rose-600  " : "bg-cyan-800"
             }`}
           >

@@ -68,9 +68,9 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
                   </div>
 
                   {/* Frequency  */}
-                  <div className="mt-2 flex items-center text-sm  rounded-lg text-gray-500">
+                  <div className=" flex items-center  text-sm  font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-blue-500 bg-blue-100">
                     <CalendarCheck className="w-5 h-5 text-blue-500" />
-                    <span className="ml-2 text-gray-800">{frequencyText}</span>
+                    <span className="ml-2 text-gray-800 font-semibold">{frequencyText}</span>
                   </div>
                 </div>
 
