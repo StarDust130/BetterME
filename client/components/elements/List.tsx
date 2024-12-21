@@ -38,6 +38,7 @@ export interface HabitsType {
   startDate: Date;
   endDate?: Date; // Optional as per validation
   completedDates: string[]; // Array of ISO string dates for completed habits
+  _id : string;
 }
 
 export interface TodoType {
@@ -183,7 +184,10 @@ const List = () => {
             {/* Today Habits 💕 */}
             {habitsData?.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
-                <HabitsCards habitsData={habitsData} />
+                <HabitsCards
+                  habitsData={habitsData}
+                  setHabitsData={setHabitsData}
+                />
               </div>
             ) : (
               <div className="flex flex-col text-center items-center justify-center py-4">
