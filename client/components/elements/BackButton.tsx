@@ -8,8 +8,9 @@ const BackButton = () => {
   return (
     <Button
       onClick={() => router.back()}
-      className="absolute left-3 top-3"
+      className="absolute left-3 top-1"
       variant={"outline"}
+      size={"sm"}
     >
       <ChevronLeft />
     </Button>
