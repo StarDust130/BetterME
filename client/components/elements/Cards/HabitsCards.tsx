@@ -1,6 +1,6 @@
 import { Capitalized, getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
-import { MoreVertical, CheckCircle, Circle, Clock,} from "lucide-react"; // Import Lucide icons
+import { MoreVertical, CheckCircle, Circle, CalendarCheck,} from "lucide-react"; // Import Lucide icons
 
 interface HabitsCardsProps {
   habitsData: HabitsType[];
@@ -69,7 +69,7 @@ const HabitsCards = ({ habitsData }: HabitsCardsProps) => {
 
                   {/* Frequency  */}
                   <div className="mt-2 flex items-center text-sm  rounded-lg text-gray-500">
-                    <Clock className="w-5 h-5 text-blue-500" />
+                    <CalendarCheck className="w-5 h-5 text-blue-500" />
                     <span className="ml-2 text-gray-800">{frequencyText}</span>
                   </div>
                 </div>
