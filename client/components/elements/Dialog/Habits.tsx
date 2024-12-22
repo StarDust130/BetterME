@@ -1,7 +1,7 @@
 
 const Habits = () => {
   return (
-    <div>Habits</div>
+    <div>Habits is good</div>
   )
 }
 export default Habits
