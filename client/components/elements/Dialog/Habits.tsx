@@ -34,23 +34,22 @@ interface TodoProps {
   habitsData?: HabitsType | null;
   setHabitsData?: React.Dispatch<React.SetStateAction<HabitsType[]>>;
 }
+
 const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
-  //! 1. Define your form.
+  //! Define the form
   const form = useForm<z.infer<typeof habitSchema>>({
     resolver: zodResolver(habitSchema),
     defaultValues: {
-      habitName: "",
-      frequency: habitsData?.frequency || habitsData?.frequency,
+      habitName: habitsData?.habitName || "",
+      frequency: habitsData?.frequency || "daily",
     },
   });
 
   useEffect(() => {
     if (habitsData) {
-      // Pre-fill the form with existing task data when in edit mode
-      console.log("Habits Data 👺:", habitsData);
       form.reset({
         habitName: habitsData.habitName,
         frequency: habitsData.frequency,
@@ -58,9 +57,9 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     }
   }, [habitsData, form]);
 
-  //! 2. Define a submit handler.
+  //! Submit handler
   async function onSubmit(values: z.infer<typeof habitSchema>) {
-    const { habitName, frequency } = values;
+    const { habitName, frequency, startDate } = values;
     const clerkID = await getClerkUserID();
 
     try {
@@ -72,44 +71,37 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
 
       let responseData;
 
-      console.log("habitsData fro Edit 🍥 🙃", habitsData);
-
       if (habitsData) {
-        // Update existing task
         const { data } = await axios.patch(
           `${url}?clerkID=${clerkID}&habitID=${habitsData._id}`,
-          { habitName, frequency },
+          { habitName, frequency, startDate },
           options
         );
-        console.log("data from habitEdit 🙃", data);
-        
         responseData = data;
         toast({
           title: "Task Updated! 🔄",
           description: `Habit "${habitName}" updated successfully. 🥳`,
         });
       } else {
-        // Create a new task
         const { data } = await axios.post(
           `${url}?clerkID=${clerkID}`,
-          { habitName, frequency },
+          { habitName, frequency, startDate },
           options
         );
         responseData = data;
-
-        console.log("responseData 🙃", responseData);
         toast({
-          title: "Task Added!🥳",
+          title: "Task Added! 📝",
           description: `Habit "${habitName}" added successfully. 🥳`,
         });
       }
 
-      // Update state with the new or updated task
       if (responseData) {
         setHabitsData?.((prevHabit) => {
           const updatedTasks = habitsData
             ? prevHabit.map((t) =>
-                t._id === habitsData._id ? { ...t, habitName, frequency } : t
+                t._id === habitsData._id
+                  ? { ...t, habitName, frequency, startDate }
+                  : t
               )
             : [...prevHabit, responseData.data.todo[0]];
 
@@ -128,6 +120,8 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       });
     }
   }
+
+  //! Render
   return (
     <div className="flex flex-col items-center w-full gap-4">
       <Image
@@ -152,18 +146,11 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                 name="habitName"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="space-y-5 text-start">
-                      <FormLabel className="text-sm font-medium">
-                        Habit Name <span className="text-red-500">*</span>
-                      </FormLabel>
-                    </div>
-
+                    <FormLabel>
+                      Habit Name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter Habit Name"
-                        className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
-                        {...field}
-                      />
+                      <Input placeholder="Enter Habit Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -171,27 +158,22 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
               />
 
               {/* Frequency Field */}
-              <div className="w-full cursor-pointer">
-                <FormField
-                  control={form.control}
-                  name="frequency"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="space-y-5 text-start">
-                        <FormLabel className="text-sm font-medium">
-                          Frequency <span className="text-red-500">*</span>
-                        </FormLabel>
-                      </div>
-
+              <FormField
+                control={form.control}
+                name="frequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Frequency <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
                       <Select
-                        value={field.value} // Use value here instead of defaultValue
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => field.onChange(value)}
+                        defaultValue={field.value || "daily"}
                       >
-                        <FormControl>
-                          <SelectTrigger className="w-full cursor-pointer">
-                            <SelectValue placeholder="Select Habit Frequency" />
-                          </SelectTrigger>
-                        </FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select frequency" />
+                        </SelectTrigger>
                         <SelectContent className="cursor-pointer">
                           <SelectItem value="daily">Daily</SelectItem>
                           <SelectItem value="mon-sat">Mon-Sat</SelectItem>
@@ -204,25 +186,16 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                           <SelectItem value="custom">Custom</SelectItem>
                         </SelectContent>
                       </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {/* //TODO ADD startDate 😜  */}
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
-              >
-                {!habitsData ? "Add Task 📝" : "Edit Todo 🔄"}
+              <Button type="submit">
+                {!habitsData ? "Add Habit 😎" : "Edit Habit 🔄"}
               </Button>
             </form>
           </Form>
-          {/* Add DialogClose button here, outside of the form */}
           <DialogClose ref={closeDialogRef} />
         </div>
       </div>
