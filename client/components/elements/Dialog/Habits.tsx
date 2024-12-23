@@ -28,14 +28,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-
-interface habitsData extends z.infer<typeof habitSchema> {
-  _id?: string;
-}
+import { HabitsType } from "../List";
 
 interface TodoProps {
-  habitsData?: habitsData | null;
-  setHabitsData?: React.Dispatch<React.SetStateAction<habitsData[]>>;
+  habitsData?: HabitsType | null;
+  setHabitsData?: React.Dispatch<React.SetStateAction<HabitsType[]>>;
 }
 const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
   const { toast } = useToast();
@@ -47,13 +44,17 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     defaultValues: {
       habitName: "",
       startDate: new Date().toISOString().split("T")[0],
+      frequency: habitsData?.frequency || habitsData?.frequency,
     },
   });
 
   useEffect(() => {
     if (habitsData) {
       // Pre-fill the form with existing task data when in edit mode
-      form.reset(habitsData);
+      form.reset({
+        ...habitsData,
+        startDate: habitsData.startDate ? habitsData.startDate.toISOString().split("T")[0] : undefined,
+      });
       console.log("Task Data 👺:", habitsData);
     }
   }, [habitsData, form]);

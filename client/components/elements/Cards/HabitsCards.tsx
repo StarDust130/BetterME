@@ -1,10 +1,10 @@
-import { Capitalized, getRandomEmoji } from "@/lib/utils";
+import { getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
 import { CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
 import { useToast } from "@/hooks/use-toast";
 import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
-import More from "../More";
+import HabitsMore from "../HabitsMore";
 
 interface HabitsCardsProps {
   habitsData: HabitsType[];
@@ -82,7 +82,7 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
               ? "Weekdays"
               : habit.frequency.length === 6
               ? "Mon-Sat"
-              : Capitalized(habit.frequency.join(", "));
+              : habit.frequency;
 
           return (
             <li
@@ -136,11 +136,10 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
                 </div>
 
                 {/* More Icon */}
-                <More
+                <HabitsMore
                   _id={habit._id}
                   habitsData={habitsData}
                   setHabitsData={setHabitsData}
-                  field="habits"
                 />
               </div>
             </li>
