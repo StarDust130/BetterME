@@ -101,7 +101,7 @@ const UserGitHubCard: React.FC<UserGitHubCardProps> = ({ username }) => {
           <h3 className="md:text-2xl md:text-start text-center text-black font-semibold ">
             {userData.name || userData.login}
           </h3>
-          <p className="text-xs md:text-lg text-gray-600">
+          <p className="text-xs text-center md:text-lg text-gray-600">
             {userData.bio || "No bio available"}
           </p>
         </div>
