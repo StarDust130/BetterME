@@ -64,3 +64,13 @@ export const Capitalized = (text: string) => {
   if (!text) return ""; // Handle empty or undefined text input
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
+
+
+export const getFrequencyText = (frequency: string[]): string => {
+  if (frequency.length === 7) return "Daily";
+  if (frequency.length === 5) return "Weekdays";
+  if (frequency.length === 6) return "Mon-Sat";
+  return frequency
+    .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
+    .join(", ");
+};
