@@ -1,4 +1,4 @@
-import { getRandomEmoji } from "@/lib/utils";
+import {  getFrequencyText, getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
 import { CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
 import { useToast } from "@/hooks/use-toast";
@@ -85,16 +85,6 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
           const today = new Date().toISOString().split("T")[0];
           const completed = habit.completedDates.includes(today);
 
-          // Determine frequency text based on habit frequency array length
-          const frequencyText =
-            habit.frequency.length === 7
-              ? "Daily"
-              : habit.frequency.length === 5
-              ? "Weekdays"
-              : habit.frequency.length === 6
-              ? "Mon-Sat"
-              : habit.frequency;
-
           return (
             <li
               key={habit._id}
@@ -141,7 +131,7 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
                   <div className="flex items-center text-sm font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-blue-500 bg-blue-100">
                     <CalendarCheck className="w-5 h-5 text-blue-500" />
                     <span className="ml-2 text-gray-800 font-semibold">
-                      {frequencyText}
+                      {getFrequencyText([habit.frequency])}
                     </span>
                   </div>
                 </div>
