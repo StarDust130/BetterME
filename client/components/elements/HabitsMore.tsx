@@ -42,11 +42,11 @@ const HabitsMore = ({ _id, habitsData, setHabitsData }: HabitMoreProps) => {
     setIsDialogOpen(true); // Open dialog
     try {
       const clerkID = await getClerkUserID();
-      const response = await axios.post(
+      const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}?clerkID=${clerkID}&habitID=${_id}`
       );
 
-      console.log("Task to edit 😅", response.data);
+      console.log("habit Task to edit 😅", response.data);
 
       toast({
         title: "Task Edited Successfully 🥳",

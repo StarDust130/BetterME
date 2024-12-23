@@ -43,7 +43,6 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: "",
-      startDate: new Date().toISOString().split("T")[0],
       frequency: habitsData?.frequency || habitsData?.frequency,
     },
   });
@@ -51,11 +50,10 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
   useEffect(() => {
     if (habitsData) {
       // Pre-fill the form with existing task data when in edit mode
+      console.log("Habits Data 👺:", habitsData);
       form.reset({
-        ...habitsData,
-        startDate: habitsData.startDate ? habitsData.startDate.toISOString().split("T")[0] : undefined,
+        habitsData,
       });
-      console.log("Task Data 👺:", habitsData);
     }
   }, [habitsData, form]);
 

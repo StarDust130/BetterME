@@ -91,10 +91,7 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
                 completed ? "opacity-60" : "opacity-100"
               }`}
             >
-              <div
-                className="flex gap-4 w-full"
-                onClick={() => markCompletion(habit._id)}
-              >
+              <div className="flex gap-4 w-full">
                 {/* Circle Icon */}
                 <div className="flex items-center justify-center cursor-pointer">
                   {completed ? (
@@ -105,7 +102,10 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
                 </div>
 
                 {/* Habit Details */}
-                <div className="flex flex-col w-full justify-center items-start flex-grow">
+                <div
+                  onClick={() => markCompletion(habit._id)}
+                  className="flex flex-col w-full justify-center items-start flex-grow"
+                >
                   {/* Habit Name and Streak */}
                   <div className="flex justify-between items-center w-full">
                     <span
