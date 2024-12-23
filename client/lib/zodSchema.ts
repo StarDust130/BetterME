@@ -38,7 +38,7 @@ export const habitSchema = z.object({
   habitName: z
     .string()
     .min(2, { message: "Too short! She says, 'Size does matter! 😉'" })
-    .max(10, { message: "Too long! 🥲 'That's what she said 😜'" }),
+    .max(18, { message: "Too long! 🥲 'That's what she said 😜'" }),
 
   frequency: z.enum([
     "daily",
@@ -55,9 +55,10 @@ export const habitSchema = z.object({
     "sun",
   ]),
 
-  startDate: z.string({ message: "Start Date? Don't leave me hanging! 😅" }),
+  startDate: z
+    .string({ message: "Start Date? Don't leave me hanging! 😅" })
+    .optional(),
 });
-
 
 export const journalSchema = z.object({
   text: z.string().min(2, { message: "Text must be at least 2 characters." }),
