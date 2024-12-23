@@ -55,7 +55,7 @@ export const habitSchema = z.object({
     "sun",
   ]),
 
-  startDate: z.date({ message: "Start Date? Don't leave me hanging! 😅" }),
+  startDate: z.string({ message: "Start Date? Don't leave me hanging! 😅" }),
 });
 
 
