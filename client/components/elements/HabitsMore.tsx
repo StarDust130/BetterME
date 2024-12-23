@@ -40,28 +40,6 @@ const HabitsMore = ({ _id, habitsData, setHabitsData }: HabitMoreProps) => {
   //! ✏️ Handle task editing
   const handleEditTask = async () => {
     setIsDialogOpen(true); // Open dialog
-    try {
-      const clerkID = await getClerkUserID();
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}?clerkID=${clerkID}&habitID=${_id}`
-      );
-
-      console.log("habit Task to edit 😅", response.data);
-
-      toast({
-        title: "Task Edited Successfully 🥳",
-        description: `${
-          habitsData?.find((habit) => habit._id === _id)?.habitName
-        } has been updated successfully. 😀`,
-      });
-    } catch (error: any) {
-      console.error("Error editing task", error);
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || "Something went wrong",
-        variant: "destructive",
-      });
-    }
   };
 
   //! 🗑️ Handle task deletion

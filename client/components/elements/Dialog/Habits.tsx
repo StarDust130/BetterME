@@ -72,13 +72,17 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
 
       let responseData;
 
+      console.log("habitsData fro Edit 🍥 🙃", habitsData);
+
       if (habitsData) {
         // Update existing task
         const { data } = await axios.patch(
-          `${url}?clerkID=${clerkID}&taskID=${habitsData._id}`,
-          { field: "todo", updates: { habitName, frequency } },
+          `${url}?clerkID=${clerkID}&habitID=${habitsData._id}`,
+          { habitName, frequency },
           options
         );
+        console.log("data from habitEdit 🙃", data);
+        
         responseData = data;
         toast({
           title: "Task Updated! 🔄",
