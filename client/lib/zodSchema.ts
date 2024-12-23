@@ -34,6 +34,31 @@ export const todoSchema = z.object({
   priority: z.enum(["low", "medium", "high"]).optional(),
 });
 
+export const habitSchema = z.object({
+  habitName: z
+    .string()
+    .min(2, { message: "Too short! She says, 'Size does matter! 😉'" })
+    .max(10, { message: "Too long! 🥲 'That's what she said 😜'" }),
+
+  frequency: z.enum([
+    "daily",
+    "weekdays",
+    "mon-wed-fri",
+    "tue-thu-sat",
+    "mon-sat",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+    "sun",
+  ]),
+
+  startDate: z.date({ message: "Start Date? Don't leave me hanging! 😅" }),
+});
+
+
 export const journalSchema = z.object({
   text: z.string().min(2, { message: "Text must be at least 2 characters." }),
 });
