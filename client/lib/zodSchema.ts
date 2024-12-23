@@ -54,10 +54,6 @@ export const habitSchema = z.object({
     "sat",
     "sun",
   ]),
-
-  startDate: z
-    .string({ message: "Start Date? Don't leave me hanging! 😅" })
-    .optional(),
 });
 
 export const journalSchema = z.object({
