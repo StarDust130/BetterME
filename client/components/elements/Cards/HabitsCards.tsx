@@ -1,9 +1,10 @@
 import { Capitalized, getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
-import { MoreVertical, CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
+import { CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
 import { useToast } from "@/hooks/use-toast";
 import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
+import More from "../More";
 
 interface HabitsCardsProps {
   habitsData: HabitsType[];
@@ -135,9 +136,12 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
                 </div>
 
                 {/* More Icon */}
-                <span>
-                  <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-900" />
-                </span>
+                <More
+                  _id={habit._id}
+                  habitsData={habitsData}
+                  setHabitsData={setHabitsData}
+                  field="habits"
+                />
               </div>
             </li>
           );
