@@ -39,8 +39,8 @@ const createHabits = catchAsync(async (req, res, next) => {
   // 2) Validate the request body (habitName, startDate, frequency, endDate)
   let { habitName, startDate, frequency, endDate, completedDates } = req.body;
 
-  if (!habitName || !startDate) {
-    return next(new AppError("Habit name and start date are required", 400));
+  if (!habitName) {
+    return next(new AppError("Habit name  required", 400));
   }
   // 3) Prevent duplicates of habitName for the same user
   const existingHabit = await Habits.findOne({ habitName, clerkID });
@@ -58,7 +58,7 @@ const createHabits = catchAsync(async (req, res, next) => {
   const newHabit = await Habits.create({
     clerkID,
     habitName,
-    startDate,
+    startDate: new Date().toISOString().split("T")[0],
     frequency,
     endDate,
     completedDates,
