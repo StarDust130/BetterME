@@ -52,7 +52,8 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       // Pre-fill the form with existing task data when in edit mode
       console.log("Habits Data 👺:", habitsData);
       form.reset({
-        habitsData,
+        habitName: habitsData.habitName,
+        frequency: habitsData.frequency,
       });
     }
   }, [habitsData, form]);
@@ -179,8 +180,8 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                       </div>
 
                       <Select
+                        value={field.value} // Use value here instead of defaultValue
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full cursor-pointer">

@@ -5,19 +5,24 @@ import { useToast } from "@/hooks/use-toast";
 import { getClerkUserID } from "@/lib/action";
 import axios from "axios";
 import HabitsMore from "../HabitsMore";
+import { Dispatch, SetStateAction } from "react";
 
 interface HabitsCardsProps {
   habitsData: HabitsType[];
-  setHabitsData: (data: HabitsType[]) => void;
+  setHabitsData: Dispatch<SetStateAction<HabitsType[]>>;
 }
 
-const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
+const HabitsCards: React.FC<HabitsCardsProps> = ({
+  habitsData,
+  setHabitsData,
+}) => {
   const { toast } = useToast();
 
-  //! Mark habit completion 🥰
+  // Mark habit completion
   const markCompletion = async (id: string) => {
     const today = new Date().toISOString().split("T")[0];
 
+    // Update habits with the new completion status
     const updatedHabits = habitsData.map((habit) => {
       if (habit._id === id) {
         const isCompletedToday = habit.completedDates.includes(today);
@@ -31,14 +36,18 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
     });
 
     try {
+      // Update state with the new habit data
       setHabitsData(updatedHabits);
 
+      // Get the current user ID from Clerk
       const clerkID = await getClerkUserID();
+
+      // Send the update request to the server
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}/markCompletion?clerkID=${clerkID}&habitID=${id}`
       );
 
-      console.log("Marked completion:", res.data);
+      console.log("Habit updated 🫠", res.data);
 
       const updatedHabit = updatedHabits.find((habit) => habit._id === id);
 
@@ -48,7 +57,7 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
           updatedHabit?.completedDates.includes(today)
             ? "✅ completed! Great job! 🎊"
             : "❌ pending! Keep going! 💪"
-        }`,
+        }"`,
       });
     } catch (error) {
       console.error(error);
@@ -75,6 +84,8 @@ const HabitsCards = ({ habitsData, setHabitsData }: HabitsCardsProps) => {
         {habitsData.map((habit) => {
           const today = new Date().toISOString().split("T")[0];
           const completed = habit.completedDates.includes(today);
+
+          // Determine frequency text based on habit frequency array length
           const frequencyText =
             habit.frequency.length === 7
               ? "Daily"
