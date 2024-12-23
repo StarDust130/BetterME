@@ -131,7 +131,7 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
                   <div className="flex items-center text-sm font-light mt-1 px-3 py-1 rounded-full text-white border-2 border-blue-500 bg-blue-100">
                     <CalendarCheck className="w-5 h-5 text-blue-500" />
                     <span className="ml-2 text-gray-800 font-semibold">
-                      {getFrequencyText([habit.frequency])}
+                      {getFrequencyText(habit.frequency)}
                     </span>
                   </div>
                 </div>

@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { HabitsType } from "../List";
+import { getFrequencyText } from "@/lib/utils";
 
 interface TodoProps {
   habitsData?: HabitsType | null;
@@ -44,7 +45,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: habitsData?.habitName || "",
-      frequency: habitsData?.frequency || "daily",
+      frequency: habitsData?.frequency && getFrequencyText(habitsData.frequency),
     },
   });
 
@@ -52,14 +53,26 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     if (habitsData) {
       form.reset({
         habitName: habitsData.habitName,
-        frequency: habitsData.frequency,
+        frequency: habitsData.frequency as
+          | "daily"
+          | "weekdays"
+          | "mon-wed-fri"
+          | "tue-thu-sat"
+          | "mon-sat"
+          | "mon"
+          | "tue"
+          | "wed"
+          | "thu"
+          | "fri"
+          | "sat"
+          | "sun",
       });
     }
   }, [habitsData, form]);
 
   //! Submit handler
   async function onSubmit(values: z.infer<typeof habitSchema>) {
-    const { habitName, frequency, startDate } = values;
+    const { habitName, frequency } = values;
     const clerkID = await getClerkUserID();
 
     try {
@@ -74,7 +87,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       if (habitsData) {
         const { data } = await axios.patch(
           `${url}?clerkID=${clerkID}&habitID=${habitsData._id}`,
-          { habitName, frequency, startDate },
+          { habitName, frequency },
           options
         );
         responseData = data;
@@ -85,7 +98,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       } else {
         const { data } = await axios.post(
           `${url}?clerkID=${clerkID}`,
-          { habitName, frequency, startDate },
+          { habitName, frequency },
           options
         );
         responseData = data;
@@ -99,9 +112,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
         setHabitsData?.((prevHabit) => {
           const updatedTasks = habitsData
             ? prevHabit.map((t) =>
-                t._id === habitsData._id
-                  ? { ...t, habitName, frequency, startDate }
-                  : t
+                t._id === habitsData._id ? { ...t, habitName, frequency } : t
               )
             : [...prevHabit, responseData.data.todo[0]];
 
