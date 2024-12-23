@@ -44,7 +44,7 @@ const habitsSchema = new mongoose.Schema(
     startDate: {
       type: Date,
       required: [true, "Start date is required"],
-      default: Date.now,
+      default: new Date().toISOString().split("T")[0],
     },
     completedDates: {
       type: [String], // Array of ISO strings for completed dates
