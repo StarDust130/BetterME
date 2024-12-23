@@ -29,15 +29,15 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 
-interface habitData extends z.infer<typeof habitSchema> {
+interface habitsData extends z.infer<typeof habitSchema> {
   _id?: string;
 }
 
 interface TodoProps {
-  habitData?: habitData | null;
-  setHabitData?: React.Dispatch<React.SetStateAction<habitData[]>>;
+  habitsData?: habitsData | null;
+  setHabitsData?: React.Dispatch<React.SetStateAction<habitsData[]>>;
 }
-const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
+const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
@@ -51,12 +51,12 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
   });
 
   useEffect(() => {
-    if (habitData) {
+    if (habitsData) {
       // Pre-fill the form with existing task data when in edit mode
-      form.reset(habitData);
-      console.log("Task Data 👺:", habitData);
+      form.reset(habitsData);
+      console.log("Task Data 👺:", habitsData);
     }
-  }, [habitData, form]);
+  }, [habitsData, form]);
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof habitSchema>) {
@@ -72,10 +72,10 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
 
       let responseData;
 
-      if (habitData) {
+      if (habitsData) {
         // Update existing task
         const { data } = await axios.patch(
-          `${url}?clerkID=${clerkID}&taskID=${habitData._id}`,
+          `${url}?clerkID=${clerkID}&taskID=${habitsData._id}`,
           { field: "todo", updates: { habitName, frequency } },
           options
         );
@@ -102,10 +102,10 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
 
       // Update state with the new or updated task
       if (responseData) {
-        setHabitData?.((prevHabit) => {
-          const updatedTasks = habitData
+        setHabitsData?.((prevHabit) => {
+          const updatedTasks = habitsData
             ? prevHabit.map((t) =>
-                t._id === habitData._id ? { ...t, habitName, frequency } : t
+                t._id === habitsData._id ? { ...t, habitName, frequency } : t
               )
             : [...prevHabit, responseData.data.todo[0]];
 
@@ -127,7 +127,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
   return (
     <div className="flex flex-col items-center w-full gap-4">
       <Image
-        src={habitData ? "/anime-girl-2.png" : "/anime-girl-3.png"}
+        src={habitsData ? "/anime-girl-2.png" : "/anime-girl-3.png"}
         alt="Anime Girl"
         width={300}
         height={300}
@@ -135,7 +135,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
       <div className="flex items-center justify-center w-full ">
         <div className="w-full max-w-md space-y-6">
           <p className="text-center text-xs md:text-sm ">
-            {habitData
+            {habitsData
               ? "Edit your task to keep it updated and relevant. ✏️"
               : "Add a new task to stay organized and on top of your to-do list! 📝"}
           </p>
@@ -214,7 +214,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
                 type="submit"
                 className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium transition"
               >
-                {!habitData ? "Add Task 📝" : "Edit Todo 🔄"}
+                {!habitsData ? "Add Task 📝" : "Edit Todo 🔄"}
               </Button>
             </form>
           </Form>
