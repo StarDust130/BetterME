@@ -18,7 +18,7 @@ interface LayoutPreferProps {
 
 const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
   return (
-    <div className="w-full flex justify-end items-center py-3 px-4 md:hidden">
+    <div className="w-full flex justify-end items-center py-3 px-2 md:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger className="p-2 border rounded-lg bg-gray-100 hover:shadow-md transition-all duration-200">
           <Settings2 className="w-5 h-5 text-gray-600" />
