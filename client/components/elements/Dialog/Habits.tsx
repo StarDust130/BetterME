@@ -45,27 +45,20 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: habitsData?.habitName || "",
-      frequency: habitsData?.frequency && getFrequencyText(habitsData.frequency),
+      frequency:
+        habitsData?.frequency && getFrequencyText.length >= 7
+          ? "daily"
+          : habitsData?.frequency.join("-"),
     },
   });
 
   useEffect(() => {
+    console.log("Habits Data: from edit 🧁", habitsData);
+
     if (habitsData) {
       form.reset({
         habitName: habitsData.habitName,
-        frequency: habitsData.frequency as
-          | "daily"
-          | "weekdays"
-          | "mon-wed-fri"
-          | "tue-thu-sat"
-          | "mon-sat"
-          | "mon"
-          | "tue"
-          | "wed"
-          | "thu"
-          | "fri"
-          | "sat"
-          | "sun",
+        frequency: getFrequencyText.length >= 7 ? "daily" : habitsData?.frequency.join("-"),
       });
     }
   }, [habitsData, form]);
