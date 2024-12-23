@@ -20,11 +20,11 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
   return (
     <div className="w-full flex justify-end items-center py-3 px-2 md:hidden">
       <DropdownMenu>
-        <DropdownMenuTrigger className="p-2 border rounded-lg bg-gray-100 hover:shadow-md transition-all duration-200">
+        <DropdownMenuTrigger className="p-2 border rounded-lg bg-gray-100  hover:shadow-md transition-all duration-200">
           <Settings2 className="w-5 h-5 text-gray-600" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[280px] shadow-lg rounded-lg">
-          <DropdownMenuLabel className="text-sm font-bold text-gray-800 mb-2">
+          <DropdownMenuLabel className="text-sm font-bold text-gray-950 dark:text-white mb-2">
             Preferences
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -37,7 +37,9 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
               }))
             }
             className={`flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition ${
-              preferences.priority === "todos" ? "bg-gray-100 font-bold" : ""
+              preferences.priority === "todos"
+                ? "bg-gray-100 dark:bg-gray-950 font-bold"
+                : ""
             }`}
           >
             <span className="text-lg">📝</span>
@@ -52,7 +54,9 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
               }))
             }
             className={`flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition ${
-              preferences.priority === "habits" ? "bg-gray-100 font-bold" : ""
+              preferences.priority === "habits"
+                ? "bg-gray-100 dark:bg-gray-800 font-bold"
+                : ""
             }`}
           >
             <span className="text-lg">🎉</span> Habit&apos;s First
