@@ -46,15 +46,6 @@ const habitsSchema = new mongoose.Schema(
       required: [true, "Start date is required"],
       default: Date.now,
     },
-    endDate: {
-      type: Date,
-      validate: {
-        validator: function (value) {
-          return value > this.startDate;
-        },
-        message: "End date must be after the start date.",
-      },
-    },
     completedDates: {
       type: [String], // Array of ISO strings for completed dates
       default: [],
@@ -68,10 +59,8 @@ habitsSchema.index({ habitName: 1, clerkID: 1 }, { unique: true });
 
 //! Pre-save hook to update streak and highest streak
 
-
 // Apply the middleware to the schema
 habitsSchema.pre("save", updateStreakMiddleware);
-
 
 const Habits = mongoose.model("habits", habitsSchema);
 
