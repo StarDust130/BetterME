@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 
+
 interface habitData extends z.infer<typeof habitSchema> {
   _id?: string;
 }
@@ -141,7 +142,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              {/* Task Field */}
+              {/* Habit Name Field */}
               <FormField
                 control={form.control}
                 name="habitName"
@@ -155,7 +156,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
 
                     <FormControl>
                       <Input
-                        placeholder="Enter your task here 📝"
+                        placeholder="Enter Habit Name"
                         className="border rounded-md p-2 focus:ring-2 focus:ring-gray-500"
                         {...field}
                       />
@@ -188,7 +189,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="cursor-pointer">
-                          <SelectItem value="daily">Dialy</SelectItem>
+                          <SelectItem value="daily">Daily</SelectItem>
                           <SelectItem value="mon-sat">Mon-Sat</SelectItem>
                           <SelectItem value="mon-wed-fri">
                             Mon-Wed-Fri
@@ -205,6 +206,8 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
                   )}
                 />
               </div>
+
+              {/* //TODO ADD startDate 😜  */}
 
               {/* Submit Button */}
               <Button
