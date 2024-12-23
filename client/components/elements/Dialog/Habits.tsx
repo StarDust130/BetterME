@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 
-
 interface habitData extends z.infer<typeof habitSchema> {
   _id?: string;
 }
@@ -47,7 +46,6 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: "",
-      frequency: "daily",
       startDate: new Date().toISOString().split("T")[0],
     },
   });
@@ -62,7 +60,7 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
 
   //! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof habitSchema>) {
-    const { habitName, frequency, startDate } = values;
+    const { habitName, frequency } = values;
     const clerkID = await getClerkUserID();
 
     try {
@@ -89,11 +87,13 @@ const Habits = ({ habitData = null, setHabitData }: TodoProps) => {
       } else {
         // Create a new task
         const { data } = await axios.post(
-          url,
-          { clerkID, todo: [{ habitName, frequency, startDate }] },
+          `${url}?clerkID=${clerkID}`,
+          { habitName, frequency },
           options
         );
         responseData = data;
+
+        console.log("responseData 🙃", responseData);
         toast({
           title: "Task Added!🥳",
           description: `Habit "${habitName}" added successfully. 🥳`,
