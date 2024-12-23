@@ -67,30 +67,6 @@ const More = ({
   //! ✏️ Handle task editing
   const handleEditTask = async () => {
     setIsDialogOpen(true); // Open dialog
-    try {
-      const clerkID = await getClerkUserID();
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}?clerkID=${clerkID}&taskId=${_id}&field=${field}`
-      );
-
-      console.log("Task to edit 😅", response.data);
-
-      // toast({
-      //   title: "Task Edited Successfully 🥳",
-      //   description: `${
-      //     field === "todo"
-      //       ? todoData?.find((todo) => todo._id === _id)?.task
-      //       : todayData?.title || todayData?.foodName
-      //   } has been edited successfully.`,
-      // });
-    } catch (error: any) {
-      console.error("Error editing task", error);
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || "Something went wrong",
-        variant: "destructive",
-      });
-    }
   };
 
   //! 🗑️ Handle task deletion
