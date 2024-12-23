@@ -34,7 +34,19 @@ export interface HabitsType {
   habitName: string;
   streak: number;
   highestStreak: number;
-  frequency: string[]; // Array of strings representing the days or frequency
+frequency:
+    | "daily"
+    | "weekdays"
+    | "mon-wed-fri"
+    | "tue-thu-sat"
+    | "mon-sat"
+    | "mon"
+    | "tue"
+    | "wed"
+    | "thu"
+    | "fri"
+    | "sat"
+    | "sun";
   startDate: Date;
   endDate?: Date; // Optional as per validation
   completedDates: string[]; // Array of ISO string dates for completed habits
