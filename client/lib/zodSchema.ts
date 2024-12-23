@@ -34,6 +34,7 @@ export const todoSchema = z.object({
   priority: z.enum(["low", "medium", "high"]).optional(),
 });
 
+
 export const habitSchema = z.object({
   habitName: z
     .string()
@@ -53,8 +54,21 @@ export const habitSchema = z.object({
     "fri",
     "sat",
     "sun",
+    "custom", // Added "custom" frequency
   ]),
+
+  customDays: z
+    .array(
+      z.enum(["sun", "mon", "tue", "wed", "thu", "fri", "sat"]) // Days of the week
+    )
+    .optional()
+    .refine(
+      (days) => days?.length !== 0 || days === undefined,
+      "You must select at least one day for custom frequency."
+    )
+    .nullable(),
 });
+
 
 export const journalSchema = z.object({
   text: z.string().min(2, { message: "Text must be at least 2 characters." }),

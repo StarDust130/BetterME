@@ -45,7 +45,9 @@ export interface HabitsType {
     | "thu"
     | "fri"
     | "sat"
-    | "sun";
+    | "sun"
+    | "custom";
+  customDays?: string[]; // Only for "custom" frequency
   startDate: Date;
   endDate?: Date; // Optional as per validation
   completedDates: string[]; // Array of ISO string dates for completed habits
