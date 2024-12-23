@@ -24,7 +24,7 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
           <Settings2 className="w-5 h-5 text-gray-600" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[280px] shadow-lg rounded-lg">
-          <DropdownMenuLabel className="text-sm font-bold text-gray-950 dark:text-white mb-2">
+          <DropdownMenuLabel className="text-sm font-bold text-gray-800 dark:text-white mb-2">
             Preferences
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -38,7 +38,7 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
             }
             className={`flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition ${
               preferences.priority === "todos"
-                ? "bg-gray-100 dark:bg-gray-950 font-bold"
+                ? "bg-gray-100 dark:bg-gray-800 font-bold"
                 : ""
             }`}
           >
