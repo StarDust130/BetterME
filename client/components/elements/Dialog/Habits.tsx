@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { HabitsType } from "../List";
+import { sortDays } from "@/lib/utils";
 
 interface HabitsProps {
   habitsData?: HabitsType | null;
@@ -41,6 +42,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
   // State for custom days
   const [customDays, setCustomDays] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   //! Define the form
   const form = useForm<z.infer<typeof habitSchema>>({
@@ -78,33 +80,52 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
           : "custom",
       });
 
+      // Initialize customDays only when habitsData is custom
       if (isCustom) {
-        setCustomDays(habitsData.frequency || []);
+        setCustomDays(habitsData.frequency || []); // Update customDays state
+      } else {
+        setCustomDays([]); // Clear customDays if not custom
       }
     }
-  }, [habitsData, form]);
+  }, [form, habitsData]);
+
+  // Function to toggle day selection
+  const handleDayToggle = (day: string) => {
+    setSelectedDays(
+      (prevDays) =>
+        prevDays.includes(day)
+          ? prevDays.filter((d) => d !== day) // Remove day if already selected
+          : [...prevDays, day] // Add day if not selected
+    );
+  };
 
   //! Submit handler
-  async function onSubmit(values: z.infer<typeof habitSchema>) {
+  async function onSubmit(values) {
     const { habitName, frequency } = values;
     const clerkID = await getClerkUserID();
 
+    // Use a local variable for selected days to ensure the latest value
+    const currentSelectedDays = [...selectedDays]; // Snapshot of selected days
+    const selectedFrequency =
+      frequency === "custom"
+        ? sortDays(currentSelectedDays) // Use the sorted days
+        : frequency === "daily"
+        ? "daily"
+        : frequency.split("-");
+
+    console.log("Selected Frequency 😘", selectedFrequency);
+
+    // Reset form and close modal after submission
+    closeDialogRef.current?.click();
+    form.reset();
+
+    // Perform API call for submission (POST or PATCH)
+    const url = `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}`;
+    const options = { withCredentials: true };
+
+    let responseData;
+
     try {
-      const selectedFrequency =
-        frequency === "custom"
-          ? customDays
-          : frequency === "daily"
-          ? "daily"
-          : frequency.split("-");
-
-      closeDialogRef.current?.click();
-      form.reset();
-
-      const url = `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}`;
-      const options = { withCredentials: true };
-
-      let responseData;
-
       if (habitsData) {
         const { data } = await axios.patch(
           `${url}?clerkID=${clerkID}&habitID=${habitsData._id}`,
@@ -235,16 +256,11 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
                     (day) => (
                       <Button
                         key={day}
+                        type="button"
                         variant={
                           customDays.includes(day) ? "default" : "outline"
                         }
-                        onClick={() =>
-                          setCustomDays((prev) =>
-                            prev.includes(day)
-                              ? prev.filter((d) => d !== day)
-                              : [...prev, day]
-                          )
-                        }
+                        onClick={() => handleDayToggle(day)}
                       >
                         {day.toUpperCase()}
                       </Button>
@@ -267,13 +283,11 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
 export default Habits;
 
-
 /* 
 //! FIX
 
 1) Mon-Sat only show mon-sat not full week days
-2) When it is custom , it now show custom as selected text
-3) Custom not work properly
+2) When it is custom , it not show custom as selected text
 4) Custom not wait instand happend
 
 
