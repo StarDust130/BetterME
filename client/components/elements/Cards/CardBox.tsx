@@ -13,7 +13,7 @@ const CardBox = ({ data, setData }: CardBoxProps) => {
   const isExpense = data.type === "expenses";
 
   return (
-    <div className="relative w-full max-w-sm bg-gray-50 border rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
+    <div className="relative w-full max-w-sm bg-gray-50 border rounded-2xl shadow-lg hover:shadow-xl transform md:hover:scale-105 transition-transform duration-300 overflow-hidden">
       <div className="absolute right-5 top-5">
         <More
           setData={setData}
