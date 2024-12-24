@@ -30,12 +30,12 @@ import {
 import Image from "next/image";
 import { HabitsType } from "../List";
 
-interface TodoProps {
+interface HabitsProps {
   habitsData?: HabitsType | null;
   setHabitsData?: React.Dispatch<React.SetStateAction<HabitsType[]>>;
 }
 
-const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
+const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
@@ -47,22 +47,35 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: habitsData?.habitName || "",
-      frequency: habitsData?.frequency ? "custom" : "",
+      frequency: habitsData
+        ? habitsData.frequency.length === 7
+          ? "daily"
+          : habitsData.frequency.join("-") // This SHow in prefilled form 😽
+        : "",
     },
   });
 
   useEffect(() => {
     if (habitsData) {
+      const predefinedFrequencies = [
+        "daily",
+        "mon-sat",
+        "mon-wed-fri",
+        "tue-thu-sat",
+      ];
+      const isPredefined = predefinedFrequencies.includes(
+        habitsData.frequency.join("-")
+      );
       const isDaily = habitsData.frequency.length === 7;
-      const isCustom = !isDaily && habitsData.frequency.length > 0;
+      const isCustom = !isDaily && !isPredefined;
 
       form.reset({
         habitName: habitsData.habitName,
         frequency: isDaily
           ? "daily"
-          : isCustom
-          ? "custom"
-          : habitsData.frequency.join("-"),
+          : isPredefined
+          ? habitsData.frequency.join("-")
+          : "custom",
       });
 
       if (isCustom) {
@@ -81,7 +94,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
         frequency === "custom"
           ? customDays
           : frequency === "daily"
-          ? ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+          ? "daily"
           : frequency.split("-");
 
       closeDialogRef.current?.click();
@@ -253,3 +266,15 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
 };
 
 export default Habits;
+
+
+/* 
+//! FIX
+
+1) Mon-Sat only show mon-sat not full week days
+2) When it is custom , it now show custom as selected text
+3) Custom not work properly
+4) Custom not wait instand happend
+
+
+*/
