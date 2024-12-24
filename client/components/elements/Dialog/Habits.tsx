@@ -42,7 +42,6 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
   // State for custom days
   const [customDays, setCustomDays] = useState<string[]>([]);
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   //! Define the form
   const form = useForm<z.infer<typeof habitSchema>>({
@@ -57,47 +56,56 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
     },
   });
 
-  useEffect(() => {
-    if (habitsData) {
-      const predefinedFrequencies = [
-        "daily",
-        "mon-sat",
-        "mon-wed-fri",
-        "tue-thu-sat",
-      ];
-      const isPredefined = predefinedFrequencies.includes(
-        habitsData.frequency.join("-")
-      );
-      const isDaily = habitsData.frequency.length === 7;
-      const isCustom = !isDaily && !isPredefined;
+useEffect(() => {
+  if (habitsData) {
+    const predefinedFrequencies = [
+      "daily",
+      "mon-sat",
+      "mon-wed-fri",
+      "tue-thu-sat",
+    ];
+    const isPredefined = predefinedFrequencies.includes(
+      habitsData.frequency.join("-")
+    );
+    const isDaily = habitsData.frequency.length === 7;
+    const isCustom = !isDaily && !isPredefined;
 
-      form.reset({
-        habitName: habitsData.habitName,
-        frequency: isDaily
-          ? "daily"
-          : isPredefined
-          ? habitsData.frequency.join("-")
-          : "custom",
-      });
+    form.reset({
+      habitName: habitsData.habitName,
+      frequency: isDaily
+        ? "daily"
+        : isPredefined
+        ? habitsData.frequency.join("-")
+        : "custom",
+    });
 
-      // Initialize customDays only when habitsData is custom
-      if (isCustom) {
-        setCustomDays(habitsData.frequency || []); // Update customDays state
-      } else {
-        setCustomDays([]); // Clear customDays if not custom
-      }
+    // Initialize customDays when frequency is custom
+    if (isCustom) {
+      setCustomDays(habitsData.frequency || []); // Set pre-filled days
+    } else {
+      setCustomDays([]); // Clear customDays if not custom
     }
-  }, [form, habitsData]);
+  } else {
+    // Clear customDays for new habits
+    setCustomDays([]);
+    form.reset({
+      habitName: "",
+      frequency: "daily",
+    });
+  }
+}, [form, habitsData]);
+
 
   // Function to toggle day selection
-  const handleDayToggle = (day: string) => {
-    setSelectedDays(
-      (prevDays) =>
-        prevDays.includes(day)
-          ? prevDays.filter((d) => d !== day) // Remove day if already selected
-          : [...prevDays, day] // Add day if not selected
-    );
-  };
+const handleDayToggle = (day: string) => {
+  setCustomDays(
+    (prevDays) =>
+      prevDays.includes(day)
+        ? prevDays.filter((d) => d !== day) // Remove day if already selected
+        : [...prevDays, day] // Add day if not selected
+  );
+};
+
 
   //! Submit handler
   async function onSubmit(values) {
@@ -105,7 +113,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
     const clerkID = await getClerkUserID();
 
     // Use a local variable for selected days to ensure the latest value
-    const currentSelectedDays = [...selectedDays]; // Snapshot of selected days
+    const currentSelectedDays = [...customDays]; // Snapshot of selected days
     const selectedFrequency =
       frequency === "custom"
         ? sortDays(currentSelectedDays) // Use the sorted days
