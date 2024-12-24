@@ -6,6 +6,11 @@ export const frequencyMap = {
   daily: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"], // All days
 };
 
+export const getFrequencyArray = (frequency) => {
+  return frequencyMap[frequency] || frequency; // Default to the string if not in the map
+};
+
+
 export const updateStreakMiddleware = async function (next) {
   const habit = this; // `this` refers to the document being saved
   const today = new Date().toISOString().split("T")[0]; // Get today's date (YYYY-MM-DD)

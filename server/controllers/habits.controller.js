@@ -1,7 +1,7 @@
 import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
-import { frequencyMap } from "../lib/extras.js";
+import { frequencyMap, getFrequencyArray } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
 const getAllHabits = catchAsync(async (req, res, next) => {
@@ -148,7 +148,7 @@ const updateHabit = catchAsync(async (req, res, next) => {
   // 2) Check the frequency field
   if (frequency) {
     if (frequencyMap[frequency]) {
-      habit.frequency = frequencyMap[frequency]; // Handle cases like "mon-sat"
+      habit.frequency = getFrequencyArray(frequency);
     } else {
       habit.frequency = frequency;
     }
