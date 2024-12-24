@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { HabitsType } from "../List";
-import { getFrequencyText } from "@/lib/utils";
 
 interface TodoProps {
   habitsData?: HabitsType | null;
@@ -45,20 +44,22 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: habitsData?.habitName || "",
-      frequency:
-        habitsData?.frequency && getFrequencyText.length >= 7
+      frequency: habitsData
+        ? habitsData.frequency.length === 7
           ? "daily"
-          : habitsData?.frequency.join("-"),
+          : habitsData.frequency.join("-")
+        : "",
     },
   });
 
   useEffect(() => {
-    console.log("Habits Data: from edit 🧁", habitsData);
-
     if (habitsData) {
       form.reset({
         habitName: habitsData.habitName,
-        frequency: getFrequencyText.length >= 7 ? "daily" : habitsData?.frequency.join("-"),
+        frequency:
+          habitsData.frequency.length === 7
+            ? "daily"
+            : habitsData.frequency.join("-"),
       });
     }
   }, [habitsData, form]);
@@ -173,7 +174,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(value)}
-                        defaultValue={field.value || "daily"}
+                        defaultValue={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select frequency" />
