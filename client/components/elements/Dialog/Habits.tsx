@@ -1,5 +1,6 @@
-"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { habitSchema } from "@/lib/zodSchema";
@@ -15,11 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DialogClose } from "@/components/ui/dialog";
 import axios from "axios";
 import { getClerkUserID } from "@/lib/action";
-
 import {
   Select,
   SelectContent,
@@ -39,28 +39,35 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
   const { toast } = useToast();
   const closeDialogRef = useRef<HTMLButtonElement | null>(null);
 
+  // State for custom days
+  const [customDays, setCustomDays] = useState<string[]>([]);
+
   //! Define the form
   const form = useForm<z.infer<typeof habitSchema>>({
     resolver: zodResolver(habitSchema),
     defaultValues: {
       habitName: habitsData?.habitName || "",
-      frequency: habitsData
-        ? habitsData.frequency.length === 7
-          ? "daily"
-          : habitsData.frequency.join("-")
-        : "",
+      frequency: habitsData?.frequency ? "custom" : "",
     },
   });
 
   useEffect(() => {
     if (habitsData) {
+      const isDaily = habitsData.frequency.length === 7;
+      const isCustom = !isDaily && habitsData.frequency.length > 0;
+
       form.reset({
         habitName: habitsData.habitName,
-        frequency:
-          habitsData.frequency.length === 7
-            ? "daily"
-            : habitsData.frequency.join("-"),
+        frequency: isDaily
+          ? "daily"
+          : isCustom
+          ? "custom"
+          : habitsData.frequency.join("-"),
       });
+
+      if (isCustom) {
+        setCustomDays(habitsData.frequency || []);
+      }
     }
   }, [habitsData, form]);
 
@@ -70,6 +77,13 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
     const clerkID = await getClerkUserID();
 
     try {
+      const selectedFrequency =
+        frequency === "custom"
+          ? customDays
+          : frequency === "daily"
+          ? ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+          : frequency.split("-");
+
       closeDialogRef.current?.click();
       form.reset();
 
@@ -81,7 +95,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       if (habitsData) {
         const { data } = await axios.patch(
           `${url}?clerkID=${clerkID}&habitID=${habitsData._id}`,
-          { habitName, frequency },
+          { habitName, frequency: selectedFrequency },
           options
         );
         responseData = data;
@@ -92,7 +106,7 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
       } else {
         const { data } = await axios.post(
           `${url}?clerkID=${clerkID}`,
-          { habitName, frequency },
+          { habitName, frequency: selectedFrequency },
           options
         );
         responseData = data;
@@ -106,7 +120,9 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
         setHabitsData?.((prevHabit) => {
           const updatedTasks = habitsData
             ? prevHabit.map((t) =>
-                t._id === habitsData._id ? { ...t, habitName, frequency } : t
+                t._id === habitsData._id
+                  ? { ...t, habitName, frequency: selectedFrequency }
+                  : t
               )
             : [...prevHabit, responseData.data.todo[0]];
 
@@ -173,7 +189,10 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                     </FormLabel>
                     <FormControl>
                       <Select
-                        onValueChange={(value) => field.onChange(value)}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          if (value !== "custom") setCustomDays([]);
+                        }}
                         defaultValue={field.value}
                       >
                         <SelectTrigger>
@@ -195,6 +214,31 @@ const Habits = ({ habitsData = null, setHabitsData }: TodoProps) => {
                   </FormItem>
                 )}
               />
+
+              {/* Custom Days */}
+              {form.getValues("frequency") === "custom" && (
+                <div className="flex flex-wrap gap-2">
+                  {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map(
+                    (day) => (
+                      <Button
+                        key={day}
+                        variant={
+                          customDays.includes(day) ? "default" : "outline"
+                        }
+                        onClick={() =>
+                          setCustomDays((prev) =>
+                            prev.includes(day)
+                              ? prev.filter((d) => d !== day)
+                              : [...prev, day]
+                          )
+                        }
+                      >
+                        {day.toUpperCase()}
+                      </Button>
+                    )
+                  )}
+                </div>
+              )}
 
               <Button type="submit">
                 {!habitsData ? "Add Habit 😎" : "Edit Habit 🔄"}
