@@ -47,14 +47,21 @@ const createHabits = catchAsync(async (req, res, next) => {
 
   if (existingHabit) {
     return next(
-      new AppError(`Habit with the same name ${habitName} already exists 😿`, 400)
+      new AppError(
+        `Habit with the same name ${habitName} already exists 😿`,
+        400
+      )
     );
   }
+
+  console.log("frequency from create backend", frequency);
 
   // 4) Check the frequency field
   if (frequencyMap[frequency]) {
     frequency = frequencyMap[frequency]; // Handle cases like "mon-sat"
   }
+
+  console.log("frequency from create After backend", frequency);
 
   // 5) Create a new habit in the database
   const newHabit = await Habits.create({
@@ -146,7 +153,7 @@ const updateHabit = catchAsync(async (req, res, next) => {
   if (!habit) {
     return next(new AppError("Habit not found", 404));
   }
-
+  console.log("frequency from edit backend", frequency);
   // 2) Check the frequency field
   if (frequency) {
     if (frequencyMap[frequency]) {
@@ -155,6 +162,8 @@ const updateHabit = catchAsync(async (req, res, next) => {
       habit.frequency = frequency;
     }
   }
+
+  console.log("frequency from edit After backend", frequency);
 
   // 3) Check the endDate field
   if (endDate) {

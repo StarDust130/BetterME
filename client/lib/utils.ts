@@ -74,3 +74,9 @@ export const getFrequencyText = (frequency: string[]): string => {
     .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
     .join(", ");
 };
+
+
+export const sortDays = (days: string[]) => {
+  const order = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+  return days.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+};
