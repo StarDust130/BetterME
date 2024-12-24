@@ -43,69 +43,83 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
   // State for custom days
   const [customDays, setCustomDays] = useState<string[]>([]);
 
+  const predefinedFrequencies = [
+    "daily",
+    "mon-sat",
+    "mon-wed-fri",
+    "tue-thu-sat",
+  ];
+  const isPredefined = predefinedFrequencies.includes(
+    habitsData?.frequency.join("-")
+  );
+  const isDaily = habitsData?.frequency.length === 7;
+
   //! Define the form
   const form = useForm<z.infer<typeof habitSchema>>({
     resolver: zodResolver(habitSchema),
-    defaultValues: {
-      habitName: habitsData?.habitName || "",
-      frequency: habitsData
-        ? habitsData.frequency.length === 7
-          ? "daily"
-          : habitsData.frequency.join("-") // This SHow in prefilled form 😽
-        : "",
-    },
+    defaultValues: habitsData
+      ? {
+          habitName: habitsData.habitName || "", // Ensure it is always a string
+          frequency:
+            habitsData.frequency && isDaily
+              ? "daily"
+              : isPredefined
+              ? habitsData.frequency.join("-")
+              : "custom", // Always provide a valid value
+        }
+      : {
+          habitName: "", 
+        },
   });
 
-useEffect(() => {
-  if (habitsData) {
-    const predefinedFrequencies = [
-      "daily",
-      "mon-sat",
-      "mon-wed-fri",
-      "tue-thu-sat",
-    ];
-    const isPredefined = predefinedFrequencies.includes(
-      habitsData.frequency.join("-")
-    );
-    const isDaily = habitsData.frequency.length === 7;
-    const isCustom = !isDaily && !isPredefined;
+  useEffect(() => {
+    if (habitsData) {
+      const predefinedFrequencies = [
+        "daily",
+        "mon-sat",
+        "mon-wed-fri",
+        "tue-thu-sat",
+      ];
+      const isPredefined = predefinedFrequencies.includes(
+        habitsData.frequency.join("-")
+      );
+      const isDaily = habitsData.frequency.length === 7;
+      const isCustom = !isDaily && !isPredefined;
 
-    form.reset({
-      habitName: habitsData.habitName,
-      frequency: isDaily
-        ? "daily"
-        : isPredefined
-        ? habitsData.frequency.join("-")
-        : "custom",
-    });
+      form.reset({
+        habitName: habitsData.habitName,
+        frequency: isDaily
+          ? "daily"
+          : isPredefined
+          ? habitsData.frequency.join("-")
+          : "custom",
+      });
 
-    // Initialize customDays when frequency is custom
-    if (isCustom) {
-      setCustomDays(habitsData.frequency || []); // Set pre-filled days
+      // Initialize customDays when frequency is custom
+      if (isCustom) {
+        setCustomDays(habitsData.frequency || []); // Set pre-filled days
+      } else {
+        setCustomDays([]); // Clear customDays if not custom
+      }
     } else {
-      setCustomDays([]); // Clear customDays if not custom
+      // Clear customDays for new habits
+      setCustomDays([]);
+      form.reset({
+        habitName: "",
+        frequency: "daily",
+      });
     }
-  } else {
-    // Clear customDays for new habits
-    setCustomDays([]);
-    form.reset({
-      habitName: "",
-      frequency: "daily",
-    });
-  }
-}, [form, habitsData]);
-
+  }, [form, habitsData]);
 
   // Function to toggle day selection
-const handleDayToggle = (day: string) => {
-  setCustomDays(
-    (prevDays) =>
-      prevDays.includes(day)
-        ? prevDays.filter((d) => d !== day) // Remove day if already selected
-        : [...prevDays, day] // Add day if not selected
-  );
-};
-
+  const handleDayToggle = (day: string) => {
+    setCustomDays(
+      (prevDays) =>
+        prevDays.includes(day)
+          ? prevDays.filter((d) => d !== day) // Remove day if already selected
+          : [...prevDays, day] // Add day if not selected
+    );
+  };
 
   //! Submit handler
   async function onSubmit(values) {
@@ -210,7 +224,11 @@ const handleDayToggle = (day: string) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Habit Name <span className="text-red-500">*</span>
+                      <div className="space-y-5 text-start">
+                        <FormLabel className="text-sm font-medium">
+                          Habit Name <span className="text-red-500">*</span>
+                        </FormLabel>
+                      </div>
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Enter Habit Name" {...field} />
@@ -226,9 +244,14 @@ const handleDayToggle = (day: string) => {
                 name="frequency"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Frequency <span className="text-red-500">*</span>
+                    <FormLabel className="w-full flex justify-start px-2">
+                      <div className="space-y-5 text-start">
+                        <FormLabel className="text-sm font-medium">
+                          Frequency <span className="text-red-500">*</span>
+                        </FormLabel>
+                      </div>
                     </FormLabel>
+
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
@@ -277,7 +300,7 @@ const handleDayToggle = (day: string) => {
                 </div>
               )}
 
-              <Button type="submit">
+              <Button type="submit" className="w-full">
                 {!habitsData ? "Add Habit 😎" : "Edit Habit 🔄"}
               </Button>
             </form>
