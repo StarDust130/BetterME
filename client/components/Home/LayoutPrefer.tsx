@@ -72,8 +72,7 @@ const LayoutPrefer = ({ preferences, setPreferences }: LayoutPreferProps) => {
             }
             className="flex items-center gap-3 text-sm py-2 px-3 hover:bg-gray-50 rounded-md transition"
           >
-            <EyeOff className="w-4 h-4 text-gray-500" />
-            Hide Empty Sections
+            <span className="text-lg">🫣</span> Hide Empty Sections
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             checked={preferences.enableColorCustomization}
