@@ -45,13 +45,12 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
   const predefinedFrequencies = [
     "daily",
-    "mon-sat",
     "mon-wed-fri",
     "tue-thu-sat",
   ];
-  const isPredefined = predefinedFrequencies.includes(
-    habitsData?.frequency.join("-")
-  );
+  const isPredefined = habitsData?.frequency ? predefinedFrequencies.includes(
+      habitsData.frequency.join("-")
+    ) : false;
   const isDaily = habitsData?.frequency.length === 7;
 
   //! Define the form
@@ -80,19 +79,19 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
         "mon-wed-fri",
         "tue-thu-sat",
       ];
-      const isPredefined = predefinedFrequencies.includes(
-        habitsData.frequency.join("-")
-      );
+      const isPredefined = habitsData?.frequency ? predefinedFrequencies.includes(
+              habitsData.frequency.join("-")
+            ) : false;
       const isDaily = habitsData.frequency.length === 7;
       const isCustom = !isDaily && !isPredefined;
 
       form.reset({
         habitName: habitsData.habitName,
         frequency: isDaily
-          ? "daily"
-          : isPredefined
-          ? habitsData.frequency.join("-")
-          : "custom",
+                  ? "daily"
+                  : isPredefined
+                  ? (habitsData?.frequency?.join("-") as "mon-wed-fri" | "tue-thu-sat")
+                  : "custom",
       });
 
       // Initialize customDays when frequency is custom
@@ -145,7 +144,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
     const url = `${process.env.NEXT_PUBLIC_HABITS_SERVER_URL}`;
     const options = { withCredentials: true };
 
-    let responseData;
+    let responseData : any;
 
     try {
       if (habitsData) {

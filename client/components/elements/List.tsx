@@ -33,18 +33,7 @@ export interface HabitsType {
   habitName: string;
   streak: number;
   highestStreak: number;
-  frequency:
-    | "daily"
-    | "mon-wed-fri"
-    | "tue-thu-sat"
-    | "mon"
-    | "tue"
-    | "wed"
-    | "thu"
-    | "fri"
-    | "sat"
-    | "sun"
-    | "custom";
+  frequency: string[];
   customDays?: string[]; // Only for "custom" frequency
   startDate: Date;
   endDate?: Date; // Optional as per validation
