@@ -1,7 +1,7 @@
 import Habits from "../models/habits.model.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
-import { frequencyMap, getFrequencyArray } from "../lib/extras.js";
+import { frequencyMap } from "../lib/extras.js";
 
 //! Get 🦒 - Get all habits for a clerk
 const getAllHabits = catchAsync(async (req, res, next) => {
@@ -37,16 +37,18 @@ const createHabits = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
 
   // 2) Validate the request body (habitName, startDate, frequency, endDate)
-  let { habitName, startDate, frequency, endDate, completedDates } = req.body;
+  let { habitName, frequency, endDate, completedDates } = req.body;
 
   if (!habitName || !frequency) {
-    return next(new AppError("Habit name and Frequency required", 400));
+    return next(new AppError("Habit name and frequency required", 400));
   }
   // 3) Prevent duplicates of habitName for the same user
   const existingHabit = await Habits.findOne({ habitName, clerkID });
 
   if (existingHabit) {
-    return next(new AppError("Habit with the same name already exists", 400));
+    return next(
+      new AppError(`Habit with the same name ${habitName} already exists 😿`, 400)
+    );
   }
 
   // 4) Check the frequency field
@@ -134,8 +136,8 @@ const updateHabit = catchAsync(async (req, res, next) => {
   const { habitID } = req.query;
   const { habitName, frequency, endDate } = req.body;
 
-  if (!habitID) {
-    return next(new AppError("Habit ID is required", 400));
+  if (!habitName || !frequency) {
+    return next(new AppError("Habit name and Frequency required", 400));
   }
 
   // 1) Find the habit by ID
@@ -148,7 +150,7 @@ const updateHabit = catchAsync(async (req, res, next) => {
   // 2) Check the frequency field
   if (frequency) {
     if (frequencyMap[frequency]) {
-      habit.frequency = getFrequencyArray(frequency);
+      habit.frequency = frequencyMap(frequency);
     } else {
       habit.frequency = frequency;
     }
