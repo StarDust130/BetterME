@@ -314,12 +314,3 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
 export default Habits;
 
-/* 
-//! FIX
-
-1) Mon-Sat only show mon-sat not full week days
-2) When it is custom , it not show custom as selected text
-4) Custom not wait instand happend
-
-
-*/
