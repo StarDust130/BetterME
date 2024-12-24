@@ -43,10 +43,8 @@ export const habitSchema = z.object({
 
   frequency: z.enum([
     "daily",
-    "weekdays",
     "mon-wed-fri",
     "tue-thu-sat",
-    "mon-sat",
     "mon",
     "tue",
     "wed",
@@ -54,7 +52,7 @@ export const habitSchema = z.object({
     "fri",
     "sat",
     "sun",
-    "custom", // Added "custom" frequency
+    "custom", 
   ]),
 
   customDays: z
