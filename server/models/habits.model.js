@@ -27,10 +27,8 @@ const habitsSchema = new mongoose.Schema(
       type: [String], // Array of strings for days
       enum: [
         "daily",
-        "weekdays",
         "mon-wed-fri",
         "tue-thu-sat",
-        "mon-sat",
         "mon",
         "tue",
         "wed",
