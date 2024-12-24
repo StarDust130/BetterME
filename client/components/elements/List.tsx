@@ -35,10 +35,8 @@ export interface HabitsType {
   highestStreak: number;
   frequency:
     | "daily"
-    | "weekdays"
     | "mon-wed-fri"
     | "tue-thu-sat"
-    | "mon-sat"
     | "mon"
     | "tue"
     | "wed"
