@@ -1,4 +1,4 @@
-import {  getFrequencyText, getRandomEmoji } from "@/lib/utils";
+import { getFrequencyText, getRandomEmoji } from "@/lib/utils";
 import { HabitsType } from "../List";
 import { CheckCircle, Circle, CalendarCheck } from "lucide-react"; // Import Lucide icons
 import { useToast } from "@/hooks/use-toast";
@@ -103,12 +103,12 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
                 </div>
 
                 {/* Habit Details */}
-                <div
-                  onClick={() => markCompletion(habit._id)}
-                  className="flex flex-col w-full justify-center items-start flex-grow"
-                >
+                <div className="flex flex-col w-full justify-center items-start flex-grow">
                   {/* Habit Name and Streak */}
-                  <div className="flex justify-between items-center w-full">
+                  <div
+                    className="flex justify-between items-center w-full"
+                    onClick={() => markCompletion(habit._id)}
+                  >
                     <span
                       className={`text-xl font-semibold cursor-pointer transition-colors duration-300 ${
                         completed
