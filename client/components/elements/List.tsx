@@ -182,7 +182,8 @@ const List = () => {
             } md:flex-row gap-2 justify-between items-center`}
           >
             {/* Today Todo 🤭 */}
-            {todoData.length > 0 ? (
+            {todoData.length === 0 &&
+            preferences.hideEmptySections ? null : todoData.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
                 <TodoCards todoData={todoData} setTodoData={setTodoData} />
               </div>
@@ -195,7 +196,8 @@ const List = () => {
             <Separator className="w-full h-px md:hidden my-2" />
 
             {/* Today Habits 💕 */}
-            {habitsData?.length > 0 ? (
+            {habitsData.length === 0 &&
+            preferences.hideEmptySections ? null : habitsData.length > 0 ? (
               <div className="flex flex-col text-center   md:flex-row justify-center w-full md:max-w-sm items-center md:justify-between gap-2 md:gap-8 p-1">
                 <HabitsCards
                   habitsData={habitsData}
@@ -214,7 +216,8 @@ const List = () => {
           </div>
 
           {/* Today Activity */}
-          {data.length > 0 ? (
+          {data.length === 0 &&
+          preferences.hideEmptySections ? null : data.length > 0 ? (
             <>
               <Separator />
               <div className="md:mt-3 rounded-xl">
