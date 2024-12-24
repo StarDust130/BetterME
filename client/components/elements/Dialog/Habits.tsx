@@ -68,7 +68,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
               : "custom", // Always provide a valid value
         }
       : {
-          habitName: "", 
+          habitName: "",
         },
   });
 
@@ -97,7 +97,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 
       // Initialize customDays when frequency is custom
       if (isCustom) {
-        setCustomDays(habitsData.frequency || []); // Set pre-filled days
+        setCustomDays(habitsData?.frequency); // Set pre-filled days
       } else {
         setCustomDays([]); // Clear customDays if not custom
       }
@@ -122,7 +122,7 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
   };
 
   //! Submit handler
-  async function onSubmit(values) {
+  async function onSubmit(values: z.infer<typeof habitSchema>) {
     const { habitName, frequency } = values;
     const clerkID = await getClerkUserID();
 
@@ -265,7 +265,6 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
                         </SelectTrigger>
                         <SelectContent className="cursor-pointer">
                           <SelectItem value="daily">Daily</SelectItem>
-                          <SelectItem value="mon-sat">Mon-Sat</SelectItem>
                           <SelectItem value="mon-wed-fri">
                             Mon-Wed-Fri
                           </SelectItem>
@@ -313,4 +312,3 @@ const Habits = ({ habitsData = null, setHabitsData }: HabitsProps) => {
 };
 
 export default Habits;
-
