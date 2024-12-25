@@ -27,7 +27,7 @@ const columns: ColumnDef<Stats>[] = [
       return (
         <Button
           variant="ghost"
-          className="text-left w-4 ml-3 md:ml-0 md:text-center  md:w-full"
+          className="text-left w-4 ml-3  md:ml-0 md:text-center  md:w-full"
         >
           Mood
           <SmilePlus />
