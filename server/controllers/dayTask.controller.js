@@ -4,24 +4,40 @@ import { catchAsync } from "../lib/catchAsync.js";
 
 //! Get 🐘
 const getDayTask = catchAsync(async (req, res, next) => {
-  // 1) Get Data from Query
+  // 1) Extract Query Data
+  const { page = 1, limit = 10, sortBy = "-createdAt", status } = req.query;
   const clerkID = req.clerkID;
+  const skip = (page - 1) * limit;
 
-  // 2) Fetch all entries for the clerkID
-  const AllTasks = await DayTask.find({ clerkID });
+  // 2) Build Query
+  const query = { clerkID };
+  if (status) query.status = status; // Add filtering if 'status' is provided
+
+  // 3) Fetch Data
+  const AllTasks = await DayTask.find(query)
+    .sort(sortBy) // e.g., "-createdAt" for descending order
+    .skip(skip)
+    .limit(parseInt(limit, 10));
+
+  const totalTasks = await DayTask.countDocuments(query);
 
   if (!AllTasks || AllTasks.length === 0) {
     return next(new AppError("No Data Found", 404));
   }
 
-  // 3) Send Response
+  // 4) Send Response
   res.status(200).json({
     status: "success",
     message: "Data Fetched Successfully 🎉",
-    length: AllTasks.length,
+    currentPage: page,
+    totalPages: Math.ceil(totalTasks / limit),
+    totalTasks,
+    tasksFetched: AllTasks.length,
     AllTasks,
   });
 });
+
+
 
 //! Create 🐧 - Create or update today's DayTask.
 const createDayTask = catchAsync(async (req, res, next) => {
