@@ -18,7 +18,7 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
 }) => {
   const { toast } = useToast();
 
-  // Mark habit completion
+  //! Mark habit completion
   const markCompletion = async (id: string) => {
     const today = new Date().toISOString().split("T")[0];
 
@@ -94,7 +94,10 @@ const HabitsCards: React.FC<HabitsCardsProps> = ({
             >
               <div className="flex gap-4 w-full">
                 {/* Circle Icon */}
-                <div className="flex items-center justify-center cursor-pointer">
+                <div
+                  onClick={() => markCompletion(habit._id)}
+                  className="flex items-center justify-center cursor-pointer"
+                >
                   {completed ? (
                     <CheckCircle className="w-6 h-6 text-green-500" />
                   ) : (
