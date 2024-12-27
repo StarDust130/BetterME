@@ -58,15 +58,14 @@ import { catchAsync } from "../lib/catchAsync.js";
 // }
 
 const OverviewStats = catchAsync(async (req, res) => {
-  const { clerkID } = req;
+  const clerkID = req.clerkID;
+  const { timeframe = "all" } = req.query; // Default to "all" if no timeframe is specified
 
-  // 1) Fetch aggregated stats concurrently
   const [dayTaskStats, habitsStats] = await Promise.all([
-    getDayTaskStats(clerkID),
-    getHabitsStats(clerkID),
+    getDayTaskStats(clerkID, timeframe),
+    getHabitsStats(clerkID, timeframe),
   ]);
 
-  // 2) Send response
   return res.json({
     totalExpenses: dayTaskStats.totalExpenses,
     junkFoodCount: dayTaskStats.junkFoodCount,
