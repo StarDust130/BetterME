@@ -3,9 +3,6 @@ import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
 import DayTask from "../models/dayTask.models.js";
 
-
-
-
 //! Habit Progress - GET /api/stats/habit-progress
 // Purpose: Fetch streaks and completion rates for all habits.
 // [
@@ -13,11 +10,10 @@ import DayTask from "../models/dayTask.models.js";
 //   { "habitName": "Exercise", "streak": 3, "completionRate": 60 }
 // ]
 
-
 //! Todos Completion Stats
 const OverviewStats = catchAsync(async (req, res) => {
   const clerkID = req.clerkID;
-  const { timeframe = "all" } = req.query; // Default to "all" if no timeframe is specified
+  const { timeframe = "all" } = req.query;
 
   const [dayTaskStats, habitsStats] = await Promise.all([
     getDayTaskStats(clerkID, timeframe),
@@ -33,38 +29,15 @@ const OverviewStats = catchAsync(async (req, res) => {
 });
 
 //! Expenses vs Junk Trend
-const ExpensesVsJunkTrend = catchAsync(async (req, res, next) => {
+const ExpensesVsJunkTrend = catchAsync(async (req, res) => {
   const clerkID = req.clerkID;
+    const { timeframe = "all" } = req.query;
 
-  const aggregation = await DayTask.aggregate([
-    {
-      $match: { clerkID },
-    },
-    {
-      $project: {
-        date: { $dateToString: { format: "%d-%m-%Y", date: "$date" } },
-          expenses: {
-          $sum: [{ $sum: "$expenses.amount" }, { $sum: "$junkFood.amount" }],
-        },
-        junkFood: { $size: "$junkFood" },
-      },
-    },
-    {
-      $group: {
-        _id: "$date",
-        expenses: { $sum: "$expenses" },
-        junkFood: { $sum: "$junkFood" },
-      },
-    },
-  ]);
-
-  console.log(aggregation);
-  
-
+  const trendData = await getDayTaskStats(clerkID, timeframe, true); // Pass `includeDate = true`
 
   return res.json({
-    aggregation,
-  })
+    aggregation: trendData,
+  });
 });
 
 const HabitsProgress = catchAsync(async (req, res, next) => {});
