@@ -83,3 +83,26 @@ export const updateStreakMiddleware = async function (next) {
 
   next(); // Proceed with saving the document
 };
+
+
+export const getDateFilter = (timeframe) => {
+  const now = new Date();
+  let start;
+
+  switch (timeframe) {
+    case "today":
+      start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      break;
+    case "week":
+      start = new Date(now);
+      start.setDate(start.getDate() - 7);
+      break;
+    case "month":
+      start = new Date(now.getFullYear(), now.getMonth(), 1);
+      break;
+    default: // "all"
+      return {};
+  }
+
+  return { createdAt: { $gte: start, $lt: now } };
+};
