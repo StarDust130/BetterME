@@ -1,10 +1,13 @@
 import DayTask from "../models/dayTask.models.js";
 import Habits from "../models/habits.model.js";
+import { getDateFilter } from "./extras.js";
 
 //! Overview (Key Metrics) - GET /api/stats/overview
-export const getDayTaskStats = async (clerkID) => {
+export const getDayTaskStats = async (clerkID, timeframe) => {
+  const dateFilter = getDateFilter(timeframe);
+
   const aggregation = await DayTask.aggregate([
-    { $match: { clerkID } },
+    { $match: { clerkID, ...dateFilter } }, // Add date filter
     {
       $project: {
         totalExpenses: {
@@ -41,10 +44,13 @@ export const getDayTaskStats = async (clerkID) => {
   );
 };
 
+
 //! Overview (Key Metrics) - GET /api/stats/overview
-export const getHabitsStats = async (clerkID) => {
+export const getHabitsStats = async (clerkID, timeframe) => {
+  const dateFilter = getDateFilter(timeframe);
+
   const aggregation = await Habits.aggregate([
-    { $match: { clerkID } },
+    { $match: { clerkID, ...dateFilter } }, // Add date filter
     {
       $project: {
         habitsCompleted: { $size: "$completedDates" },
@@ -60,3 +66,4 @@ export const getHabitsStats = async (clerkID) => {
 
   return aggregation[0] || { habitsCompleted: 0 };
 };
+
