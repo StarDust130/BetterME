@@ -1,5 +1,7 @@
+import { getDayTaskStats, getHabitsStats } from "../lib/aggregation.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
+
 //! Overview (Key Metrics) - GET /api/stats/overview
 // Purpose: Fetch high-level metrics for today, this week, or this month.
 // response : {
@@ -55,7 +57,23 @@ import { catchAsync } from "../lib/catchAsync.js";
 //   ]
 // }
 
-const OverviewStats = catchAsync(async (req, res, next) => {});
+const OverviewStats = catchAsync(async (req, res) => {
+  const { clerkID } = req;
+
+  // 1) Fetch aggregated stats concurrently
+  const [dayTaskStats, habitsStats] = await Promise.all([
+    getDayTaskStats(clerkID),
+    getHabitsStats(clerkID),
+  ]);
+
+  // 2) Send response
+  return res.json({
+    totalExpenses: dayTaskStats.totalExpenses,
+    junkFoodCount: dayTaskStats.junkFoodCount,
+    todosCompleted: dayTaskStats.todosCompleted,
+    habitsCompleted: habitsStats.habitsCompleted,
+  });
+});
 
 const ExpensesVsJunkTrend = catchAsync(async (req, res, next) => {});
 
