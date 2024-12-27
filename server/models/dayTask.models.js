@@ -37,12 +37,6 @@ const dayTaskSchema = new mongoose.Schema(
         },
       },
     ],
-    insights: {
-      totalExpenses: { type: Number, default: 0 },
-      junkFoodCount: { type: Number, default: 0 },
-      topExpenseCategory: { type: String, default: "" },
-      aiTips: { type: String },
-    },
     date: {
       type: Date,
       required: true, // Ensure date is provided
