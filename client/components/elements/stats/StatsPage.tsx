@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Chart } from "./Chart";
 import MiniCardBox from "./MiniCardBox";
-import { Calendar, BarChart, LineChart, PieChart, Clock } from "lucide-react";
 
 const buttons = [
-  { label: "All", Icon: PieChart, color: "text-purple-500" },
-  { label: "Today", Icon: Clock, color: "text-blue-500" },
-  { label: "Week", Icon: BarChart, color: "text-green-500" },
-  { label: "Month", Icon: LineChart, color: "text-orange-500" },
-  { label: "Year", Icon: Calendar, color: "text-red-500" },
+  { label: "All" },
+  { label: "Today" },
+  { label: "Week" },
+  { label: "Month" },
+  { label: "Year" },
 ];
 
 const StatsPage = () => {
@@ -22,11 +21,12 @@ const StatsPage = () => {
           {buttons.map(({ label }, index) => (
             <Button
               key={index}
-              variant="outline"
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-3 text-xs md:text-base rounded-lg "
+              variant="secondary"
+              className="flex-shrink-0 flex items-center gap-2 px-6 py-3 text-xs md:text-base rounded-lg "
             >
-              
-              <span className="font-medium md:font-base md:text-center">{label}</span>
+              <span className="font-medium md:font-base md:text-center">
+                {label}
+              </span>
             </Button>
           ))}
         </div>
