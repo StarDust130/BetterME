@@ -1618,3 +1618,13 @@ body {
     font-size: 20px;
   }
 }
+
+/* Progress */
+@keyframes progress-bar {
+  0% { width: 0%; }
+  100% { width: 60%; }
+}
+
+.animate-progress-bar {
+  animation: progress-bar 2s ease-in-out forwards;
+}

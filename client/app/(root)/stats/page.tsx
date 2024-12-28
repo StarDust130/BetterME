@@ -21,14 +21,18 @@ const Page = async () => {
               <span className="text-xs font-semibold py-1 px-2 bg-green-100 text-green-800 rounded-full shadow-sm">
                 Active
               </span>
-              <CalendarIcon className="w-6 h-6 text-gray-500 hover:scale-110 transition-transform duration-200" />
+              <div className="relative">
+                <CalendarIcon className="w-8 h-8 text-black hover:text-yellow-500 transition-all duration-200 transform hover:scale-110 p-2 bg-gray-100 rounded-full shadow-md hover:shadow-xl" />
+
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-purple-400 rounded-full opacity-25 animate-pulse"></div>
+              </div>
             </div>
           </div>
 
           {/* Progress Bar */}
           <div className="w-full bg-gray-200 rounded-full h-2 mb-4 shadow-inner">
             <div
-              className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 h-2 rounded-full animate-pulse"
+              className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 h-2 rounded-full animate-progress-bar"
               style={{ width: "60%" }}
             ></div>
           </div>
