@@ -150,3 +150,68 @@ export const getTodosCompletionStats = async (clerkID, timeframe) => {
     aggregation[0] || { completedTodos: 0, totalTodos: 0, completionRate: 0 }
   );
 };
+
+export const habitsProgressStats = async (clerkID, timeframe) => {
+  const dateFilter = getDateFilter(timeframe);
+
+  const aggregation = await Habits.aggregate([
+    // Step 1: Match by clerkID and date filter
+    { $match: { clerkID, ...dateFilter } },
+
+    // Step 2: Project necessary fields (habitName, streak, frequency, completedDates)
+    {
+      $project: {
+        habitName: 1,
+        streak: 1,
+        frequency: 1,
+        completedDates: 1,
+      },
+    },
+
+    // Step 3: Group by habitName to calculate completion rate
+    {
+      $group: {
+        _id: "$habitName", // Group by habit name
+        streak: { $first: "$streak" },
+        frequency: { $first: "$frequency" },
+        completedDates: { $first: "$completedDates" },
+      },
+    },
+
+    // Step 4: Calculate completion rate based on frequency and completedDates
+    {
+      $project: {
+        habitName: "$_id",
+        streak: 1,
+        completionRate: {
+          $let: {
+            vars: {
+              expectedDays: { $size: "$frequency" }, // You can calculate the expected number of days based on frequency
+              completedCount: { $size: "$completedDates" }, // Number of completed days
+            },
+            in: {
+              $cond: {
+                if: { $eq: ["$$expectedDays", 0] }, // If no expected days, set completion rate to 0
+                then: 0,
+                else: {
+                  $multiply: [
+                    { $divide: ["$$completedCount", "$$expectedDays"] },
+                    100,
+                  ],
+                },
+              },
+            },
+          },
+        },
+        _id: 0,
+      },
+    },
+
+    // Optionally, sort by streak or completion rate
+    { $sort: { streak: -1 } },
+  ]);
+
+  return aggregation;
+};
+
+
