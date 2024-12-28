@@ -31,12 +31,12 @@ const OverviewStats = catchAsync(async (req, res) => {
 //! Expenses vs Junk Trend
 const ExpensesVsJunkTrend = catchAsync(async (req, res) => {
   const clerkID = req.clerkID;
-    const { timeframe = "all" } = req.query;
+  const { timeframe = "all" } = req.query;
 
-  const trendData = await getDayTaskStats(clerkID, timeframe, true); // Pass `includeDate = true`
+  const trendData = await getDayTaskStats(clerkID, timeframe, true);
 
   return res.json({
-    aggregation: trendData,
+    trendData,
   });
 });
 
