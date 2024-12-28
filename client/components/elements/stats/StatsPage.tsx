@@ -3,11 +3,10 @@ import { Chart } from "./Chart";
 import MiniCardBox from "./MiniCardBox";
 
 const buttons = [
-  { label: "All" },
-  { label: "Today" },
-  { label: "Week" },
-  { label: "Month" },
-  { label: "Year" },
+  { label: "Expenses" },
+  { label: "JunkFood" },
+  { label: "Habits" },
+  { label: "Todos" },
 ];
 
 const StatsPage = () => {
@@ -22,7 +21,7 @@ const StatsPage = () => {
             <Button
               key={index}
               variant="secondary"
-              className="flex-shrink-0 flex items-center gap-2 px-6 py-3 text-xs md:text-base rounded-lg "
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-3 text-xs md:text-base rounded-lg "
             >
               <span className="font-medium md:font-base md:text-center">
                 {label}
@@ -32,7 +31,14 @@ const StatsPage = () => {
         </div>
 
         {/* Chart Section */}
-        <Chart />
+        <div className="w-full mt-3 overflow-x-auto no-scrollbar md:overflow-visible">
+          <div className="flex md:grid md:grid-cols-2 gap-4">
+            <Chart />
+            <Chart />
+            <Chart />
+            <Chart />
+          </div>
+        </div>
       </div>
     </div>
   );
