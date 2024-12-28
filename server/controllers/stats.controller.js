@@ -1,4 +1,8 @@
-import { getDayTaskStats, getHabitsStats } from "../lib/aggregation.js";
+import {
+  getDayTaskStats,
+  getHabitsStats,
+  getTodosCompletionStats,
+} from "../lib/aggregation.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
 import DayTask from "../models/dayTask.models.js";
@@ -42,7 +46,16 @@ const ExpensesVsJunkTrend = catchAsync(async (req, res) => {
 
 const HabitsProgress = catchAsync(async (req, res, next) => {});
 
-const TodosCompletionStats = catchAsync(async (req, res, next) => {});
+const TodosCompletionStats = catchAsync(async (req, res, next) => {
+  const clerkId = req.clerkID;
+  const { timeframe = "all" } = req.query;
+
+  const todoStats = await getTodosCompletionStats(clerkId, timeframe);
+
+  return res.json({
+    todoStats,
+  });
+});
 
 const DailyLogs = catchAsync(async (req, res, next) => {});
 
