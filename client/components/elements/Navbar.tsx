@@ -27,7 +27,7 @@ function Navbar() {
     { href: "/home", label: "Home", Icon: Home },
     { href: "/ai", label: "AI", Icon: Sparkles },
     { href: "/create", label: "Create", Icon: CirclePlus },
-    { href: "/friend", label: "Friend", Icon: Handshake },
+    { href: "/friends", label: "Friends", Icon: Handshake },
     { href: "/stats", label: "Stats", Icon: ChartNoAxesCombined },
   ];
 
