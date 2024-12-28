@@ -151,67 +151,73 @@ export const getTodosCompletionStats = async (clerkID, timeframe) => {
   );
 };
 
+//! Habits Progress Stats
 export const habitsProgressStats = async (clerkID, timeframe) => {
   const dateFilter = getDateFilter(timeframe);
 
   const aggregation = await Habits.aggregate([
-    // Step 1: Match by clerkID and date filter
-    { $match: { clerkID, ...dateFilter } },
+    // Step 1: Match the records based on clerkID and timeframe
+    {
+      $match: { clerkID, ...dateFilter },
+    },
 
-    // Step 2: Project necessary fields (habitName, streak, frequency, completedDates)
+    // Step 2: Ensure completedDates is always an array (defaults to an empty array if missing)
     {
       $project: {
         habitName: 1,
         streak: 1,
-        frequency: 1,
-        completedDates: 1,
+        completedDates: { $ifNull: ["$completedDates", []] }, // Make sure it's an array
+        frequency: 1, // Add frequency to the projection as well
       },
     },
 
-    // Step 3: Group by habitName to calculate completion rate
+    // Step 3: Group by habitName and get the necessary fields
     {
       $group: {
-        _id: "$habitName", // Group by habit name
-        streak: { $first: "$streak" },
-        frequency: { $first: "$frequency" },
-        completedDates: { $first: "$completedDates" },
+        _id: "$habitName", // Group by habitName
+        streak: { $first: "$streak" }, // Get the first streak value
+        completedDates: { $first: "$completedDates" }, // Ensure the array is preserved
+        frequency: { $first: "$frequency" }, // Get the frequency array
       },
     },
 
-    // Step 4: Calculate completion rate based on frequency and completedDates
+    // Step 4: Calculate completionRate with rounding and ensure it's capped at 100
     {
       $project: {
-        habitName: "$_id",
+        habitName: "$_id", // Rename _id to habitName
         streak: 1,
         completionRate: {
-          $let: {
-            vars: {
-              expectedDays: { $size: "$frequency" }, // You can calculate the expected number of days based on frequency
-              completedCount: { $size: "$completedDates" }, // Number of completed days
-            },
-            in: {
-              $cond: {
-                if: { $eq: ["$$expectedDays", 0] }, // If no expected days, set completion rate to 0
-                then: 0,
-                else: {
-                  $multiply: [
-                    { $divide: ["$$completedCount", "$$expectedDays"] },
-                    100,
-                  ],
+          $cond: {
+            if: { $eq: [{ $size: "$completedDates" }, 0] }, // No completed dates
+            then: 0,
+            else: {
+              $let: {
+                vars: {
+                  rate: {
+                    $multiply: [
+                      {
+                        $divide: [
+                          { $size: "$completedDates" },
+                          { $size: "$frequency" },
+                        ],
+                      }, // Completion rate calculation
+                      100,
+                    ],
+                  },
+                },
+                in: {
+                  $round: [{ $min: ["$$rate", 100] }, 2], // Round to 2 decimal places and ensure it doesn't exceed 100
                 },
               },
             },
           },
         },
-        _id: 0,
       },
     },
-
-    // Optionally, sort by streak or completion rate
-    { $sort: { streak: -1 } },
   ]);
 
-  return aggregation;
+  return aggregation; // Return all the habits progress
 };
+
 
 
