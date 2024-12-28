@@ -18,15 +18,15 @@ const StatsPage = () => {
 
       <div className="mt-5 w-full">
         {/* Horizontal Scrollable Buttons */}
-        <div className="flex overflow-x-auto no-scrollbar space-x-4 p-2">
+        <div className="flex w-full overflow-x-auto no-scrollbar md:justify-center space-x-4 p-2">
           {buttons.map(({ label }, index) => (
             <Button
               key={index}
               variant="outline"
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-3 text-xs rounded-lg "
+              className="flex-shrink-0 flex items-center gap-2 px-4 py-3 text-xs md:text-base rounded-lg "
             >
-              {/* <Icon className={`w-5 h-5 ${color}`} /> */}
-              <span className="font-medium">{label}</span>
+              
+              <span className="font-medium md:font-base md:text-center">{label}</span>
             </Button>
           ))}
         </div>
