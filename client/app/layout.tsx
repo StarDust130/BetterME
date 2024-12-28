@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/elements/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import ProgressBar from "@/components/elements/ProgressBar";
 
 const font = Patua_One({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ClerkProvider>
+             <ProgressBar />
             {children}
             <Toaster />
           </ClerkProvider>
