@@ -23,11 +23,11 @@ const Page = async () => {
         Hello, {user?.firstName || "Guest"} 😊
       </h1>
 
-      <div className="border  max-w-3xl w-full p-6 rounded-lg bg-gray-100 text-black dark:shadow-gray-500 dark:shadow-sm  shadow-xl">
+      <div className="  max-w-3xl w-full p-6 rounded-lg bg-gray-100 dark:bg-[#1d1d1d] dark:text-white text-black ">
         <blockquote className="text-xl md:text-2xl italic font-light text-center">
           &quot;{quote.q}&quot;
         </blockquote>
-        <p className="mt-4 text-right text-lg md:text-xl font-semibold text-black/90">
+        <p className="mt-4 text-right text-lg md:text-xl font-semibold text-black/90 dark:text-white">
           - {quote.a}
         </p>
       </div>
