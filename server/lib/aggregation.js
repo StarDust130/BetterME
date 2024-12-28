@@ -77,7 +77,6 @@ export const getDayTaskStats = async (
       };
 };
 
-
 //! Overview (Key Metrics) - GET /api/stats/overview
 export const getHabitsStats = async (clerkID, timeframe) => {
   const dateFilter = getDateFilter(timeframe);
@@ -98,4 +97,56 @@ export const getHabitsStats = async (clerkID, timeframe) => {
   ]);
 
   return aggregation[0] || { habitsCompleted: 0 };
+};
+
+//! Todos Completion Stats
+export const getTodosCompletionStats = async (clerkID, timeframe) => {
+  const dateFilter = getDateFilter(timeframe);
+
+  const aggregation = await DayTask.aggregate([
+    { $match: { clerkID, ...dateFilter } }, // Add date filter
+    {
+      $project: {
+        completedTodos: {
+          $size: {
+            $filter: {
+              input: "$todo",
+              as: "task",
+              cond: { $eq: ["$$task.isCompleted", true] },
+            },
+          },
+        },
+        totalTodos: {
+          $size: "$todo",
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        completedTodos: { $sum: "$completedTodos" },
+        totalTodos: { $sum: "$totalTodos" },
+      },
+    },
+    {
+      $project: {
+        completedTodos: 1,
+        _id: 0,
+        totalTodos: 1,
+        completionRate: {
+          $cond: {
+            if: { $eq: ["$totalTodos", 0] },
+            then: 0,
+            else: {
+              $multiply: [{ $divide: ["$completedTodos", "$totalTodos"] }, 100],
+            },
+          },
+        },
+      },
+    },
+  ]);
+
+  return (
+    aggregation[0] || { completedTodos: 0, totalTodos: 0, completionRate: 0 }
+  );
 };
