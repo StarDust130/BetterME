@@ -2,6 +2,7 @@ import {
   getDayTaskStats,
   getHabitsStats,
   getTodosCompletionStats,
+  habitsProgressStats,
 } from "../lib/aggregation.js";
 import { AppError } from "../lib/AppError.js";
 import { catchAsync } from "../lib/catchAsync.js";
@@ -14,7 +15,7 @@ import DayTask from "../models/dayTask.models.js";
 //   { "habitName": "Exercise", "streak": 3, "completionRate": 60 }
 // ]
 
-//! Todos Completion Stats
+//! Todos Completion Stats 🛺
 const OverviewStats = catchAsync(async (req, res) => {
   const clerkID = req.clerkID;
   const { timeframe = "all" } = req.query;
@@ -32,7 +33,7 @@ const OverviewStats = catchAsync(async (req, res) => {
   });
 });
 
-//! Expenses vs Junk Trend
+//! Expenses vs Junk Trend 💪
 const ExpensesVsJunkTrend = catchAsync(async (req, res) => {
   const clerkID = req.clerkID;
   const { timeframe = "all" } = req.query;
@@ -44,8 +45,18 @@ const ExpensesVsJunkTrend = catchAsync(async (req, res) => {
   });
 });
 
-const HabitsProgress = catchAsync(async (req, res, next) => {});
+const HabitsProgress = catchAsync(async (req, res, next) => {
+  const clerkID = req.clerkID;
+  const { timeframe = "all" } = req.query;
 
+  const habitsProgress = await habitsProgressStats(clerkID, timeframe);
+
+  return res.json({
+    habitsProgress,
+  });
+});
+
+//! Todos Completion Stats 👩‍🚀
 const TodosCompletionStats = catchAsync(async (req, res, next) => {
   const clerkId = req.clerkID;
   const { timeframe = "all" } = req.query;
