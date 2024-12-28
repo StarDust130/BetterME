@@ -27,7 +27,7 @@ const statsData = [
 
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:p-6 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:p-6 md:grid-cols-4 w-full">
       {statsData.map((data, index) => (
         <MiniCardStats key={index} data={data} />
       ))}
