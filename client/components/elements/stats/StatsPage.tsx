@@ -2,7 +2,7 @@ import MiniCardBox from "./MiniCardBox";
 
 const StatsPage = () => {
   return (
-    <div className="min-h-screen w-full  flex flex-col items-center pt-5 pb-10">
+    <div className="min-h-screen w-full border-none max-w-3xl mx-auto  flex flex-col items-center pt-5 pb-10">
       <MiniCardBox />
     </div>
   );
