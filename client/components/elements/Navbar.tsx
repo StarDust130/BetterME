@@ -32,13 +32,13 @@ function Navbar() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full h-[60px] sm:h-auto bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-around sm:justify-between px-4 sm:rounded-full sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 shadow-lg border-t-2 sm:border-2 border-neutral-300 dark:border-neutral-700 transition-all md:max-w-4xl lg:max-w-6xl">
+    <nav className="fixed bottom-0 left-0 w-full md:w-1/2  h-[60px]  sm:h-auto bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-around sm:justify-between px-4 sm:rounded-full sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 shadow-lg border-t-2 sm:border-2 border-neutral-300 dark:border-neutral-700 transition-all md:max-w-4xl lg:max-w-6xl">
       {navItems.map(({ href, label, Icon }) => (
         <Link
           key={href}
           href={href}
           onClick={() => setActiveNav(href)}
-          className={`flex flex-col items-center justify-center w-full sm:w-auto p-2 sm:p-3 transition-colors ${
+          className={`flex flex-col md:flex-row items-center justify-center w-full sm:w-auto p-2 sm:p-3 transition-colors ${
             activeNav === href
               ? "text-black dark:text-white"
               : "text-gray-600 dark:text-gray-400"
@@ -49,7 +49,7 @@ function Navbar() {
               activeNav === href ? "fill-transparent" : ""
             }`}
           />
-          <span className="md:hidden  text-[10px] sm:text-sm md:text-base mt-1 sm:mt-2">
+          <span className="  text-[10px] sm:text-sm md:text-lg mt-1 md:mt-0 md:ml-2  sm:mt-2">
             {label}
           </span>
         </Link>
