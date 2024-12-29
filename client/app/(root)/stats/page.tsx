@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { currentUser } from "@clerk/nextjs/server";
 import { CalendarIcon } from "lucide-react";
 
+
 const Page = async () => {
   const user = await currentUser();
   return (
