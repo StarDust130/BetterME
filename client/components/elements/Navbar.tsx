@@ -7,7 +7,7 @@ import {
   ChartNoAxesCombined,
   CirclePlus,
   Handshake,
-  Sparkles,
+  Goal,
 } from "lucide-react";
 
 function Navbar() {
@@ -25,14 +25,14 @@ function Navbar() {
 
   const navItems = [
     { href: "/home", label: "Home", Icon: Home },
-    { href: "/ai", label: "AI", Icon: Sparkles },
+    { href: "/goals", label: "Goals", Icon: Goal },
     { href: "/create", label: "Create", Icon: CirclePlus },
     { href: "/friends", label: "Friends", Icon: Handshake },
     { href: "/stats", label: "Stats", Icon: ChartNoAxesCombined },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full md:w-[40%]  h-[60px]  sm:h-auto bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-around sm:justify-between px-4 sm:rounded-full sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 shadow-lg border-t-2 sm:border-2 border-neutral-300 dark:border-neutral-700 transition-all md:max-w-4xl lg:max-w-6xl">
+    <nav className="fixed bottom-0 left-0 w-full sm:w-[60%] lg:w-[40%] md:w-[50%]  h-[60px]  sm:h-auto bg-white dark:bg-neutral-950 text-black dark:text-white flex items-center justify-around sm:justify-between px-4 sm:rounded-full sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2 z-50 shadow-lg border-t-2 sm:border-2 border-neutral-300 dark:border-neutral-700 transition-all md:max-w-4xl lg:max-w-6xl">
       {navItems.map(({ href, label, Icon }) => (
         <Link
           key={href}
@@ -49,7 +49,7 @@ function Navbar() {
               activeNav === href ? "fill-transparent" : ""
             }`}
           />
-          <span className="  text-[10px] sm:text-sm md:text-base mt-1 md:mt-0 md:ml-2  sm:mt-2">
+          <span className=" md:hidden lg:block   text-[10px] sm:text-sm md:text-base mt-1 md:mt-0 md:ml-2  sm:mt-2">
             {label}
           </span>
         </Link>
