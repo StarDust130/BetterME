@@ -40,7 +40,7 @@ const chartConfig = {
 export function Chart() {
   return (
     <div className="w-full flex-shrink-0 ">
-      <Card className="mx-5">
+      <Card className="mx-5 ">
         <CardHeader>
           <CardTitle>Bar Chart - Multiple</CardTitle>
           <CardDescription>January - June 2024</CardDescription>
