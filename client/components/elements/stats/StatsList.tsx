@@ -35,14 +35,12 @@ const data = [
 const StatsList = () => {
   return (
     <div className="mt-5 w-full px-4">
-      <h1 className="text-lg font-bold text-center mb-6 text-gray-800">
-        Day Wise Stats
-      </h1>
+      <h1 className="text-lg font-bold text-center mb-6">Day Wise Stats</h1>
       <div className="grid gap-4">
         {data.map((item) => (
           <div
             key={item.id}
-            className="p-4 rounded-xl shadow-lg bg-white border hover:border-sky-500 hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+            className="p-4 rounded-xl shadow-lg bg-white border-2 hover:border-sky-500 hover:shadow-xl transition-all duration-300 transform  cursor-pointer"
           >
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-base font-bold text-gray-700">{item.date}</h3>
