@@ -22,7 +22,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
     switch (data.title) {
       case "Total Expenses":
         return (
-          <div className="space-y-6">
+          <div className="">
             <h4 className="text-lg font-semibold">Expense Breakdown</h4>
             <ul className="space-y-3">
               <li className="flex justify-between items-center">
@@ -51,7 +51,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
         );
       case "Junk Food":
         return (
-          <div className="space-y-6">
+          <div className="">
             <h4 className="text-lg font-semibold">Junk Food Stats</h4>
             <ul className="space-y-3">
               <li className="flex justify-between items-center">
@@ -80,7 +80,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
         );
       case "Todos Done":
         return (
-          <div className="space-y-6">
+          <div className="">
             <h4 className="text-lg font-semibold">Completed Tasks</h4>
             <ul className="space-y-3">
               <li>🧹 Clean the house</li>
@@ -97,7 +97,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
         );
       case "Habits Completed":
         return (
-          <div className="space-y-6">
+          <div className="">
             <h4 className="text-lg font-semibold">Daily Habits</h4>
             <ul className="space-y-3">
               <li>💧 Drank water</li>
@@ -120,7 +120,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
   return (
     <Drawer>
       <DrawerTrigger>
-        <Card className="p-4 rounded-3xl  shadow-md  transition-all duration-300 transform ">
+        <Card className="p-4  rounded-3xl  shadow-md  transition-all duration-300 transform ">
           <h3 className="text-sm text-start md:text-base mb-2 w-full font-bold">
             {data.title}
           </h3>
@@ -130,7 +130,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
           </div>
         </Card>
       </DrawerTrigger>
-      <DrawerContent className="  shadow-lg p-6 transform transition-all duration-300 scale-95 ">
+      <DrawerContent className="w-full md:max-w-3xl h-full absolute mx-auto   border   shadow-lg p-6 transform transition-all duration-300 scale-95 ">
         <DrawerHeader>
           <DrawerTitle className="text-2xl font-bold tracking-wide">
             {data.title}
@@ -140,7 +140,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
           </DrawerDescription>
         </DrawerHeader>
         <Chart />
-        <div className="mt-4 space-y-6">{getDrawerContent()}</div>
+        <div className="mt-4 ">{getDrawerContent()}</div>
       </DrawerContent>
     </Drawer>
   );

@@ -39,7 +39,7 @@ const chartConfig = {
 
 export function Chart() {
   return (
-    <div className="w-full flex-shrink-0">
+    <div className="w-full  max-w-sm mx-auto ">
       <Card className="mx-5 border border-dashed">
         <CardHeader>
           <CardTitle>Bar Chart - Multiple</CardTitle>
