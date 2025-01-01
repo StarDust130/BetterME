@@ -1,5 +1,18 @@
 import React from "react";
 
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
 const data = [
   {
     id: 1,
@@ -38,19 +51,51 @@ const StatsList = () => {
       <h1 className="text-lg font-bold text-center mb-6">Day Wise Stats</h1>
       <div className="grid gap-4">
         {data.map((item) => (
-          <div
-            key={item.id}
-            className="p-4 rounded-xl shadow-lg bg-white border-2 hover:border-sky-500 hover:shadow-xl transition-all duration-300 transform  cursor-pointer"
-          >
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-base font-bold text-gray-700">{item.date}</h3>
-              <span className="text-2xl text-sky-500">{item.icon}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-gray-600">{item.title}</p>
-              <p className="text-sm font-medium text-gray-800">{item.value}</p>
-            </div>
-          </div>
+          <Drawer key={item.id}>
+            <DrawerTrigger asChild>
+              <Card className="p-4 rounded-xl  shadow-lg dark:shadow-md border border-gray-300 dark:border-gray-700 hover:shadow-xl  transition-all duration-300 cursor-pointer">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+                    {item.date}
+                  </h3>
+                  <span className="text-3xl text-sky-500">{item.icon}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {item.title}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-gray-200">
+                    {item.value}
+                  </p>
+                </div>
+              </Card>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>{item.title}</DrawerTitle>
+                <DrawerDescription>
+                  Details for <span className="font-bold">{item.date}</span>.
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className="p-4 text-sm">
+                <p>
+                  <span className="font-bold">Date:</span> {item.date}
+                </p>
+                <p>
+                  <span className="font-bold">Value:</span> {item.value}
+                </p>
+                <p>
+                  <span className="font-bold">Icon:</span> {item.icon}
+                </p>
+              </div>
+              <DrawerFooter>
+                <Button>Confirm</Button>
+                <DrawerClose asChild>
+                  <Button variant="outline">Close</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         ))}
       </div>
     </div>
