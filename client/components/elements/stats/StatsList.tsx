@@ -47,8 +47,8 @@ const data = [
 
 const StatsList = () => {
   return (
-    <div className="mt-5 w-full px-4">
-      <h1 className="text-lg font-bold text-center mb-6">Day Wise Stats</h1>
+    <div className="mt-2 w-full px-4">
+      <h1 className="text-lg md:text-2xl font-bold text-center mb-6">Day Wise Stats</h1>
       <div className="grid gap-4">
         {data.map((item) => (
           <Drawer key={item.id}>
