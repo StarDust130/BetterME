@@ -88,6 +88,28 @@ const StatsList = () => {
                   <span className="font-bold">Icon:</span> {item.icon}
                 </p>
               </div>
+              <div className="p-4 text-sm">
+                <p>
+                  <span className="font-bold">Date:</span> {item.date}
+                </p>
+                <p>
+                  <span className="font-bold">Value:</span> {item.value}
+                </p>
+                <p>
+                  <span className="font-bold">Icon:</span> {item.icon}
+                </p>
+              </div>
+              <div className="p-4 text-sm">
+                <p>
+                  <span className="font-bold">Date:</span> {item.date}
+                </p>
+                <p>
+                  <span className="font-bold">Value:</span> {item.value}
+                </p>
+                <p>
+                  <span className="font-bold">Icon:</span> {item.icon}
+                </p>
+              </div>
               <DrawerFooter>
                 <Button>Confirm</Button>
                 <DrawerClose asChild>
