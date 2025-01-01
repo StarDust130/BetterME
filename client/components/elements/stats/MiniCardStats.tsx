@@ -130,7 +130,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
           </div>
         </Card>
       </DrawerTrigger>
-      <DrawerContent className="   border   shadow-lg p-6 transform transition-all duration-300 scale-95 ">
+      <DrawerContent className="border shadow-lg p-6 transform transition-all duration-300 scale-95 ">
         <DrawerHeader>
           <DrawerTitle className="text-2xl font-bold tracking-wide">
             {data.title}
