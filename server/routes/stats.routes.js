@@ -1,5 +1,5 @@
 import {
-  ExpenesStats,
+  ExpensesStats,
   JunkFoodStats,
   TodosStats,
   HabitsStats,
@@ -11,7 +11,7 @@ import validateClerkID from "../middlewares/validateClerkID.js";
 
 const router = Express.Router();
 
-router.get("/expenses", validateClerkID, ExpenesStats); //? Show expenses vs income trend 📈 (Line Chart)
+router.get("/expenses", validateClerkID, ExpensesStats); //? Show expenses vs income trend 📈 (Line Chart)
 
 router.get("/junkFoods", validateClerkID, JunkFoodStats); //? Show junk food consumption 🍔 (Pie Chart)
 
