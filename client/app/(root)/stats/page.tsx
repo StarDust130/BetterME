@@ -10,7 +10,7 @@ const Page = async () => {
   return (
     <main className="flex flex-col items-center w-full p-4 min-h-screen max-w-4xl mx-auto ">
       {/* Welcome Card */}
-      <Card className="flex flex-col items-start w-full md:w-[80%] p-6 mx-auto shadow-lg rounded-3xl border-none hover:shadow-xl transition-shadow duration-300">
+      <Card className="flex flex-col items-start w-full md:w-[80%] p-6 mx-auto shadow-lg rounded-3xl  hover:shadow-xl transition-shadow duration-300">
         <div className="flex flex-col w-full">
           {/* Header Section */}
           <div className="flex items-center justify-between w-full mb-4">
