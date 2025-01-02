@@ -124,12 +124,17 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     averageDailySpend: stats[0]?.averageDailySpend || 0,
   };
 
-  const summary = await getSummaryAndTips(aiData, "expenses");
+  // const summary = await getSummaryAndTips(aiData, "expenses");
 
   const responseData = {
     insights: {
       ...aiData,
-      summary,
+      summary: {
+        summary:
+          "You spent a total of ₹6000 in 1 day, with ₹5000 on essentials 📊 and ₹1000 on junk food 😊. Your average daily spend is ₹6000.",
+        recommendation:
+          "Consider reducing junk food expenses 💡, as ₹1000 is a significant amount for a single day. Allocate that amount to savings or essential expenses for a more balanced budget.",
+      },
     },
   };
 
