@@ -70,7 +70,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         totalSpent: 1,
         essentialSpent: 1,
         junkFoodSpent: 1,
-        highSpendingDays: 1,
         averageDailySpend: 1,
         junkFoodTrend: 1,
         totalDays: 1,
@@ -94,20 +93,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
             vars: {
               highestSpendingDate: "$highestSpendingDay.date",
               total: "$highestSpendingDay.total",
-              junkFoodDescription: {
-                $cond: {
-                  if: {
-                    $gt: [{ $size: "$highestSpendingDay.junkFoodDetails" }, 0],
-                  },
-                  then: {
-                    $arrayElemAt: [
-                      "$highestSpendingDay.junkFoodDetails.foodName",
-                      0,
-                    ],
-                  },
-                  else: "No junk food", // Default value if no junk food details exist
-                },
-              },
             },
             in: {
               date: {
@@ -117,7 +102,7 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
                 },
               },
               total: "$$total",
-              spendOn: "$$junkFoodDescription", // Add the spendOn field
+              // Removed junkFoodDescription as it was undefined.
             },
           },
         },
@@ -136,8 +121,7 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     essentialSpent: stats[0]?.essentialSpent || 0,
     junkFoodSpent: stats[0]?.junkFoodSpent || 0,
     junkFoodTrend: stats[0]?.junkFoodTrend || false,
-    highSpendingDays: stats[0]?.highSpendingDays || [],
-    highestSpendingDay: stats[0]?.highestSpendingDay || null, // Use `highestSpendingDay` directly
+    highestSpendingDay: stats[0]?.highestSpendingDay || null,
     currentMonthTotal: currentMonthStats.total || 0,
     lastMonthTotal: lastMonthStats.total || 0,
     totalDays: stats[0]?.totalDays || 0,
@@ -152,7 +136,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
 
   res.status(200).json(responseData);
 });
-
 
 
 //! JunkFood Stats 🍔
