@@ -51,10 +51,10 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
       </DrawerTrigger>
       <DrawerContent className="border shadow-lg p-6 transform transition-all duration-300 scale-95 ">
         <DrawerHeader>
-          <DrawerTitle className="text-2xl font-bold tracking-wide">
+          <DrawerTitle className="text-2xl text-center font-bold tracking-wide">
             {data.title}
           </DrawerTitle>
-          <DrawerDescription className="text-sm mt-2">
+          <DrawerDescription className="text-sm mt-2 text-center ">
             Insights for {data.title.toLowerCase()}.
           </DrawerDescription>
         </DrawerHeader>
