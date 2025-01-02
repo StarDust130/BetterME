@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -54,9 +53,6 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
           <DrawerTitle className="text-2xl text-center font-bold tracking-wide">
             {data.title}
           </DrawerTitle>
-          <DrawerDescription className="text-sm mt-2 text-center ">
-            Insights for {data.title.toLowerCase()}.
-          </DrawerDescription>
         </DrawerHeader>
         <div className="mt-4 ">{getDrawerContent()}</div>
       </DrawerContent>
