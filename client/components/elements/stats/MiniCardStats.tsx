@@ -7,7 +7,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Chart } from "./Chart";
+import ExpensesStats from "./MiniCard/ExpensesStats";
+import JunkFoodStats from "./MiniCard/JunkFoodStats";
+import TodoStats from "./MiniCard/TodoStats";
+import HabitsStats from "./MiniCard/HabitsStats";
 
 interface MiniCardStatsProps {
   data: {
@@ -21,97 +24,13 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
   const getDrawerContent = () => {
     switch (data.title) {
       case "Total Expenses":
-        return (
-          <div className="">
-            <h4 className="text-lg font-semibold">Expense Breakdown</h4>
-            <ul className="space-y-3">
-              <li className="flex justify-between items-center">
-                <span>Rent</span>
-                <span className="font-bold text-gray-800">₹10</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Groceries</span>
-                <span className="font-bold text-gray-800">₹5</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Utilities</span>
-                <span className="font-bold text-gray-800">₹3</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Miscellaneous</span>
-                <span className="font-bold text-gray-800">₹2</span>
-              </li>
-            </ul>
-            <div className="mt-4">
-              <h5 className="text-sm font-semibold text-gray-500">
-                Monthly Spending Goal
-              </h5>
-            </div>
-          </div>
-        );
+        return <ExpensesStats />;
       case "Junk Food":
-        return (
-          <div className="">
-            <h4 className="text-lg font-semibold">Junk Food Stats</h4>
-            <ul className="space-y-3">
-              <li className="flex justify-between items-center">
-                <span>Pizza</span>
-                <span className="font-bold text-gray-800">2 times</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Burgers</span>
-                <span className="font-bold text-gray-800">1 time</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Fries</span>
-                <span className="font-bold text-gray-800">3 times</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Soda</span>
-                <span className="font-bold text-gray-800">5 times</span>
-              </li>
-            </ul>
-            <div className="mt-4">
-              <h5 className="text-sm font-semibold text-gray-500">
-                Daily Calorie Limit
-              </h5>
-            </div>
-          </div>
-        );
+        return <JunkFoodStats />;
       case "Todos Done":
-        return (
-          <div className="">
-            <h4 className="text-lg font-semibold">Completed Tasks</h4>
-            <ul className="space-y-3">
-              <li>🧹 Clean the house</li>
-              <li>✍ Write an essay</li>
-              <li>💡 Pay electricity bill</li>
-              <li>🏋️ Exercise</li>
-            </ul>
-            <div className="mt-4">
-              <h5 className="text-sm font-semibold text-gray-500">
-                Productivity Score
-              </h5>
-            </div>
-          </div>
-        );
+        return <TodoStats />;
       case "Habits Completed":
-        return (
-          <div className="">
-            <h4 className="text-lg font-semibold">Daily Habits</h4>
-            <ul className="space-y-3">
-              <li>💧 Drank water</li>
-              <li>🌅 Woke up early</li>
-              <li>🧘 Meditated</li>
-              <li>📚 Read a book</li>
-            </ul>
-            <div className="mt-4">
-              <h5 className="text-sm font-semibold text-gray-500">
-                Habit Streak
-              </h5>
-            </div>
-          </div>
-        );
+        return <HabitsStats />;
       default:
         return null;
     }
@@ -139,7 +58,6 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
             Insights for {data.title.toLowerCase()}.
           </DrawerDescription>
         </DrawerHeader>
-        <Chart />
         <div className="mt-4 ">{getDrawerContent()}</div>
       </DrawerContent>
     </Drawer>
