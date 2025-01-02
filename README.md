@@ -25,9 +25,6 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 - 🧠 **Llama-3 AI Intergation**
    
 
-### 
-- 📜 **TypeScript** for robust, error-free code
-
 ---
 
 ## ✨ **Features**  
