@@ -3,17 +3,18 @@ import { catchAsync } from "../lib/catchAsync.js";
 import { getDateFilter } from "../lib/extras.js";
 import DayTask from "../models/dayTask.models.js";
 import getSummaryAndTips from "../ai/getSummaryAndTips.js";
+import prepareAiData from "../ai/prepareAiData .js";
+import { calculateMonthlyStats } from "../lib/aggregation.js";
 
 //! Expenes Stats 🤑
-const ExpenesStats = catchAsync(async (req, res, next) => {
+const ExpensesStats = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
   const { timeframe } = req.query;
 
-  // Function to get date filters based on timeframe
+  // Get the date filter based on the selected timeframe
   const dateFilter = getDateFilter(timeframe);
 
-  // Aggregation pipeline
-  const aggregation = await DayTask.aggregate([
+  const stats = await DayTask.aggregate([
     {
       $match: {
         clerkID,
@@ -22,54 +23,79 @@ const ExpenesStats = catchAsync(async (req, res, next) => {
     },
     {
       $project: {
-        date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
-        totalSpent: {
-          $add: [{ $sum: "$expenses.amount" }, { $sum: "$junkFood.amount" }],
-        },
-        expenses: "$expenses",
-        junkFood: "$junkFood",
+        expensesTotal: { $sum: "$expenses.amount" },
+        junkFoodTotal: { $sum: "$junkFood.amount" },
+        date: 1,
       },
     },
     {
       $group: {
-        _id: "$date",
-        totalSpent: { $sum: "$totalSpent" },
-        expenseDetails: { $push: "$expenses" },
-        junkFoodDetails: { $push: "$junkFood" },
+        _id: null,
+        totalSpent: { $sum: { $add: ["$expensesTotal", "$junkFoodTotal"] } },
+        essentialSpent: { $sum: "$expensesTotal" },
+        junkFoodSpent: { $sum: "$junkFoodTotal" },
+        highSpendingDays: {
+          $push: {
+            $cond: [{ $gt: ["$expensesTotal", 1000] }, "$date", "$$REMOVE"],
+          },
+        },
+        dailyTotals: { $push: { $add: ["$expensesTotal", "$junkFoodTotal"] } },
+        totalDays: { $sum: 1 },
       },
     },
     {
-      $sort: { totalSpent: -1 }, // Sort by highest spending
+      $addFields: {
+        averageDailySpend: {
+          $cond: [
+            { $gt: ["$totalDays", 0] },
+            { $divide: ["$totalSpent", "$totalDays"] },
+            0,
+          ],
+        },
+        junkFoodTrend: { $gt: ["$junkFoodSpent", 100] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        totalSpent: 1,
+        essentialSpent: 1,
+        junkFoodSpent: 1,
+        highSpendingDays: 1,
+        averageDailySpend: 1,
+        junkFoodTrend: 1,
+        totalDays: 1,
+      },
     },
   ]);
 
-  // Calculate additional stats
-  const totalSpent = aggregation.reduce((sum, day) => sum + day.totalSpent, 0);
-  const highestSpendingDay = aggregation.length ? aggregation[0]._id : null;
-  const averageDailySpend =
-    aggregation.length > 0 ? totalSpent / aggregation.length : 0;
+  const currentMonthStats = await calculateMonthlyStats(clerkID, new Date());
+  const lastMonthStats = await calculateMonthlyStats(
+    clerkID,
+    new Date(new Date().setMonth(new Date().getMonth() - 1))
+  );
 
-  // Prepare AI summary request
   const aiData = {
-    totalSpent,
-    highestSpendingDay,
-    averageDailySpend: Math.round(averageDailySpend),
+    totalSpent: stats[0]?.totalSpent || 0,
+    essentialSpent: stats[0]?.essentialSpent || 0,
+    junkFoodSpent: stats[0]?.junkFoodSpent || 0,
+    junkFoodTrend: stats[0]?.junkFoodTrend || false,
+    highSpendingDays: stats[0]?.highSpendingDays || [],
+    currentMonthTotal: currentMonthStats.total || 0,
+    lastMonthTotal: lastMonthStats.total || 0,
+    totalDays: stats[0]?.totalDays || 0,
+    averageDailySpend: stats[0]?.averageDailySpend || 0,
   };
 
-  // Call the AI summary function (mocked here)
-  const summary = await getSummaryAndTips(aiData, "expenses");
+  // const summary = await getSummaryAndTips(aiData, "expenses");
 
-  // Combine aggregation with AI response
   const responseData = {
     insights: {
-      totalSpent,
-      highestSpendingDay,
-      averageDailySpend: Math.round(averageDailySpend),
-      summary,
+      ...aiData,
+      // summary,
     },
   };
 
-  // Send response
   res.status(200).json(responseData);
 });
 
@@ -85,4 +111,4 @@ const HabitsStats = catchAsync(async (req, res, next) => {});
 //!  Day Wise  Stats 📅
 const allDayStats = catchAsync(async (req, res, next) => {});
 
-export { ExpenesStats, JunkFoodStats, TodosStats, HabitsStats, allDayStats };
+export { ExpensesStats, JunkFoodStats, TodosStats, HabitsStats, allDayStats };
