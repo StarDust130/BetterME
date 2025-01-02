@@ -14,9 +14,8 @@ const prompt = `
   context === "expenses" && "All amounts are in INR (Indian Rupees ₹)."
 } data and provide:
   - A **short summary** with emojis 📊😊.
-  - A brief **analysis** 🧐.
-  - A **recommendation** for improvement 💡.
-  Respond in JSON format with 'summary', 'analysis', and 'recommendation'.
+  - A **recommendation** for improvement short  💡.
+  Respond in JSON format with 'summary' and 'recommendation'.
   Data: ${JSON.stringify(data)}
 `;
 
