@@ -39,7 +39,12 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
             $cond: [{ $gt: ["$expensesTotal", 1000] }, "$date", "$$REMOVE"],
           },
         },
-        dailyTotals: { $push: { $add: ["$expensesTotal", "$junkFoodTotal"] } },
+        dailyTotals: {
+          $push: {
+            date: "$date",
+            total: { $add: ["$expensesTotal", "$junkFoodTotal"] },
+          },
+        },
         totalDays: { $sum: 1 },
       },
     },
@@ -65,6 +70,17 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         averageDailySpend: 1,
         junkFoodTrend: 1,
         totalDays: 1,
+        dailyTotals: 1,
+      },
+    },
+    {
+      $addFields: {
+        highestSpendingDay: {
+          $arrayElemAt: [
+            { $sortArray: { input: "$dailyTotals", sortBy: { total: -1 } } },
+            0,
+          ],
+        },
       },
     },
   ]);
@@ -81,23 +97,22 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     junkFoodSpent: stats[0]?.junkFoodSpent || 0,
     junkFoodTrend: stats[0]?.junkFoodTrend || false,
     highSpendingDays: stats[0]?.highSpendingDays || [],
+    highestSpendingDay: stats[0]?.highestSpendingDay || null,
     currentMonthTotal: currentMonthStats.total || 0,
     lastMonthTotal: lastMonthStats.total || 0,
     totalDays: stats[0]?.totalDays || 0,
     averageDailySpend: stats[0]?.averageDailySpend || 0,
   };
 
-  // const summary = await getSummaryAndTips(aiData, "expenses");
-
   const responseData = {
     insights: {
       ...aiData,
-      // summary,
     },
   };
 
   res.status(200).json(responseData);
 });
+
 
 //! JunkFood Stats 🍔
 const JunkFoodStats = catchAsync(async (req, res, next) => {});
