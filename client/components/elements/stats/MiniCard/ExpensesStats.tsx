@@ -1,9 +1,5 @@
-"use client";
-import { getClerkUserID } from "@/lib/action";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
-interface SpendingInsights {
+export interface SpendingInsights {
   totalSpent: number;
   essentialSpent: number;
   junkFoodSpent: number;
@@ -21,39 +17,20 @@ interface SpendingInsights {
   };
 }
 
-const ExpensesStats = () => {
-  const [data, setData] = useState<SpendingInsights | null>(null);
+interface ExpensesProps {
+  expenses: SpendingInsights | null;
+  getExpenses: () => void;
+}
 
-  const getData = async () => {
-    const clerkID = await getClerkUserID();
-
-    try {
-      const url = `${process.env.NEXT_PUBLIC_STATS_SERVER_URL}`;
-      const options = { withCredentials: true };
-
-      const response = await axios.get(
-        `${url}/expenses?clerkID=${clerkID}`,
-        options
-      );
-
-      setData(response.data.insights);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  if (!data) return null;
+const ExpensesStats = ({ expenses }: ExpensesProps) => {
+  if (!expenses) return null;
 
   return (
     <div className="mx-auto p-2  w-full">
       {/* Total Spending Summary */}
       <div className="mb-6">
         <p className="md:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-          {data.summary.summary}
+          {expenses.summary.summary}
         </p>
       </div>
 
@@ -64,19 +41,19 @@ const ExpensesStats = () => {
             Total Spent:
           </p>
           <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            ₹{data.totalSpent}
+            ₹{expenses.totalSpent}
           </p>
         </div>
         <div className="flex justify-between items-center">
           <p className="text-sm font-medium text-green-600">Essentials:</p>
           <p className="text-xl font-semibold text-green-600">
-            ₹{data.essentialSpent}
+            ₹{expenses.essentialSpent}
           </p>
         </div>
         <div className="flex justify-between items-center">
           <p className="text-sm font-medium text-red-600">Junk Food:</p>
           <p className="text-xl font-semibold text-red-600">
-            ₹{data.junkFoodSpent}
+            ₹{expenses.junkFoodSpent}
           </p>
         </div>
         <div className="flex justify-between items-center">
@@ -84,7 +61,7 @@ const ExpensesStats = () => {
             Highest Spending Day:
           </p>
           <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            {data.highestSpendingDay.date}
+            {expenses.highestSpendingDay.date}
           </p>
         </div>
       </div>
@@ -95,7 +72,7 @@ const ExpensesStats = () => {
           <span className="text-xl font-semibold">🌟 Recommendation</span>
         </div>
         <p className="text-sm md:text-base text-gray-700 dark:text-gray-300">
-          {data.summary.recommendation}
+          {expenses.summary.recommendation}
         </p>
       </div>
 
@@ -106,7 +83,7 @@ const ExpensesStats = () => {
             Current Month Total:
           </p>
           <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            ₹{data.currentMonthTotal}
+            ₹{expenses.currentMonthTotal}
           </p>
         </div>
         <div className="flex justify-between items-center">
@@ -114,7 +91,7 @@ const ExpensesStats = () => {
             Last Month Total:
           </p>
           <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            ₹{data.lastMonthTotal}
+            ₹{expenses.lastMonthTotal}
           </p>
         </div>
         <div className="flex justify-between items-center">
@@ -122,7 +99,7 @@ const ExpensesStats = () => {
             Average Daily Spend:
           </p>
           <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            ₹{data.averageDailySpend}
+            ₹{expenses.averageDailySpend}
           </p>
         </div>
       </div>
