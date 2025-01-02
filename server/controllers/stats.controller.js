@@ -25,8 +25,8 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         expensesTotal: { $sum: "$expenses.amount" },
         junkFoodTotal: { $sum: "$junkFood.amount" },
         date: 1,
-        expensesDetails: "$expenses", // Directly get the expense items
-        junkFoodDetails: "$junkFood", // Directly get the junk food items
+        expensesDetails: "$expenses", 
+        junkFoodDetails: "$junkFood", 
       },
     },
     {
@@ -60,7 +60,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
             0,
           ],
         },
-        junkFoodTrend: { $gt: ["$junkFoodSpent", 100] },
       },
     },
     {
@@ -70,7 +69,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         essentialSpent: 1,
         junkFoodSpent: 1,
         averageDailySpend: 1,
-        junkFoodTrend: 1,
         totalDays: 1,
         dailyTotals: 1,
       },
@@ -119,7 +117,6 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     totalSpent: stats[0]?.totalSpent || 0,
     essentialSpent: stats[0]?.essentialSpent || 0,
     junkFoodSpent: stats[0]?.junkFoodSpent || 0,
-    junkFoodTrend: stats[0]?.junkFoodTrend || false,
     highestSpendingDay: stats[0]?.highestSpendingDay || null,
     currentMonthTotal: currentMonthStats.total || 0,
     lastMonthTotal: lastMonthStats.total || 0,
