@@ -1,10 +1,9 @@
-
-import  {
-  OverviewStats,
-  ExpensesVsJunkTrend,
-  HabitsProgress,
-  TodosCompletionStats,
-  DailyLogs,
+import {
+  ExpenesStats,
+  JunkFoodStats,
+  TodosStats,
+  HabitsStats,
+  allDayStats,
 } from "../controllers/stats.controller.js";
 import Express from "express";
 
@@ -12,17 +11,14 @@ import validateClerkID from "../middlewares/validateClerkID.js";
 
 const router = Express.Router();
 
+router.get("/expenses", validateClerkID, ExpenesStats); //? Show expenses vs income trend 📈 (Line Chart)
 
-router.get("/overviewStats", validateClerkID, OverviewStats);  //? Show overview stats 🌃 (4 Cards)
+router.get("/junkFoods", validateClerkID, JunkFoodStats); //? Show junk food consumption 🍔 (Pie Chart)
 
-router.get("/expensesVsJunkTrend", validateClerkID, ExpensesVsJunkTrend); //? Show expenses vs junk trend 📈 (Bar Chart)
+router.get("/todos", validateClerkID, TodosStats); //? Show todos completion stats 📊(Stacked Bar Chart)
 
-router.get("/habitsProgress", validateClerkID, HabitsProgress); //? Show habits progress 🌇 (Circular Chart)
+router.get("/habits", validateClerkID, HabitsStats); //? Show habits completion stats 📊(Stacked Bar Chart)
 
-router.get("/todosCompletionStats", validateClerkID, TodosCompletionStats); //? Show todos completion stats 📊(Stacked Bar Chart)
-
-router.get("/dailyLogs", validateClerkID, DailyLogs); //? Show daily logs 📋  (Cards show daily activity)
-
-
+router.get("/daily", validateClerkID, allDayStats); //? Show daily logs 📋  (Cards show daily activity)
 
 export default router;
