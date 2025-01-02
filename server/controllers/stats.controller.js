@@ -3,7 +3,6 @@ import { catchAsync } from "../lib/catchAsync.js";
 import { getDateFilter } from "../lib/extras.js";
 import DayTask from "../models/dayTask.models.js";
 import getSummaryAndTips from "../ai/getSummaryAndTips.js";
-import prepareAiData from "../ai/prepareAiData .js";
 import { calculateMonthlyStats } from "../lib/aggregation.js";
 
 //! Expenses Stats 💸
@@ -128,15 +127,17 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     averageDailySpend: stats[0]?.averageDailySpend || 0,
   };
 
+  const summary = await getSummaryAndTips(aiData, "expenses");
+
   const responseData = {
     insights: {
       ...aiData,
+      summary,
     },
   };
 
   res.status(200).json(responseData);
 });
-
 
 //! JunkFood Stats 🍔
 const JunkFoodStats = catchAsync(async (req, res, next) => {});
