@@ -10,14 +10,19 @@ const groq = new Groq({
 
 const getSummaryAndTips = catchAsync(async (data, context) => {
 const prompt = `
-  You are an assistant. Analyze the following ${context} ${
-  context === "expenses" && "All amounts are in INR (Indian Rupees ₹)."
-} data and provide:
-  - A **short summary** with emojis 📊😊.
-  - A **recommendation** for improvement short  💡.
-  Respond in JSON format with 'summary' and 'recommendation'.
+  You are an assistant analyzing the following ${context} data. 
+  ${
+    context === "expenses"
+      ? "Note: All amounts are in INR (Indian Rupees ₹)."
+      : ""
+  }
+  Please provide the following:
+  - A **brief summary** with relevant insights and emojis 📊😊.
+  - A **short recommendation** for improvement 💡.
+  Respond in JSON format with 'summary' and 'recommendation' keys.
   Data: ${JSON.stringify(data)}
 `;
+
 
   const response = await groq.chat.completions.create({
     messages: [
