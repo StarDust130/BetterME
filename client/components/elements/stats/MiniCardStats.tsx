@@ -1,3 +1,4 @@
+"use client";
 import { Card } from "@/components/ui/card";
 import {
   Drawer,
@@ -6,10 +7,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import ExpensesStats from "./MiniCard/ExpensesStats";
+import ExpensesStats, { SpendingInsights } from "./MiniCard/ExpensesStats";
 import JunkFoodStats from "./MiniCard/JunkFoodStats";
 import TodoStats from "./MiniCard/TodoStats";
 import HabitsStats from "./MiniCard/HabitsStats";
+import axios from "axios";
+import { getClerkUserID } from "@/lib/action";
+import { useEffect, useState } from "react";
 
 interface MiniCardStatsProps {
   data: {
@@ -20,10 +24,33 @@ interface MiniCardStatsProps {
 }
 
 const MiniCardStats = ({ data }: MiniCardStatsProps) => {
+    const [expenses, setExpenses] = useState<SpendingInsights | null>(null);
+  
+    const getExpenses = async () => {
+      const clerkID = await getClerkUserID();
+
+      try {
+        const url = `${process.env.NEXT_PUBLIC_STATS_SERVER_URL}`;
+        const options = { withCredentials: true };
+
+        const response = await axios.get(
+          `${url}/expenses?clerkID=${clerkID}`,
+          options
+        );
+
+        setExpenses(response.data.insights);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+     useEffect(() => {
+       getExpenses();
+     }, []);
   const getDrawerContent = () => {
     switch (data.title) {
       case "Total Expenses":
-        return <ExpensesStats />;
+        return <ExpensesStats expenses={expenses} getExpenses={getExpenses} />;
       case "Junk Food":
         return <JunkFoodStats />;
       case "Todos Done":
@@ -43,7 +70,7 @@ const MiniCardStats = ({ data }: MiniCardStatsProps) => {
             {data.title}
           </h3>
           <div className="flex items-center justify-between">
-            <div className="md:text-xl">{data.value}</div>
+            <div className="md:text-xl"> ₹{expenses?.totalSpent}</div>
             <div className="md:text-4xl">{data.icon}</div>
           </div>
         </Card>
