@@ -4,6 +4,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 
 const Drawer = ({
   shouldScaleBackground = true,
@@ -43,17 +44,25 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 w-full md:max-w-3xl mx-auto  bottom-0 z-50 mt-24 flex border dark:border-gray-700  h-auto rounded-t-3xl flex-col bg-background",
+        "fixed inset-x-0 w-full md:max-w-3xl mx-auto  bottom-0 z-50 top-20 flex border  dark:border-gray-700 rounded-t-3xl flex-col bg-background",
         className
       )}
       {...props}
     >
       <div className="mx-auto mt-2 h-2 w-[100px] rounded-full bg-gray-300 dark:bg-gray-500" />
-      {children}
+      <DrawerClose>
+        <X className="absolute top-5 right-5 text-gray-500" size={20} />
+      </DrawerClose>
+
+
+      {/* Drawer Content with margin-top and scroll functionality */}
+      <div className="flex-1 overflow-y-auto mt-4 px-4">{children}</div>
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ));
 DrawerContent.displayName = "DrawerContent";
+
+
 
 const DrawerHeader = ({
   className,
