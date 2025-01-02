@@ -65,9 +65,8 @@ const ExpenesStats = catchAsync(async (req, res, next) => {
       totalSpent,
       highestSpendingDay,
       averageDailySpend: Math.round(averageDailySpend),
-      details: aggregation,
+      summary,
     },
-    summary,
   };
 
   // Send response
