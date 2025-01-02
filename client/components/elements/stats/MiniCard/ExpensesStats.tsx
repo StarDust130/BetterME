@@ -49,67 +49,79 @@ const ExpensesStats = () => {
   if (!data) return null;
 
   return (
-    <div className="mx-auto p-4 sm:p-6 max-w-screen-md">
+    <div className="mx-auto p-2  w-full">
       {/* Total Spending Summary */}
-      <div className="mb-4">
-        <p className="text-sm md:text-lg text-gray-700">{data.summary.summary}</p>
+      <div className="mb-6">
+        <p className="md:text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          {data.summary.summary}
+        </p>
       </div>
 
       {/* Spending Breakdown */}
-      <div className="space-y-4 mb-6">
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Total Spent:</p>
-          <p className="text-lg font-semibold text-gray-800">
+      <div className="space-y-6 mb-6">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Total Spent:
+          </p>
+          <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             ₹{data.totalSpent}
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Essentials:</p>
-          <p className="text-lg font-semibold text-green-600">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-green-600">Essentials:</p>
+          <p className="text-xl font-semibold text-green-600">
             ₹{data.essentialSpent}
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Junk Food:</p>
-          <p className="text-lg font-semibold text-red-600">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-red-600">Junk Food:</p>
+          <p className="text-xl font-semibold text-red-600">
             ₹{data.junkFoodSpent}
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Highest Spending Day:</p>
-          <p className="text-lg font-semibold text-gray-800">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Highest Spending Day:
+          </p>
+          <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             {data.highestSpendingDay.date}
           </p>
         </div>
       </div>
 
       {/* Recommendations */}
-      <div className="mb-6 bg-white p-4 rounded-lg shadow-md border border-gray-200">
+      <div className="mb-8 p-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md">
         <div className="flex items-center mb-3">
-          <span className="text-xl font-semibold text-gray-800 mr-2">
-            💡 Recommendation
-          </span>
+          <span className="text-xl font-semibold">🌟 Recommendation</span>
         </div>
-        <p className="text-base text-gray-800">{data.summary.recommendation}</p>
+        <p className="text-sm md:text-base text-gray-700 dark:text-gray-300">
+          {data.summary.recommendation}
+        </p>
       </div>
 
       {/* Monthly Comparison */}
-      <div className="space-y-4">
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Current Month Total:</p>
-          <p className="text-lg font-semibold text-gray-800">
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Current Month Total:
+          </p>
+          <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             ₹{data.currentMonthTotal}
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Last Month Total:</p>
-          <p className="text-lg font-semibold text-gray-800">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Last Month Total:
+          </p>
+          <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             ₹{data.lastMonthTotal}
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-sm text-gray-600">Average Daily Spend:</p>
-          <p className="text-lg font-semibold text-gray-800">
+        <div className="flex justify-between items-center">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Average Daily Spend:
+          </p>
+          <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             ₹{data.averageDailySpend}
           </p>
         </div>
