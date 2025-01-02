@@ -10,16 +10,20 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 ---
 
 
-## 🛠️ **Tech Stack**  
+## 🛠️ **Tech Stack**
 
-### 🌐 Frontend  
-- ⚡ **Next.js**  
-- 🎨 **Tailwind CSS**  
-- 🛋️ **ShadCN UI**  
+### 🌐 **Frontend**
+- ⚡ **Next.js**
+- 🎨 **Tailwind CSS**
+- 🛋️ **ShadCN UI**
+- 🖥️ **TypeScript**
+- 🔐 **Clerk Auth**
 
-### 🔧 Backend  
-- 🚀 **Express.js**  
-- 🗂️ **Mongoose**  
+### 🔧 **Backend**
+- 🚀 **Express.js**
+- 🗂️ **Mongoose**
+- 🧠 **Llama-3 AI Intergation**
+   
 
 ---
 
