@@ -9,15 +9,16 @@ const groq = new Groq({
 });
 
 const getSummaryAndTips = catchAsync(async (data, context) => {
-  const prompt = `
-    You are an insightful assistant. Analyze the following ${context} data and provide:
-    - A **short summary** of the patterns you observe 📊.
-    - Key **patterns** you notice 🧐.
-    - 3 actionable **tips** to improve or optimize in this category 💡.
-    - Make it engaging and include emojis for a friendly tone 😊. 
-    - Respond in JSON format with 'summary', 'patterns', and 'tips'.
-    Data: ${JSON.stringify(data)}
-  `;
+const prompt = `
+  You are an assistant. Analyze the following ${context} ${
+  context === "expenses" && "All amounts are in INR (Indian Rupees ₹)."
+} data and provide:
+  - A **short summary** with emojis 📊😊.
+  - A brief **analysis** 🧐.
+  - A **recommendation** for improvement 💡.
+  Respond in JSON format with 'summary', 'analysis', and 'recommendation'.
+  Data: ${JSON.stringify(data)}
+`;
 
   const response = await groq.chat.completions.create({
     messages: [
@@ -33,10 +34,30 @@ const getSummaryAndTips = catchAsync(async (data, context) => {
     stream: false,
   });
 
-  const aiResponse =
+  let aiResponse =
     response.choices[0]?.message?.content || "No response received";
 
-  return JSON.parse(aiResponse);
+  // Log the raw AI response to debug
+  console.log("AI Response 🧁: ", aiResponse);
+
+  // Extract the valid JSON portion from the AI response
+  const jsonStart = aiResponse.indexOf("{");
+  const jsonEnd = aiResponse.lastIndexOf("}") + 1;
+
+  if (jsonStart !== -1 && jsonEnd !== -1) {
+    const validJson = aiResponse.substring(jsonStart, jsonEnd);
+
+    // Parse the valid JSON portion
+    try {
+      return JSON.parse(validJson);
+    } catch (error) {
+      console.error("Error parsing AI response:", error);
+      return { error: "Failed to parse valid JSON response." };
+    }
+  } else {
+    console.error("Invalid JSON response format.");
+    return { error: "Invalid response format." };
+  }
 });
 
 export default getSummaryAndTips;
