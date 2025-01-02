@@ -6,7 +6,7 @@ import getSummaryAndTips from "../ai/getSummaryAndTips.js";
 import prepareAiData from "../ai/prepareAiData .js";
 import { calculateMonthlyStats } from "../lib/aggregation.js";
 
-//! Expenes Stats 🤑
+//! Expenses Stats 💸
 const ExpensesStats = catchAsync(async (req, res, next) => {
   const clerkID = req.clerkID;
   const { timeframe } = req.query;
@@ -26,6 +26,8 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         expensesTotal: { $sum: "$expenses.amount" },
         junkFoodTotal: { $sum: "$junkFood.amount" },
         date: 1,
+        expensesDetails: "$expenses", // Directly get the expense items
+        junkFoodDetails: "$junkFood", // Directly get the junk food items
       },
     },
     {
@@ -43,6 +45,8 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
           $push: {
             date: "$date",
             total: { $add: ["$expensesTotal", "$junkFoodTotal"] },
+            expensesDetails: "$expensesDetails",
+            junkFoodDetails: "$junkFoodDetails",
           },
         },
         totalDays: { $sum: 1 },
@@ -83,6 +87,42 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
         },
       },
     },
+    {
+      $addFields: {
+        highestSpendingDay: {
+          $let: {
+            vars: {
+              highestSpendingDate: "$highestSpendingDay.date",
+              total: "$highestSpendingDay.total",
+              junkFoodDescription: {
+                $cond: {
+                  if: {
+                    $gt: [{ $size: "$highestSpendingDay.junkFoodDetails" }, 0],
+                  },
+                  then: {
+                    $arrayElemAt: [
+                      "$highestSpendingDay.junkFoodDetails.foodName",
+                      0,
+                    ],
+                  },
+                  else: "No junk food", // Default value if no junk food details exist
+                },
+              },
+            },
+            in: {
+              date: {
+                $dateToString: {
+                  format: "%d-%m-%Y",
+                  date: "$$highestSpendingDate",
+                },
+              },
+              total: "$$total",
+              spendOn: "$$junkFoodDescription", // Add the spendOn field
+            },
+          },
+        },
+      },
+    },
   ]);
 
   const currentMonthStats = await calculateMonthlyStats(clerkID, new Date());
@@ -97,7 +137,7 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
     junkFoodSpent: stats[0]?.junkFoodSpent || 0,
     junkFoodTrend: stats[0]?.junkFoodTrend || false,
     highSpendingDays: stats[0]?.highSpendingDays || [],
-    highestSpendingDay: stats[0]?.highestSpendingDay || null,
+    highestSpendingDay: stats[0]?.highestSpendingDay || null, // Use `highestSpendingDay` directly
     currentMonthTotal: currentMonthStats.total || 0,
     lastMonthTotal: lastMonthStats.total || 0,
     totalDays: stats[0]?.totalDays || 0,
@@ -112,6 +152,7 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
 
   res.status(200).json(responseData);
 });
+
 
 
 //! JunkFood Stats 🍔
