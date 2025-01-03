@@ -13,105 +13,90 @@ const ExpensesStats = catchAsync(async (req, res, next) => {
   // Get the date filter based on the selected timeframe
   const dateFilter = getDateFilter(timeframe);
 
-  const stats = await DayTask.aggregate([
-    {
-      $match: {
-        clerkID,
-        ...dateFilter,
-      },
+const stats = await DayTask.aggregate([
+  {
+    $match: { clerkID, ...dateFilter },
+  },
+  {
+    $project: {
+      expensesTotal: { $sum: "$expenses.amount" },
+      junkFoodTotal: { $sum: "$junkFood.amount" },
+      date: 1,
     },
-    {
-      $project: {
-        expensesTotal: { $sum: "$expenses.amount" },
-        junkFoodTotal: { $sum: "$junkFood.amount" },
-        date: 1,
-        expensesDetails: "$expenses", 
-        junkFoodDetails: "$junkFood", 
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalSpent: { $sum: { $add: ["$expensesTotal", "$junkFoodTotal"] } },
-        essentialSpent: { $sum: "$expensesTotal" },
-        junkFoodSpent: { $sum: "$junkFoodTotal" },
-        highSpendingDays: {
-          $push: {
-            $cond: [{ $gt: ["$expensesTotal", 1000] }, "$date", "$$REMOVE"],
-          },
-        },
-        dailyTotals: {
-          $push: {
-            date: "$date",
-            total: { $add: ["$expensesTotal", "$junkFoodTotal"] },
-            expensesDetails: "$expensesDetails",
-            junkFoodDetails: "$junkFoodDetails",
-          },
-        },
-        totalDays: { $sum: 1 },
-      },
-    },
-    {
-      $addFields: {
-        averageDailySpend: {
-          $cond: [
-            { $gt: ["$totalDays", 0] },
-            { $divide: ["$totalSpent", "$totalDays"] },
-            0,
-          ],
+  },
+  {
+    $group: {
+      _id: null,
+      totalSpent: { $sum: { $add: ["$expensesTotal", "$junkFoodTotal"] } },
+      essentialSpent: { $sum: "$expensesTotal" },
+      junkFoodSpent: { $sum: "$junkFoodTotal" },
+      dailyTotals: {
+        $push: {
+          date: "$date",
+          total: { $add: ["$expensesTotal", "$junkFoodTotal"] },
         },
       },
+      totalDays: { $sum: 1 },
     },
-    {
-      $project: {
-        _id: 0,
-        totalSpent: 1,
-        essentialSpent: 1,
-        junkFoodSpent: 1,
-        averageDailySpend: 1,
-        totalDays: 1,
-        dailyTotals: 1,
+  },
+  {
+    $addFields: {
+      averageDailySpend: {
+        $cond: [
+          { $gt: ["$totalDays", 0] },
+          { $divide: ["$totalSpent", "$totalDays"] },
+          0,
+        ],
       },
-    },
-    {
-      $addFields: {
-        highestSpendingDay: {
-          $arrayElemAt: [
-            { $sortArray: { input: "$dailyTotals", sortBy: { total: -1 } } },
-            0,
-          ],
-        },
-      },
-    },
-    {
-      $addFields: {
-        highestSpendingDay: {
-          $let: {
-            vars: {
-              highestSpendingDate: "$highestSpendingDay.date",
-              total: "$highestSpendingDay.total",
-            },
-            in: {
-              date: {
-                $dateToString: {
-                  format: "%d-%m-%Y",
-                  date: "$$highestSpendingDate",
+      highestSpendingDay: {
+        $let: {
+          vars: {
+            highestSpending: {
+              $arrayElemAt: [
+                {
+                  $sortArray: { input: "$dailyTotals", sortBy: { total: -1 } },
                 },
-              },
-              total: "$$total",
-              // Removed junkFoodDescription as it was undefined.
+                0,
+              ],
             },
+          },
+          in: {
+            date: {
+              $dateToString: {
+                format: "%d-%m-%Y",
+                date: "$$highestSpending.date",
+              },
+            },
+            total: "$$highestSpending.total",
           },
         },
       },
     },
-  ]);
+  },
+  {
+    $project: {
+      _id: 0,
+      totalSpent: 1,
+      essentialSpent: 1,
+      junkFoodSpent: 1,
+      averageDailySpend: 1,
+      totalDays: 1,
+      dailyTotals: 1,
+      highestSpendingDay: 1,
+    },
+  },
+]);
+
 
   const currentMonthStats = await calculateMonthlyStats(clerkID, new Date());
   const lastMonthStats = await calculateMonthlyStats(
     clerkID,
     new Date(new Date().setMonth(new Date().getMonth() - 1))
   );
+
+  console.log("currentMonthStats 🙂", currentMonthStats);
+  console.log("lastMonthStats 😆", lastMonthStats);
+  console.log("stats", stats);
 
   const aiData = {
     totalSpent: stats[0]?.totalSpent || 0,
