@@ -127,3 +127,9 @@ export const expensesStatsAggregation = async (clerkID, dateFilter) => {
     averageDailySpend: stats[0]?.averageDailySpend || 0,
   };
 };
+
+export const junkFoodStatsAggregation = async(clerkID , dateFilter) => {};
+
+export const todosStatsAggregation = async(clerkID , dateFilter) => {};
+
+export const habitsStatsAggregation = async(clerkID , dateFilter) => {};
