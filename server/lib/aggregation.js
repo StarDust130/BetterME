@@ -68,15 +68,12 @@ export const expensesStatsAggregation = async (clerkID, dateFilter) => {
           $let: {
             vars: {
               highestSpending: {
-                $arrayElemAt: [
-                  {
-                    $sortArray: {
-                      input: "$dailyTotals",
-                      sortBy: { total: -1 },
-                    },
+                $first: {
+                  $sortArray: {
+                    input: "$dailyTotals",
+                    sortBy: { total: -1 },
                   },
-                  0,
-                ],
+                },
               },
             },
             in: {
