@@ -30,9 +30,7 @@ export const calculateMonthlyStats = async (clerkID, date) => {
 
 export const expensesStatsAggregation = async (clerkID, dateFilter) => {
   const stats = await DayTask.aggregate([
-    {
-      $match: { clerkID, ...dateFilter },
-    },
+    { $match: { clerkID, ...dateFilter } },
     {
       $project: {
         date: 1,
@@ -58,9 +56,7 @@ export const expensesStatsAggregation = async (clerkID, dateFilter) => {
         },
       },
     },
-    {
-      $unwind: "$combinedExpenses",
-    },
+    { $unwind: "$combinedExpenses" },
     {
       $group: {
         _id: "$date",
@@ -85,11 +81,7 @@ export const expensesStatsAggregation = async (clerkID, dateFilter) => {
     {
       $addFields: {
         averageDailySpend: {
-          $cond: [
-            { $gt: ["$totalDays", 0] },
-            { $divide: ["$totalSpent", "$totalDays"] },
-            0,
-          ],
+          $divide: ["$totalSpent", { $ifNull: ["$totalDays", 1] }],
         },
         highestSpendingDay: {
           $let: {
@@ -149,7 +141,82 @@ export const expensesStatsAggregation = async (clerkID, dateFilter) => {
   };
 };
 
-export const junkFoodStatsAggregation = async (clerkID, dateFilter) => {};
+export const junkFoodStatsAggregation = async (clerkID, dateFilter) => {
+ const stats = await DayTask.aggregate([
+   {
+     $match: {
+       clerkID,
+       ...dateFilter,
+     },
+   },
+   {
+     $unwind: "$junkFood", // Flatten the junkFood array to handle each item separately
+   },
+   {
+     $group: {
+       _id: null, // Aggregate across all documents
+       totalJunkFoodSpent: { $sum: "$junkFood.amount" }, // Sum all junk food amounts
+       totalJunkFoodCount: { $sum: 1 }, // Count the number of junk food items
+       averageJunkFoodSpend: { $avg: "$junkFood.amount" }, // Calculate average junk food spend
+       highestSpendingDay: {
+         $push: {
+           day: "$date",
+           foodName: "$junkFood.foodName",
+           amount: "$junkFood.amount",
+         },
+       }, // Collect all the day's junk food data to find the highest spender
+       items: {
+         $push: { name: "$junkFood.foodName", amount: "$junkFood.amount" },
+       }, // Collect junk food items
+       mostExpensiveItem: { $max: "$junkFood.amount" }, // Find the most expensive junk food item
+       mostFrequentDay: {
+         $addToSet: {
+           $dayOfWeek: "$date",
+         },
+       }, // Get the day of the week for each junk food purchase
+       daysWithJunkFood: {
+         $addToSet: "$date",
+       }, // Get distinct days with junk food consumption
+     },
+   },
+   {
+     $project: {
+       totalJunkFoodSpent: 1,
+       totalJunkFoodCount: 1,
+       averageJunkFoodSpend: 1,
+       highestSpendingDay: {
+         $arrayElemAt: [
+           {
+             $sortArray: {
+               input: "$highestSpendingDay",
+               sortBy: { amount: -1 },
+             },
+           },
+           0,
+         ],
+       },
+       items: { $slice: ["$items", 3] },
+       mostExpensiveItem: 1,
+       mostFrequentDay: { $arrayElemAt: ["$mostFrequentDay", 0] }, // Pick one frequent day (or adjust as needed)
+       totalDaysWithJunkFood: { $size: "$daysWithJunkFood" }, // Count of distinct days with junk food
+     },
+   },
+ ]);
+
+ console.log("junkFoodStats 🍔", stats);
+
+ return {
+   totalJunkFoodSpent: stats[0]?.totalJunkFoodSpent || 0,
+   totalJunkFoodCount: stats[0]?.totalJunkFoodCount || 0,
+   averageJunkFoodSpend: stats[0]?.averageJunkFoodSpend || 0,
+   highestSpendingDay: stats[0]?.highestSpendingDay || {}, // Show the full data of the highest spending day
+   topJunkFoodItems: stats[0]?.items || [], // Top 3 frequent junk food items
+   mostExpensiveItem: stats[0]?.mostExpensiveItem || 0, // Most expensive junk food item
+   mostFrequentDay: stats[0]?.mostFrequentDay || "", // Most frequent day for junk food consumption (e.g., Monday)
+   totalDaysWithJunkFood: stats[0]?.totalDaysWithJunkFood || 0, // Number of days with junk food consumption
+ };
+
+};
 
 export const todosStatsAggregation = async (clerkID, dateFilter) => {};
 
