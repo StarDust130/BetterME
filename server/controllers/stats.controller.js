@@ -67,7 +67,21 @@ const TodosStats = catchAsync(async (req, res, next) => {
     // Get the date filter based on the selected timeframe
     const dateFilter = getDateFilter(timeframe);
 
-    
+    const stats = await todosStatsAggregation(clerkID, dateFilter);
+
+    // const summary = await getSummaryAndTips(aiData, "todos");
+
+    const responseData = {
+        insights: {
+            ...stats,
+            summary: {
+                summary:
+                    "You spent a total of ₹6000 in 1 day, with ₹5000 on essentials 📊 and ₹1000 on junk food 😊. Your average daily spend is ₹6000.",
+                recommendation:
+                    "Consider reducing junk food expenses, as ₹1000 is a significant amount for a single day. Allocate that amount to savings or essential expenses for a more balanced budget.",
+            },
+        },
+    };
 });
 
 //! Habits Stats 😉
