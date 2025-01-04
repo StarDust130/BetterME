@@ -248,6 +248,10 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
         },
       },
     },
+    // Sort by totalTodos descending
+    {
+      $sort: { totalTodos: -1 },
+    },
     // Accumulate stats across all dates
     {
       $group: {
@@ -271,15 +275,7 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
         completedTodos: 1,
         incompleteTodos: 1,
         mostFrequentDay: {
-          $arrayElemAt: [
-            {
-              $arrayElemAt: [
-                { $sort: { totalTodos: -1 } }, // Sort dates by totalTodos descending
-                0,
-              ],
-            },
-            "date",
-          ],
+          $arrayElemAt: ["$dateStats.date", 0], // Extract the date with the most todos
         },
         completedPercentage: {
           $multiply: [{ $divide: ["$completedTodos", "$totalTodos"] }, 100],
@@ -303,6 +299,7 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
     incompletePercentage: stats[0]?.incompletePercentage?.toFixed(2) || "0.00",
   };
 };
+
 
 
 
