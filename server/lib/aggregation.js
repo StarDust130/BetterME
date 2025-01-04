@@ -294,7 +294,11 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
     totalTodos: stats[0]?.totalTodos || 0,
     completedTodos: stats[0]?.completedTodos || 0,
     incompleteTodos: stats[0]?.incompleteTodos || 0,
-    mostFrequentDay: stats[0]?.mostFrequentDay || "",
+    mostFrequentDay: stats[0]?.mostFrequentDay
+      ? new Date(stats[0].mostFrequentDay)
+          .toLocaleDateString("en-GB")
+          .replace(/\//g, "-")
+      : "",
     completedPercentage: stats[0]?.completedPercentage?.toFixed(2) || "0.00",
     incompletePercentage: stats[0]?.incompletePercentage?.toFixed(2) || "0.00",
   };
