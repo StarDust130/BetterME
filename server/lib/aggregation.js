@@ -1,4 +1,5 @@
 import DayTask from "../models/dayTask.models.js";
+import Habits from "../models/habits.model.js";
 
 export const calculateMonthlyStats = async (clerkID, date) => {
   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -304,7 +305,83 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
   };
 };
 
+export const habitsStatsAggregation = async (clerkID, dateFilter) => {
+  const stats = await Habits.aggregate([
+    {
+      $match: {
+        clerkID,
+        ...dateFilter, // Filter by date, if provided
+      },
+    },
+    {
+      $project: {
+        habitName: 1,
+        completedDates: 1,
+        streak: 1,
+        highestStreak: 1,
+        frequency: 1,
+        startDate: 1,
+        today: { $literal: new Date().toISOString().split("T")[0] }, // Add today date for comparison
+      },
+    },
+    {
+      $addFields: {
+        isCompletedToday: {
+          $in: ["$today", "$completedDates"], // Check if the current date exists in completedDates array
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalHabits: { $sum: 1 }, // Total habits
+        completedHabits: {
+          $sum: { $cond: [{ $eq: ["$isCompletedToday", true] }, 1, 0] },
+        }, // Completed today
+        incompleteHabits: {
+          $sum: { $cond: [{ $eq: ["$isCompletedToday", false] }, 1, 0] },
+        }, // Not completed today
+        highestStreak: { $max: "$streak" }, // Highest streak
+        totalStreak: { $sum: "$streak" }, // Total streaks
+        mostFrequentFrequency: { $push: "$frequency" }, // Collect frequencies
+        mostFrequentHabitDay: { $addToSet: "$completedDates" }, // Collect unique completed dates
+      },
+    },
+    {
+      $project: {
+        totalHabits: 1,
+        completedHabits: 1,
+        incompleteHabits: 1,
+        highestStreak: 1,
+        totalStreak: 1,
+        mostFrequentFrequency: { $arrayElemAt: ["$mostFrequentFrequency", 0] }, // Get most frequent frequency
+        mostFrequentHabitDay: { $arrayElemAt: ["$mostFrequentHabitDay", 0] }, // Get most frequent habit day
+        completedPercentage: {
+          $multiply: [{ $divide: ["$completedHabits", "$totalHabits"] }, 100],
+        },
+        incompletePercentage: {
+          $multiply: [{ $divide: ["$incompleteHabits", "$totalHabits"] }, 100],
+        },
+      },
+    },
+  ]);
+
+  return {
+    totalHabits: stats[0]?.totalHabits || 0,
+    completedHabits: stats[0]?.completedHabits || 0,
+    incompleteHabits: stats[0]?.incompleteHabits || 0,
+    highestStreak: stats[0]?.highestStreak || 0,
+    totalStreak: stats[0]?.totalStreak || 0,
+    mostFrequentFrequency: stats[0]?.mostFrequentFrequency || "Not Available", // Most common frequency
+    mostFrequentHabitDay: stats[0]?.mostFrequentHabitDay
+      ? new Date(stats[0].mostFrequentHabitDay)
+          .toLocaleDateString("en-GB")
+          .replace(/\//g, "-")
+      : "",
+    completedPercentage: stats[0]?.completedPercentage?.toFixed(2) || "0.00",
+    incompletePercentage: stats[0]?.incompletePercentage?.toFixed(2) || "0.00",
+  };
+};
 
 
 
-export const habitsStatsAggregation = async (clerkID, dateFilter) => {};
