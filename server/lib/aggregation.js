@@ -218,6 +218,62 @@ export const junkFoodStatsAggregation = async (clerkID, dateFilter) => {
 
 };
 
-export const todosStatsAggregation = async (clerkID, dateFilter) => {};
+export const todosStatsAggregation = async (clerkID, dateFilter) => {
+  const stats = await DayTask.aggregate([
+    {
+      $match: {
+        clerkID,
+        ...dateFilter,
+      },
+    },
+    {
+      $unwind: "$todos",
+    },
+    {
+      $group: {
+        _id: null,
+        totalTodos: { $sum: 1 },
+        completedTodos: {
+          $sum: {
+            $cond: [{ $eq: ["$todos.isCompleted", true] }, 1, 0],
+          },
+        },
+        incompleteTodos: {
+          $sum: {
+            $cond: [{ $eq: ["$todos.isCompleted", false] }, 1, 0],
+          },
+        },
+        mostFrequentDay: {
+          $addToSet: {
+            $dayOfWeek: "$date",
+          },
+        },
+        daysWithTodos: {
+          $addToSet: "$date",
+        },
+      },
+    },
+    {
+      $project: {
+        totalTodos: 1,
+        completedTodos: 1,
+        incompleteTodos: 1,
+        mostFrequentDay: { $arrayElemAt: ["$mostFrequentDay", 0] },
+        totalDaysWithTodos: { $size: "$daysWithTodos" },
+      },
+    },
+  ]);
+
+  console.log("todosStats 📝", stats);
+  
+
+  return {
+    totalTodos: stats[0]?.totalTodos || 0,
+    completedTodos: stats[0]?.completedTodos || 0,
+    incompleteTodos: stats[0]?.incompleteTodos || 0,
+    mostFrequentDay: stats[0]?.mostFrequentDay || "",
+    totalDaysWithTodos: stats[0]?.totalDaysWithTodos || 0,
+  };
+};
 
 export const habitsStatsAggregation = async (clerkID, dateFilter) => {};
