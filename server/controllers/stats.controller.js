@@ -60,7 +60,15 @@ const JunkFoodStats = catchAsync(async (req, res, next) => {
 });
 
 //! Todos Stats 📝
-const TodosStats = catchAsync(async (req, res, next) => {});
+const TodosStats = catchAsync(async (req, res, next) => {
+    const clerkID = req.clerkID;
+    const { timeframe } = req.query;
+
+    // Get the date filter based on the selected timeframe
+    const dateFilter = getDateFilter(timeframe);
+
+    
+});
 
 //! Habits Stats 😉
 const HabitsStats = catchAsync(async (req, res, next) => {});
