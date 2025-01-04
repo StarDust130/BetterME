@@ -231,11 +231,11 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
     {
       $unwind: "$todo",
     },
-    // Group by null (to aggregate all documents into a single result)
+    // Group tasks by date
     {
       $group: {
-        _id: null,
-        totalTodos: { $sum: 1 }, // Count all todos
+        _id: "$date",
+        totalTodos: { $sum: 1 },
         completedTodos: {
           $sum: {
             $cond: [{ $eq: ["$todo.isCompleted", true] }, 1, 0],
@@ -246,20 +246,47 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
             $cond: [{ $eq: ["$todo.isCompleted", false] }, 1, 0],
           },
         },
-        daysWithTodos: {
-          $addToSet: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+      },
+    },
+    // Accumulate stats across all dates
+    {
+      $group: {
+        _id: null,
+        totalTodos: { $sum: "$totalTodos" },
+        completedTodos: { $sum: "$completedTodos" },
+        incompleteTodos: { $sum: "$incompleteTodos" },
+        dateStats: {
+          $push: {
+            date: "$_id",
+            totalTodos: "$totalTodos",
+          },
         },
       },
     },
-    // Final projection for the result
+    // Project additional insights
     {
       $project: {
-        _id: 0, // Exclude the _id field from the result
+        _id: 0,
         totalTodos: 1,
         completedTodos: 1,
         incompleteTodos: 1,
-        mostFrequentDay: { $arrayElemAt: ["$daysWithTodos", 0] }, // Use the first day (for demo purposes)
-        totalDaysWithTodos: { $size: "$daysWithTodos" },
+        mostFrequentDay: {
+          $arrayElemAt: [
+            {
+              $arrayElemAt: [
+                { $sort: { totalTodos: -1 } }, // Sort dates by totalTodos descending
+                0,
+              ],
+            },
+            "date",
+          ],
+        },
+        completedPercentage: {
+          $multiply: [{ $divide: ["$completedTodos", "$totalTodos"] }, 100],
+        },
+        incompletePercentage: {
+          $multiply: [{ $divide: ["$incompleteTodos", "$totalTodos"] }, 100],
+        },
       },
     },
   ]);
@@ -272,9 +299,11 @@ export const todosStatsAggregation = async (clerkID, dateFilter) => {
     completedTodos: stats[0]?.completedTodos || 0,
     incompleteTodos: stats[0]?.incompleteTodos || 0,
     mostFrequentDay: stats[0]?.mostFrequentDay || "",
-    totalDaysWithTodos: stats[0]?.totalDaysWithTodos || 0,
+    completedPercentage: stats[0]?.completedPercentage?.toFixed(2) || "0.00",
+    incompletePercentage: stats[0]?.incompletePercentage?.toFixed(2) || "0.00",
   };
 };
+
 
 
 export const habitsStatsAggregation = async (clerkID, dateFilter) => {};
