@@ -5,8 +5,7 @@ import habitsRouter from "./routes/habits.routes.js"; // 🤑 Habits Routes
 import statsRouter from "./routes/stats.routes.js"; // 📊 Stats Routes
 import { AppError } from "./lib/AppError.js";
 import { globalErrorHandler } from "./controllers/error.controller.js";
-import dotenv from "dotenv";
-dotenv.config();
+
 
 
 const app = express();
