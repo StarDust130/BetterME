@@ -52,38 +52,55 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 
 ## 📦 **How to Install and Run the Project** 🚀  
 
-```bash  
 # Step 1: Clone the Repository  
+```bash  
 git clone https://github.com/StarDust130/BetterME.git  
-cd BetterME  
+cd BetterME
+```
 
 # Step 2: Set Up Environment Variables  
-# Create a .env file in both client and server directories with these keys:  
-
-# For Authentication  
-CLERK_SECRET_KEY=<your-clerk-api-key>  
-
-# For Database  
-MONGODB_URL=<your-mongodb-connection-string>  
+#### Create a .env file in both client and server directories with these keys:  
+### For Client 
+```bash  
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=***
+CLERK_SECRET_KEY=***
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/home
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/home
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/home
+NEXT_PUBLIC_SERVER_URL="http://localhost:5000/api/v1/dayTask"
+NEXT_PUBLIC_HABITS_SERVER_URL="http://localhost:5000/api/v1/habits"
+NEXT_PUBLIC_STATS_SERVER_URL="http://localhost:5000//api/v1/stats"
+``` 
+### For Database  
+```bash  
+MONGODB_URL = ***
+PORT=5000
+CLIENT_URL="http://localhost:3000"
+LLAMA_API_KEY=***
+```
 
 # Step 3: Install Dependencies  
-
-# Frontend  
+### Frontend  
+```bash  
 cd client  
-npm install  
-
-# Backend  
-cd ../server  
-npm install  
-
-# Step 4: Start the Project  
-
-# Frontend  
+npm install
+```
+### Backend  
+```bash  
+cd server  
+npm install
+```
+# Step 4: Start the Project   
+### Frontend  
+```bash  
 cd client  
-npm run dev  
-
-# Backend  
-cd ../server  
+npm run dev
+```
+### Backend  
+```bash  
+cd server  
 npm run dev
 ```
 ---
