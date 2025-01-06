@@ -5,7 +5,7 @@ I built this project to **track my daily expenses, junk food habits, tasks, jour
 
 With **BetterME**, I stay in control of my life, build better habits, and grow every single day! 🌱✨  
 
-> 💡 *"Your future is created by what you do today, not tomorrow."* – **Take the first step with BetterME!** 🏆  
+ 💡 *"Your future is created by what you do today, not tomorrow."* – **Take the first step with BetterME!** 🏆  
 
 ---
 
@@ -19,7 +19,7 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 - 🖥️ **TypeScript** – Type-safe code for a robust development experience.  
 - 🔐 **Clerk Auth** – Hassle-free authentication integration.  
 
-> **🌟 Deployed on [Vercel](https://vercel.com) 🚀**  
+ **🌟 Deployed on [Vercel](https://vercel.com) 🚀**  
 
 ---
 
@@ -28,7 +28,7 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 - 🗂️ **Mongoose** – Simplified MongoDB interactions for scalable data models.  
 - 🧠 **Llama-3 AI Integration** – Intelligent AI-powered features with Llama-3.  
 
-> **🌍 Deployed on [Render](https://render.com) 🌟**  
+ **🌍 Deployed on [Render](https://render.com) 🌟**  
 
 ---
 
@@ -86,6 +86,7 @@ npm run dev
 cd ../server  
 npm run dev
 ```
-✨ Made with ❤️ by [Chandrashekhar](https://github.com/StarDust130) 💻  
 ---
->  🎯 BetterME is not just an app – it's your personal guide to becoming the best version of yourself!
+  🎯 BetterME is not just an app – it's your personal guide to becoming the best version of yourself!
+
+ ✨ Made with ❤️ by [Chandrashekhar](https://github.com/StarDust130) 💻  
