@@ -73,7 +73,7 @@ NEXT_PUBLIC_SERVER_URL="http://localhost:5000/api/v1/dayTask"
 NEXT_PUBLIC_HABITS_SERVER_URL="http://localhost:5000/api/v1/habits"
 NEXT_PUBLIC_STATS_SERVER_URL="http://localhost:5000//api/v1/stats"
 ``` 
-### For Database  
+### For Server   
 ```bash  
 MONGODB_URL = ***
 PORT=5000
