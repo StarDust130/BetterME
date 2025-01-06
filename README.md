@@ -10,20 +10,34 @@ With **BetterME**, I stay in control of my life, build better habits, and grow e
 ---
 
 
-## 🛠️ **Tech Stack**
+# 🛠️ **Tech Stack**
 
-### 🌐 **Frontend**
-- ⚡ **Next.js**
-- 🎨 **Tailwind CSS**
-- 🛋️ **ShadCN UI**
-- 🖥️ **TypeScript**
-- 🔐 **Clerk Auth**
+### 🌐 **Frontend**  
+- ⚡ **Next.js** – The powerful React framework for modern web apps.  
+- 🎨 **Tailwind CSS** – Effortless, responsive designs with utility-first CSS.  
+- 🛋️ **ShadCN UI** – Sleek, customizable components.  
+- 🖥️ **TypeScript** – Type-safe code for a robust development experience.  
+- 🔐 **Clerk Auth** – Hassle-free authentication integration.  
 
-### 🔧 **Backend**
-- 🚀 **Express.js**
-- 🗂️ **Mongoose**
-- 🧠 **Llama-3 AI Intergation**
-   
+> **🌟 Deployed on [Vercel](https://vercel.com) 🚀**  
+
+---
+
+### 🔧 **Backend**  
+- 🚀 **Express.js** – The lightweight Node.js web application framework.  
+- 🗂️ **Mongoose** – Simplified MongoDB interactions for scalable data models.  
+- 🧠 **Llama-3 AI Integration** – Intelligent AI-powered features with Llama-3.  
+
+> **🌍 Deployed on [Render](https://render.com) 🌟**  
+
+---
+
+### 💡 **Why this stack?**  
+- 🌈 **Frontend**: Lightning-fast deployment, modern UI, and seamless user experience.  
+- 🔥 **Backend**: Scalable, feature-packed, and smart integration for real-world solutions.  
+
+---
+
 
 ---
 
@@ -72,6 +86,6 @@ npm run dev
 cd ../server  
 npm run dev
 ```
-
+✨ Made with ❤️ by [Chandrashekhar](https://github.com/StarDust130) 💻  
 ---
 >  🎯 BetterME is not just an app – it's your personal guide to becoming the best version of yourself!
